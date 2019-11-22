@@ -1,9 +1,6 @@
 IF OBJECT_ID('dbo.CoursePricing', 'U') IS NOT NULL 
 	DROP TABLE dbo.CoursePricing;
 
-IF OBJECT_ID('dbo.CityCategory', 'U') IS NOT NULL 
-	DROP TABLE dbo.CityCategory;
-
 IF OBJECT_ID('dbo.CityCourses', 'U') IS NOT NULL 
 	DROP TABLE dbo.CityCourses;
 
@@ -16,6 +13,8 @@ IF OBJECT_ID('dbo.Cities', 'U') IS NOT NULL
 IF OBJECT_ID('dbo.Courses', 'U') IS NOT NULL 
 	DROP TABLE dbo.Courses;
 
+-----------------------------------------------------------------------------------
+
 CREATE TABLE dbo.Courses (
 	[Id] INT PRIMARY KEY IDENTITY (1, 1),
 	[Name] VARCHAR(255) NOT NULL UNIQUE
@@ -23,13 +22,19 @@ CREATE TABLE dbo.Courses (
 
 CREATE TABLE dbo.Cities (
 	[Id] INT PRIMARY KEY IDENTITY (1, 1),
-	[Name] VARCHAR(255) NOT NULL UNIQUE
+	[Name] VARCHAR(255) NOT NULL UNIQUE,
+	[CategoryId] INT NOT NULL,
 )
 
 CREATE TABLE dbo.PricingCategories (
 	[Id] INT PRIMARY KEY IDENTITY (1, 1),
 	[Name] VARCHAR(255) NOT NULL UNIQUE
 )
+
+ALTER TABLE dbo.Cities ADD CONSTRAINT FK_Cities_CategoryId_Id FOREIGN KEY (CategoryId)
+      REFERENCES PricingCategories (Id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE
 
 CREATE TABLE dbo.CityCourses (
 	[CityId] INT NOT NULL,
@@ -41,39 +46,15 @@ CREATE TABLE dbo.CityCourses (
 CREATE INDEX IX_CityId ON dbo.CityCourses(CityId)
 CREATE INDEX IX_CourseId ON dbo.CityCourses(CourseId)
 
-ALTER TABLE dbo.CityCourses ADD CONSTRAINT FK_CityId_Id FOREIGN KEY (CityId)
+ALTER TABLE dbo.CityCourses ADD CONSTRAINT FK_CityCourses_CityId_Id FOREIGN KEY (CityId)
       REFERENCES Cities (Id)
       ON DELETE CASCADE
       ON UPDATE CASCADE
 
-ALTER TABLE dbo.CityCourses ADD CONSTRAINT FK_CourseId_Id FOREIGN KEY (CourseId)
+ALTER TABLE dbo.CityCourses ADD CONSTRAINT FK_CityCourses_CourseId_Id FOREIGN KEY (CourseId)
       REFERENCES Courses (Id)
       ON DELETE CASCADE
       ON UPDATE CASCADE
-
-GO
-
-IF EXISTS ( SELECT  *
-            FROM    sys.objects
-            WHERE   object_id = OBJECT_ID(N'dbo.AddCityCourse'))
-	DROP PROCEDURE AddCityCourse;
-
-GO
-
-CREATE PROCEDURE dbo.AddCityCourse
-	@CityName VARCHAR(255),
-	@CourseName VARCHAR(255),
-	@Count INT
-AS
-	BEGIN
-
-	INSERT INTO [dbo].[CityCourses](CityId, CourseId, [Count])
-		SELECT CityId = ct.Id, CourseId = cr.Id, [Count] = @Count
-		FROM [dbo].[Cities] AS ct, [dbo].[Courses] AS cr
-		WHERE ct.Name = @CityName AND cr.Name = @CourseName 
-
-	END
-GO
 
 CREATE TABLE dbo.CoursePricing (
 	[CourseId] INT NOT NULL,
@@ -95,7 +76,32 @@ ALTER TABLE dbo.CoursePricing ADD CONSTRAINT FK_CoursePricing_CategoryId_Id FORE
       ON DELETE CASCADE
       ON UPDATE CASCADE
 
+-----------------------------------------------------------------------------------
+
+IF EXISTS ( SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'dbo.AddCityCourse'))
+	DROP PROCEDURE AddCityCourse;
+
 GO
+
+CREATE PROCEDURE dbo.AddCityCourse
+	@CityName VARCHAR(255),
+	@CourseName VARCHAR(255),
+	@Count INT
+AS
+	BEGIN
+
+	INSERT INTO [dbo].[CityCourses](CityId, CourseId, [Count])
+		SELECT CityId = ct.Id, CourseId = cr.Id, [Count] = @Count
+		FROM [dbo].[Cities] AS ct, [dbo].[Courses] AS cr
+		WHERE ct.Name = @CityName AND cr.Name = @CourseName 
+
+	END
+
+GO
+
+-----------------------------------------------------------------------------------
 
 IF EXISTS ( SELECT  *
             FROM    sys.objects
@@ -120,48 +126,7 @@ AS
 
 GO
 
-CREATE TABLE dbo.CityCategory (
-	[CityId] INT NOT NULL,
-	[CategoryId] INT NOT NULL,
-	PRIMARY KEY ([CityId], [CategoryId])
-)
-
-CREATE INDEX IX_CityId ON dbo.CityCategory(CityId)
-CREATE INDEX IX_CategoryId ON dbo.CityCategory(CategoryId)
-
-ALTER TABLE dbo.CityCategory ADD CONSTRAINT FK_CityCategory_CityId_Id FOREIGN KEY (CityId)
-      REFERENCES Cities (Id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE
-
-ALTER TABLE dbo.CityCategory ADD CONSTRAINT FK_CityCategory_CategoryId_Id FOREIGN KEY (CategoryId)
-      REFERENCES PricingCategories (Id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE
-
-GO
-
-IF EXISTS ( SELECT  *
-            FROM    sys.objects
-            WHERE   object_id = OBJECT_ID(N'dbo.DeclareCityCategory'))
-	DROP PROCEDURE dbo.DeclareCityCategory;
-
-GO
-
-CREATE PROCEDURE dbo.DeclareCityCategory
-	@CityName VARCHAR(255),
-	@CategoryName VARCHAR(255)
-AS
-	BEGIN
-
-	INSERT INTO [dbo].[CityCategory](CityId, CategoryId)
-		SELECT CityId = ct.Id, CategoryId = pc.Id
-		FROM [dbo].[Cities] AS ct, [dbo].[PricingCategories] AS pc
-		WHERE ct.Name = @CityName AND pc.Name = @CategoryName
-
-	END
-
-GO
+-----------------------------------------------------------------------------------
 
 IF EXISTS ( SELECT  *
             FROM    sys.objects
@@ -179,18 +144,62 @@ AS
 			FROM [dbo].PricingCategories AS pc,
 				[dbo].Cities AS ct,
 				[dbo].Courses AS c,
-				[dbo].CityCategory AS cc,
 				[dbo].CityCourses AS sc,
 				[dbo].CoursePricing AS cp
-			WHERE pc.Id = cc.CategoryId AND pc.Id = cp.CategoryId
-				AND ct.Id = cc.CityId AND ct.Id = cc.CityId 
-				AND c.Id = sc.CourseId AND c.Id = cp.CourseId
-				AND cc.CityId = sc.CityId
-				AND cc.CategoryId = cp.CategoryId
-				AND sc.CourseId = cp.CourseId
-				AND ct.Name = @CityName
+			WHERE pc.Id = cp.CategoryId 
+						AND pc.Id = ct.CategoryId
+						AND ct.CategoryId = cp.CategoryId
+						AND c.Id = sc.CourseId 
+						AND c.Id = cp.CourseId
+						AND sc.CourseId = cp.CourseId
+						AND ct.Name = @CityName
 
 		RETURN @sum
 
 	END
+GO
+
+-----------------------------------------------------------------------------------
+
+IF EXISTS ( SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'dbo.DeclareCity'))
+	DROP PROCEDURE dbo.DeclareCity;
+
+GO
+
+CREATE PROCEDURE dbo.DeclareCity
+	@CityName VARCHAR(255),
+	@CategoryName VARCHAR(255)
+AS
+	BEGIN
+
+	INSERT INTO [dbo].[Cities]([Name], [CategoryId])
+		SELECT [Name] = @CityName, [CategoryId] = pc.Id
+			FROM dbo.PricingCategories AS pc
+			WHERE pc.[Name] = @CategoryName
+
+	END
+
+GO
+
+-----------------------------------------------------------------------------------
+
+IF EXISTS ( SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'dbo.GetAllCities'))
+	DROP PROCEDURE dbo.DeclareCity;
+
+GO
+
+CREATE PROCEDURE dbo.GetAllCities
+AS
+	BEGIN
+
+	SELECT [CityId] = c.Id, [CityName] = c.Name, [CategoryName] = pc.Name
+		FROM dbo.Cities AS c INNER JOIN dbo.PricingCategories AS pc
+		ON c.CategoryId = pc.Id
+
+	END
+
 GO

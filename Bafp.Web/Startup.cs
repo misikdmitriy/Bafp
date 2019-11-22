@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Reflection;
+using AutoMapper;
+using Bafp.Logic.Database;
+using Bafp.Logic.Services;
+using Bafp.Web.Mapper;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace Bafp.Web
 {
@@ -25,6 +25,21 @@ namespace Bafp.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            var config = new AppConfig();
+            Configuration.Bind(config);
+
+            var factory = new ConnectionFactory(config.ConnectionStrings);
+
+            services.AddSingleton<IConnectionFactory>(factory);
+            services.AddTransient<ISpExecutor, SpExecutor>();
+            services.AddTransient<ISmartExecutor, SmartExecutor>();
+
+            services.AddMediatR(typeof(SpExecutor).GetTypeInfo().Assembly);
+
+            var mapperConfiguration = new MapperConfiguration(m => { m.AddProfile<AppProfile>(); });
+
+            services.AddSingleton(mapperConfiguration.CreateMapper());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

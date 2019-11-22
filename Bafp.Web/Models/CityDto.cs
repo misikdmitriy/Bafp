@@ -1,6 +1,6 @@
-﻿namespace Bafp.Contracts.Models
+﻿namespace Bafp.Web.Models
 {
-    public class Course
+    public class CityDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

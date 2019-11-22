@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -9,7 +9,7 @@ namespace Bafp.Logic.Database
 {
     public interface ISpExecutor
     {
-        Task<IEnumerable<object>> Execute(string spName, object param);
+        Task<IEnumerable<T>> Execute<T>(string spName, object param);
     }
 
     public class SpExecutor : ISpExecutor
@@ -21,9 +21,9 @@ namespace Bafp.Logic.Database
             _connection = connection;
         }
 
-        public Task<IEnumerable<object>> Execute(string spName, object param)
+        public Task<IEnumerable<T>> Execute<T>(string spName, object param)
         {
-            return _connection.QueryAsync<object>(spName, param, commandType: CommandType.StoredProcedure);
+            return _connection.QueryAsync<T>(spName, param, commandType: CommandType.StoredProcedure);
         }
     }
 }
