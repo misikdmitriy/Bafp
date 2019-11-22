@@ -5,7 +5,7 @@ namespace Bafp.Contracts.Database
     public class Request
     {
         public string ProcedureName { get; set; }
-        public object Parameter { get; set; }
+        public Func<object> ParameterResolver { get; set; }
 
         public Response<TOut> Ok<TOut>(TOut result)
         {

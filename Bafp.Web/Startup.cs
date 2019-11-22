@@ -33,7 +33,7 @@ namespace Bafp.Web
 
             services.AddSingleton<IConnectionFactory>(factory);
             services.AddTransient<ISpExecutor, SpExecutor>();
-            services.AddTransient<ISmartExecutor, SmartExecutor>();
+            services.AddTransient<IDatabaseService, DatabaseService>();
 
             services.AddMediatR(typeof(SpExecutor).GetTypeInfo().Assembly);
 

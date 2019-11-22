@@ -1,4 +1,6 @@
-﻿namespace Bafp.Web.Models
+﻿using Bafp.Logic.Models;
+
+namespace Bafp.Web.Models
 {
     public class GetAllCitiesRequest : HttpRequest
     {

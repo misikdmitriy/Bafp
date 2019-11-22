@@ -203,3 +203,33 @@ AS
 	END
 
 GO
+
+-----------------------------------------------------------------------------------
+
+IF EXISTS ( SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'dbo.InsertCity'))
+	DROP PROCEDURE dbo.DeclareCity;
+
+GO
+
+CREATE PROCEDURE dbo.InsertCity
+	@CityName VARCHAR(255),
+	@CategoryName VARCHAR(255)
+AS
+	BEGIN
+
+	INSERT INTO [dbo].[Cities]([Name], [CategoryId])
+		SELECT [Name] = @CityName, [CategoryId] = cp.[Id]
+		FROM [dbo].[PricingCategories] AS cp
+		WHERE cp.[Name] = @CategoryName
+
+	SELECT [CityId] = c.Id, [CityName] = c.Name, [CategoryName] = pc.Name
+		FROM dbo.Cities AS c INNER JOIN dbo.PricingCategories AS pc
+		ON c.CategoryId = pc.Id
+
+	END
+
+GO
+
+-----------------------------------------------------------------------------------

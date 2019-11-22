@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
+using Bafp.Contracts.Database;
+using Bafp.Logic.Models;
 using Bafp.Logic.Services;
 using Bafp.Web.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -11,23 +12,26 @@ namespace Bafp.Web.Controllers
     [ApiController]
     public class CitiesController : ControllerBase
     {
-        private readonly ISmartExecutor _smartExecutor;
+        private readonly IDatabaseService _databaseService;
         private readonly IMapper _mapper;
 
-        public CitiesController(IMapper mapper, ISmartExecutor smartExecutor)
+        public CitiesController(IMapper mapper, IDatabaseService databaseService)
         {
             _mapper = mapper;
-            _smartExecutor = smartExecutor;
+            _databaseService = databaseService;
         }
 
-        // GET api/values
         [HttpGet]
         [Route("")]
         public Task<GetAllCitiesResponse> GetAll() => ExecuteSp<CityDto, GetAllCitiesResponse>(new GetAllCitiesRequest());
 
+        [HttpPut]
+        [Route("")]
+        public Task<InsertNewCityResponse> Insert(InsertNewCityRequest request) => ExecuteSp<Null, InsertNewCityResponse>(request);
+
         private async Task<TOut> ExecuteSp<TModel, TOut>(object request)
         {
-            var result = await _smartExecutor.ExecuteSp<TModel>(request);
+            var result = await _databaseService.ExecuteStoredProcedure<TModel>(request);
             return _mapper.Map<TOut>(result);
         }
     }
