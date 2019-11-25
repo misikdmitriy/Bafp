@@ -2,46 +2,46 @@
 
 namespace Bafp.Contracts.Database
 {
-    public class Request
+    public class DbRequest
     {
         public string ProcedureName { get; set; }
         public Func<object> ParameterResolver { get; set; }
 
-        public Response<TOut> Ok<TOut>(TOut result)
+        public DbResponse<TOut> Ok<TOut>(TOut result)
         {
-            return new Response<TOut>
+            return new DbResponse<TOut>
             {
-                Request = this,
+                DbRequest = this,
                 Result = result,
                 Success = true
             };
         }
 
-        public Response<TOut> Fail<TOut>(Exception ex)
+        public DbResponse<TOut> Fail<TOut>(Exception ex)
         {
-            return new Response<TOut>
+            return new DbResponse<TOut>
             {
-                Request = this,
+                DbRequest = this,
                 Success = false,
                 Exception = ex,
                 Message = ex.Message
             };
         }
 
-        public Response<TOut> Fail<TOut>(string message)
+        public DbResponse<TOut> Fail<TOut>(string message)
         {
-            return new Response<TOut>
+            return new DbResponse<TOut>
             {
-                Request = this,
+                DbRequest = this,
                 Success = false,
                 Message = message
             };
         }
     }
 
-    public class Response<TOut>
+    public class DbResponse<TOut>
     {
-        public Request Request { get; set; }
+        public DbRequest DbRequest { get; set; }
         public bool Success { get; set; }
         public TOut Result { get; set; }
         public string Message { get; set; }

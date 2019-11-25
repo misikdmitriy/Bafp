@@ -10,15 +10,10 @@ namespace Bafp.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CitiesController : ControllerBase
+    public class CitiesController : SpControllerBase
     {
-        private readonly IDatabaseService _databaseService;
-        private readonly IMapper _mapper;
-
-        public CitiesController(IMapper mapper, IDatabaseService databaseService)
+        public CitiesController(IDatabaseService databaseService, IMapper mapper) : base(databaseService, mapper)
         {
-            _mapper = mapper;
-            _databaseService = databaseService;
         }
 
         [HttpGet]
@@ -26,13 +21,11 @@ namespace Bafp.Web.Controllers
         public Task<GetAllCitiesResponse> GetAll() => ExecuteSp<CityDto, GetAllCitiesResponse>(new GetAllCitiesRequest());
 
         [HttpPut]
+        [Route("course")]
+        public Task<AddCityCourseResponse> AddCityCourse(AddCityCourseRequest request) => ExecuteSp<Null, AddCityCourseResponse>(request);
+
+        [HttpPut]
         [Route("")]
         public Task<InsertNewCityResponse> Insert(InsertNewCityRequest request) => ExecuteSp<Null, InsertNewCityResponse>(request);
-
-        private async Task<TOut> ExecuteSp<TModel, TOut>(object request)
-        {
-            var result = await _databaseService.ExecuteStoredProcedure<TModel>(request);
-            return _mapper.Map<TOut>(result);
-        }
     }
 }

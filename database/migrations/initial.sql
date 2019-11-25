@@ -4,11 +4,11 @@ IF OBJECT_ID('dbo.CoursePricing', 'U') IS NOT NULL
 IF OBJECT_ID('dbo.CityCourses', 'U') IS NOT NULL 
 	DROP TABLE dbo.CityCourses;
 
-IF OBJECT_ID('dbo.PricingCategories', 'U') IS NOT NULL 
-	DROP TABLE dbo.PricingCategories;
-
 IF OBJECT_ID('dbo.Cities', 'U') IS NOT NULL 
 	DROP TABLE dbo.Cities;
+
+IF OBJECT_ID('dbo.PricingCategories', 'U') IS NOT NULL 
+	DROP TABLE dbo.PricingCategories;
 
 IF OBJECT_ID('dbo.Courses', 'U') IS NOT NULL 
 	DROP TABLE dbo.Courses;
@@ -169,13 +169,13 @@ IF EXISTS ( SELECT  *
 GO
 
 CREATE PROCEDURE dbo.DeclareCity
-	@CityName VARCHAR(255),
+	@Name VARCHAR(255),
 	@CategoryName VARCHAR(255)
 AS
 	BEGIN
 
 	INSERT INTO [dbo].[Cities]([Name], [CategoryId])
-		SELECT [Name] = @CityName, [CategoryId] = pc.Id
+		SELECT [Name] = @Name, [CategoryId] = pc.Id
 			FROM dbo.PricingCategories AS pc
 			WHERE pc.[Name] = @CategoryName
 
@@ -188,7 +188,7 @@ GO
 IF EXISTS ( SELECT  *
             FROM    sys.objects
             WHERE   object_id = OBJECT_ID(N'dbo.GetAllCities'))
-	DROP PROCEDURE dbo.DeclareCity;
+	DROP PROCEDURE dbo.GetAllCities;
 
 GO
 
@@ -196,7 +196,7 @@ CREATE PROCEDURE dbo.GetAllCities
 AS
 	BEGIN
 
-	SELECT [CityId] = c.Id, [CityName] = c.Name, [CategoryName] = pc.Name
+	SELECT [Id] = c.Id, [Name] = c.Name, [CategoryName] = pc.Name
 		FROM dbo.Cities AS c INNER JOIN dbo.PricingCategories AS pc
 		ON c.CategoryId = pc.Id
 
@@ -209,24 +209,61 @@ GO
 IF EXISTS ( SELECT  *
             FROM    sys.objects
             WHERE   object_id = OBJECT_ID(N'dbo.InsertCity'))
-	DROP PROCEDURE dbo.DeclareCity;
+	DROP PROCEDURE dbo.InsertCity;
 
 GO
 
 CREATE PROCEDURE dbo.InsertCity
-	@CityName VARCHAR(255),
+	@Name VARCHAR(255),
 	@CategoryName VARCHAR(255)
 AS
 	BEGIN
 
 	INSERT INTO [dbo].[Cities]([Name], [CategoryId])
-		SELECT [Name] = @CityName, [CategoryId] = cp.[Id]
+		SELECT [Name] = @Name, [CategoryId] = cp.[Id]
 		FROM [dbo].[PricingCategories] AS cp
 		WHERE cp.[Name] = @CategoryName
 
-	SELECT [CityId] = c.Id, [CityName] = c.Name, [CategoryName] = pc.Name
-		FROM dbo.Cities AS c INNER JOIN dbo.PricingCategories AS pc
-		ON c.CategoryId = pc.Id
+	END
+
+GO
+
+-----------------------------------------------------------------------------------
+
+IF EXISTS ( SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'dbo.InsertCourse'))
+	DROP PROCEDURE dbo.InsertCourse;
+
+GO
+
+CREATE PROCEDURE dbo.InsertCourse
+	@CourseName VARCHAR(255)
+AS
+	BEGIN
+
+	INSERT INTO [dbo].[Courses]([Name])
+		VALUES (@CourseName)
+
+	END
+
+GO
+
+-----------------------------------------------------------------------------------
+
+IF EXISTS ( SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'dbo.GetAllCourses'))
+	DROP PROCEDURE dbo.GetAllCourses;
+
+GO
+
+CREATE PROCEDURE dbo.GetAllCourses
+AS
+	BEGIN
+
+	SELECT [Id], [Name]
+		FROM [dbo].[Courses]
 
 	END
 

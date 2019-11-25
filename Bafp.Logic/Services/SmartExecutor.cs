@@ -9,7 +9,7 @@ namespace Bafp.Logic.Services
 {
     public interface IDatabaseService
     {
-        Task<Response<IEnumerable<TOut>>> ExecuteStoredProcedure<TOut>(object input);
+        Task<DbResponse<IEnumerable<TOut>>> ExecuteStoredProcedure<TOut>(object input);
     }
 
     public class DatabaseService : IDatabaseService
@@ -23,9 +23,9 @@ namespace Bafp.Logic.Services
             _connectionFactory = connectionFactory;
         }
 
-        public async Task<Response<IEnumerable<TOut>>> ExecuteStoredProcedure<TOut>(object input)
+        public async Task<DbResponse<IEnumerable<TOut>>> ExecuteStoredProcedure<TOut>(object input)
         {
-            var request = _mapper.Map<Request>(input);
+            var request = _mapper.Map<DbRequest>(input);
 
             try
             {
