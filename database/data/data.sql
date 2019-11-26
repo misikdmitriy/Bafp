@@ -1,5 +1,10 @@
-INSERT INTO dbo.Cities(Name)
-	VALUES ('Kyiv');
+INSERT INTO dbo.PricingCategories(Name)
+	VALUES('X', 'Y', 'Z');
+
+INSERT INTO dbo.Cities(Name, CategoryId)
+	SELECT CategoryId = pc.Id, Name = 'Kyiv'
+	FROM dbo.PricingCategories AS pc
+	WHERE pc.Name = 'X';
 
 INSERT INTO dbo.Courses(Name)
 	VALUES('UI/UX'),
@@ -46,8 +51,6 @@ EXEC dbo.AddCoursePricing @CourseName = 'Project Management', @CategoryName = 'X
 EXEC dbo.AddCoursePricing @CourseName = 'Digital Marketing', @CategoryName = 'X', @Price = 533.00; 
 EXEC dbo.AddCoursePricing @CourseName = 'English For IT', @CategoryName = 'X', @Price = 417.00; 
 EXEC dbo.AddCoursePricing @CourseName = 'Entrpreneurship', @CategoryName = 'X', @Price = 400.00; 
-EXEC dbo.AddCoursePricing @CourseName = 'Introduction To IT', @CategoryName = 'X', @Price = 267.00; 
-
-EXEC dbo.DeclareCityCategory @CityName = 'Kyiv', @CategoryName = 'X'
+EXEC dbo.AddCoursePricing @CourseName = 'Introduction To IT', @CategoryName = 'X', @Price = 267.00;
 
 SELECT dbo.CountCityPrice('Kyiv');
