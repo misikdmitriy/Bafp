@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { CitiesListComponent } from './cities-list/cities-list.component';
+import { CityCoursesListComponent } from './city-courses-list/city-courses-list.component';
 
 @NgModule({
   imports: [
@@ -15,12 +16,14 @@ import { CitiesListComponent } from './cities-list/cities-list.component';
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: CitiesListComponent },
+      { path: 'city/:cityName', component: CityCoursesListComponent },
     ])
   ],
   declarations: [
     AppComponent,
     TopBarComponent,
-    CitiesListComponent
+    CitiesListComponent,
+    CityCoursesListComponent
   ],
   bootstrap: [ AppComponent ]
 })

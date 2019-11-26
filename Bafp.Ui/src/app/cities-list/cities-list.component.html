@@ -8,7 +8,7 @@
     <tbody>
       <tr *ngFor="let city of cities">
         <th scope="row">{{city.id}}</th>
-        <td>{{city.name}}</td>
+        <td><a [title]="city.name" [routerLink]="['/city', city.name]">{{city.name}}</a></td>
         <td>{{city.categoryName}}</td>
       </tr>
       <tr class="d-none form-group">

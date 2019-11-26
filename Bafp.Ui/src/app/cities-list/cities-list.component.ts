@@ -19,16 +19,15 @@ export class CitiesListComponent implements OnInit {
   };
 
   constructor(private http: HttpClient) {
-   }
+  }
 
   ngOnInit() {
-    this.getConfig().subscribe((data: CityResponse) => {
+    this.getCities().subscribe((data: CityResponse) => {
       this.cities = data.cities;
     });
   }
 
-  getConfig() {
+  getCities() {
     return this.http.get(environment.apiUrl + this.citiesUrl);
   }
-
 }
