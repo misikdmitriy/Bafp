@@ -1,20 +1,21 @@
-﻿using System.Reflection;
-using AutoMapper;
+﻿using AutoMapper;
 using Bafp.Contracts;
 using Bafp.Logic.Database;
 using Bafp.Logic.Services;
 using Bafp.Web.Mapper;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Bafp.Web
 {
     public class Startup
     {
+        private static readonly Info Version = new Info { Version = "v1", Title = "Bafp API" };
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -47,7 +48,13 @@ namespace Bafp.Web
                     });
             });
 
-            services.AddMediatR(typeof(SpExecutor).GetTypeInfo().Assembly);
+            services.AddSwaggerGen(
+
+                options =>
+                {
+                    options.DescribeAllEnumsAsStrings();
+                    options.SwaggerDoc("v1", Version);
+                });
 
             var mapperConfiguration = new MapperConfiguration(m => { m.AddProfile<AppProfile>(); });
 
@@ -63,7 +70,12 @@ namespace Bafp.Web
             }
 
             app.UseMvc();
-            //app.UseCors();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
         }
     }
 }
