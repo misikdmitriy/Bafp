@@ -328,3 +328,11 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+
+# Angular
+/dist
+/tmp
+/out-tsc
+
+# VSCode
+.vscode/*
