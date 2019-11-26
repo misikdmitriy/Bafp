@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using AutoMapper;
+using Bafp.Contracts;
 using Bafp.Logic.Database;
 using Bafp.Logic.Services;
 using Bafp.Web.Mapper;
@@ -35,6 +36,17 @@ namespace Bafp.Web
             services.AddTransient<ISpExecutor, SpExecutor>();
             services.AddTransient<IDatabaseService, DatabaseService>();
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy(Constants.PolicyNames.AllowUi,
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:4200")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
+
             services.AddMediatR(typeof(SpExecutor).GetTypeInfo().Assembly);
 
             var mapperConfiguration = new MapperConfiguration(m => { m.AddProfile<AppProfile>(); });
@@ -51,6 +63,7 @@ namespace Bafp.Web
             }
 
             app.UseMvc();
+            //app.UseCors();
         }
     }
 }

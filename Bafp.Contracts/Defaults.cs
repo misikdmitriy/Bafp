@@ -9,6 +9,11 @@ namespace Bafp.Contracts
 
     public static class Constants
     {
+        public static class PolicyNames
+        {
+            public const string AllowUi = "AllowUi";
+        }
+
         public static class StoredProcedureNames
         {
             public const string GetAllCities = "dbo.GetAllCities";

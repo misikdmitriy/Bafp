@@ -1,0 +1,21 @@
+<div class="cities-list">
+  <table class="table">
+    <thead>
+      <th scope="col">Id</th>
+      <th scope="col">Name</th>
+      <th scope="col">Category Name</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let city of cities">
+        <th scope="row">{{city.id}}</th>
+        <td>{{city.name}}</td>
+        <td>{{city.categoryName}}</td>
+      </tr>
+      <tr class="d-none form-group">
+          <th scope="row"></th>
+          <td><input type="text" class="form-control" [value]="newCity.name"></td>
+          <td><input type="text" class="form-control" [value]="newCity.categoryName"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
