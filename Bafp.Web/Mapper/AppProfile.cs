@@ -49,6 +49,16 @@ namespace Bafp.Web.Mapper
                 })));
 
             CreateMap<DbResponse<IEnumerable<Null>>, InsertNewCourseResponse>();
+
+            CreateMap<GetAllCityCoursesRequest, DbRequest>()
+                .BeforeMap((s, d) => d.ProcedureName = Constants.StoredProcedureNames.GetAllCityCourses)
+                .ForMember(dest => dest.ParameterResolver, src => src.MapFrom(x => new Func<object>(() => new
+                {
+                    x.CityName
+                })));
+
+            CreateMap<DbResponse<IEnumerable<CityCourseDto>>, GetAllCityCoursesResponse>()
+                .ForMember(dest => dest.CityCourses, src => src.MapFrom(x => x.Result));
         }
     }
 }

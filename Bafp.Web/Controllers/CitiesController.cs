@@ -20,8 +20,13 @@ namespace Bafp.Web.Controllers
         [Route("")]
         public Task<GetAllCitiesResponse> GetAll() => ExecuteSp<CityDto, GetAllCitiesResponse>(new GetAllCitiesRequest());
 
+
+        [HttpGet]
+        [Route("{cityName}/courses")]
+        public Task<GetAllCityCoursesResponse> GetAllCityCourses(string cityName) => ExecuteSp<CityCourseDto, GetAllCityCoursesResponse>(new GetAllCityCoursesRequest { CityName = cityName });
+
         [HttpPut]
-        [Route("course")]
+        [Route("courses")]
         public Task<AddCityCourseResponse> AddCityCourse(AddCityCourseRequest request) => ExecuteSp<Null, AddCityCourseResponse>(request);
 
         [HttpPut]
