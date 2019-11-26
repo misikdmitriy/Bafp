@@ -12,8 +12,15 @@ import { CityCourse } from '../models/cityCourse';
 })
 export class CityCoursesListComponent implements OnInit {
   cityCoursesUrl = "api/cities/{cityName}/courses";
+  addCityCoursesUrl = "api/cities/courses";
   cityCourse: CityCourse[];
   cityName: string;
+  addMode = false;
+  newCityCourse: CityCourse = {
+    cityName: "",
+    count: 1,
+    courseName: ""
+  };
 
   constructor(private http: HttpClient, private route: ActivatedRoute) {
     this.route.params.subscribe(params => {
@@ -30,5 +37,13 @@ export class CityCoursesListComponent implements OnInit {
       .subscribe((data: CityCoursesResponse) => {
         this.cityCourse = data.cityCourses;
       });
+  }
+
+  addNew() {
+    this.http.put(environment.apiUrl + this.addCityCoursesUrl, {
+      cityName: this.cityName,
+      courseName: this.newCityCourse.courseName,
+      count: this.newCityCourse.count
+    }).subscribe(() => window.location.reload());
   }
 }

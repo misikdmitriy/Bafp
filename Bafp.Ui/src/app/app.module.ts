@@ -8,10 +8,12 @@ import { AppComponent } from './app.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { CitiesListComponent } from './cities-list/cities-list.component';
 import { CityCoursesListComponent } from './city-courses-list/city-courses-list.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     HttpClientModule,
+    FormsModule,
     BrowserModule,
     ReactiveFormsModule,
     RouterModule.forRoot([

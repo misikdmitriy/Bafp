@@ -1,15 +1,31 @@
 <div class="city-courses-list">
   <h1>City name - {{cityName}}</h1>
-    <table class="table">
-      <thead>
-        <th scope="col">Course Name</th>
-        <th scope="col">Count</th>
-      </thead>
-      <tbody>
-        <tr *ngFor="let cc of cityCourse">
-          <td>{{cc.courseName}}</td>
-          <td>{{cc.count}}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <table class="table">
+    <thead>
+      <th scope="col"></th>
+      <th scope="col">Course Name</th>
+      <th scope="col">Count</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cc of cityCourse">
+        <td></td>
+        <td>{{cc.courseName}}</td>
+        <td>{{cc.count}}</td>
+      </tr>
+      <tr>
+        <td colspan="3" [hidden]="addMode">
+          <button (click)="addMode=true" type="button" class="btn btn-primary btn-block">
+            +
+          </button>
+        </td>
+      </tr>
+      <tr class="form-group" [hidden]="!addMode">
+        <th scope="row">
+          <button (click)="addNew()" type="button" class="btn btn-success">+</button>
+        </th>
+        <td><input type="text" class="form-control" [(ngModel)]="newCityCourse.courseName" placeholder="Course name"></td>
+        <td><input type="number" class="form-control" [(ngModel)]="newCityCourse.count" placeholder="Count"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

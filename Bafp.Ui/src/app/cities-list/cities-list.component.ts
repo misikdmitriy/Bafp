@@ -17,6 +17,7 @@ export class CitiesListComponent implements OnInit {
     name: "",
     categoryName: ""
   };
+  addMode = false;
 
   constructor(private http: HttpClient) {
   }
@@ -29,5 +30,10 @@ export class CitiesListComponent implements OnInit {
 
   getCities() {
     return this.http.get(environment.apiUrl + this.citiesUrl);
+  }
+
+  addNew() {
+    this.http.put(environment.apiUrl + this.citiesUrl, { city: this.newCity })
+      .subscribe(() => window.location.reload());
   }
 }
