@@ -19,32 +19,18 @@ import { City } from '../models/city';
 })
 export class CityCoursesListComponent implements OnInit {
   city: City;
-  addMode = false;
-  newCityCourse: CityCourseDto = {
-    cityId: 0,
-    count: 1,
-    courseId: 0
-  };
   allCourses: Course[];
-  availableCourses: Course[];
   cityCourses: CourseViewModel[]
 
   constructor(private httpService: HttpService, private route: ActivatedRoute) {
     this.route.params.subscribe(params => {
       let cityId: number = +params.cityId;
-      this.newCityCourse.cityId = cityId;
 
       Promise.all([this.httpService.getCityCourses(cityId), this.httpService.getCities(), this.httpService.getCourses()])
         .then((response: [CityCoursesResponse, CitiesResponse, CoursesResponse]) => {
           let cityCourses: CityCourse[] = response[0].cityCourses;
           let cities: City[] = response[1].cities;
           let allCourses: Course[] = response[2].courses;
-
-          this.availableCourses = allCourses.filter((value: Course) => {
-            return cityCourses.findIndex((cityCourse: CityCourse) => {
-              return cityCourse.courseId === value.id;
-            }) === -1;
-          });
 
           this.city = cities.find((city: City) => city.id === cityId);
 
@@ -78,18 +64,14 @@ export class CityCoursesListComponent implements OnInit {
     }, 0.00);
   }
 
-  upsertView(course: CourseViewModel): Promise<void> {
+  upsertView(course: CourseViewModel): Promise<Object> {
     var dto: CityCourseDto = {
       cityId: this.city.id,
       count: course.count,
       courseId: course.courseId
     };
 
-    return this.upsert(dto, (value: Object) => course.editMode = false);
-  }
-
-  upsert(course: CityCourseDto, callback: (value: Object) => void = null): Promise<void> {
-    callback = callback || function (value: Object): void { window.location.reload(); };
-    return this.httpService.addNewCourse(course).then(callback);
+    return this.httpService.addNewCityCourse(dto)
+      .then((value: Object) => course.editMode = false);
   }
 }

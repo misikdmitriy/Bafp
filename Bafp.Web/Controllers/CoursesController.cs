@@ -34,5 +34,9 @@ namespace Bafp.Web.Controllers
         [HttpPut]
         [Route("")]
         public Task<IActionResult> UpsertCourse(InsertNewCourseRequest request) => ExecuteSp<Null, InsertNewCourseResponse>(request);
+
+        [HttpDelete]
+        [Route("{courseId}")]
+        public Task<IActionResult> DeleteCourse(int courseId) => ExecuteSp<Null, DeleteCourseResponse>(new DeleteCourseRequest { CourseId = courseId });
     }
 }

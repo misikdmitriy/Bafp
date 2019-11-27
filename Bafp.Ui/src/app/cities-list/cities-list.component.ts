@@ -26,15 +26,16 @@ export class CitiesListComponent implements OnInit {
   ngOnInit() {
     Promise.all([this.httpService.getCities(), this.httpService.getPricingCategories()])
       .then((response: [CitiesResponse, PricingCategoriesResponse]) => {
-        let cities = response[0].cities;
-        let pricingCategories = response[1].categories;
+        let cities: City[] = response[0].cities;
+        let pricingCategories: PricingCategory[] = response[1].categories;
 
         this.pricingCategories = pricingCategories;
+        this.newCity.categoryId = this.pricingCategories[0].id;
 
         this.cities = cities.map((city: City) => {
-          let category = pricingCategories.find((category: PricingCategory) => category.id === city.categoryId);
+          let category: PricingCategory = pricingCategories.find((category: PricingCategory) => category.id === city.categoryId);
 
-          let viewModel = new CityViewModel();
+          let viewModel: CityViewModel = new CityViewModel();
           viewModel.cityId = city.id;
           viewModel.cityName = city.name;
           viewModel.categoryName = category.name;

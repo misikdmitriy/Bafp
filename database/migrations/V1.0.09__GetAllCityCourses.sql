@@ -10,10 +10,11 @@ CREATE PROCEDURE dbo.GetAllCityCourses
 AS
 	BEGIN
 
-	SELECT [CityId] = ct.Id, [CityName] = ct.[Name], [CourseId] = cr.[Id], CourseName = cr.[Name], Count = cc.[Count]
-		FROM [dbo].[Cities] AS ct, [dbo].[Courses] AS cr, [dbo].[CityCourses] AS cc
-		WHERE ct.[Id] = cc.[CityId] AND cr.[Id] = cc.[CourseId] 
-			AND ct.[Id] = @CityId
+	SELECT [CityId] = c.[CityId], [CourseId] = c.[CourseId], Count = ISNULL(cc.[Count], 0)
+		FROM (SELECT [CityId] = ct.[Id], [CourseId] = cr.[Id] FROM [dbo].[Cities] AS ct, [dbo].[Courses] AS cr) AS c
+			LEFT JOIN [dbo].[CityCourses] AS cc
+				ON c.[CityId] = cc.[CityId] AND c.[CourseId] = cc.[CourseId]
+		WHERE c.[CityId] = @CityId
 
 	END
 

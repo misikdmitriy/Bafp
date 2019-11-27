@@ -25,6 +25,7 @@ namespace Bafp.Contracts
             public const string UpsertCityCourse = "dbo.UpsertCityCourse";
             public const string UpsertCoursePricing = "dbo.UpsertCoursePricing";
             public const string InsertCourse = "dbo.InsertCourse";
+            public const string DeleteCourse = "dbo.DeleteCourse";
         }
     }
 }

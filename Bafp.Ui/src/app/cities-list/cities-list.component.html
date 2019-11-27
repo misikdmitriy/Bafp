@@ -11,22 +11,24 @@
         <td><a [title]="city.categoryName" [routerLink]="['/category', city.categoryId]">{{city.categoryName}}</a></td>
         <td></td>
       </tr>
-      <tr>
-        <td colspan="3" [hidden]="addMode">
+      <tr *ngIf="!addMode">
+        <td colspan="3">
           <button (click)="addMode=true" type="button" class="btn btn-primary btn-block">
             <i class="fa fa-plus"></i>
           </button>
         </td>
       </tr>
-      <tr class="form-group" [hidden]="!addMode">
-        <th scope="row">
-          <button (click)="addNew()" type="button" class="btn btn-success">+</button>
-        </th>
+      <tr class="form-group" *ngIf="addMode">
         <td><input type="text" class="form-control" [(ngModel)]="newCity.name" placeholder="City Name"></td>
         <td>
           <select class="form-control" [(ngModel)]="newCity.categoryId">
             <option *ngFor="let category of pricingCategories" [value]="category.id">{{category.name}}</option>
           </select>
+        </td>
+        <td>
+          <button (click)="addNew()" type="button" class="btn btn-success btn-block">
+            <i class="fa fa-plus"></i>
+          </button>
         </td>
       </tr>
     </tbody>

@@ -91,6 +91,15 @@ namespace Bafp.Web.Mapper
                 })));
 
             CreateMap<DbResponse<IEnumerable<Null>>, UpsertCoursePricingResponse>();
+
+            CreateMap<DeleteCourseRequest, DbRequest>()
+                .BeforeMap((s, d) => d.ProcedureName = Constants.StoredProcedureNames.DeleteCourse)
+                .ForMember(dest => dest.ParameterResolver, src => src.MapFrom(x => new Func<object>(() => new
+                {
+                    x.CourseId
+                })));
+
+            CreateMap<DbResponse<IEnumerable<Null>>, DeleteCourseResponse>();
         }
     }
 }

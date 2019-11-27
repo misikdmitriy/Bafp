@@ -1,13 +1,12 @@
 <div class="city-courses-list">
-  <h1>City Id - {{cityId}}</h1>
-  <table class="table">
+  <h1>City is {{city && city.name}}</h1>
+  <table class="table table-striped">
     <thead>
       <th scope="col"></th>
       <th scope="col">Course Name</th>
       <th scope="col">Count</th>
       <th scope="col">Price</th>
       <th scope="col">Total</th>
-      <th scope="col"></th>
       <th scope="col"></th>
     </thead>
     <tbody>
@@ -34,20 +33,13 @@
         </td>
         <td>
           <span *ngIf="!cc.editMode">
-            <button class="btn btn-success" (click)="cc.editMode=true">
+            <button class="btn btn-warning btn-block" (click)="cc.editMode=true">
               <i class="fa fa-edit"></i>
             </button>
           </span>
           <span *ngIf="cc.editMode">
-            <button class="btn btn-success" (click)="upsertView(cc)">
+            <button class="btn btn-success btn-block" (click)="upsertView(cc)">
               <i class="fa fa-check"></i>
-            </button>
-          </span>
-        </td>
-        <td>
-          <span *ngIf="cc.editMode">
-            <button class="btn btn-danger" (click)="cc.editMode=false">
-              <i class="fa fa-remove"></i>
             </button>
           </span>
         </td>
@@ -59,36 +51,6 @@
         <td></td>
         <td><b>{{total()}}</b></td>
         <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td colspan="7" [hidden]="addMode">
-          <button (click)="addMode=true" type="button" class="btn btn-primary btn-block">
-            <i class="fa fa-plus"></i>
-          </button>
-        </td>
-      </tr>
-      <tr class="form-group" [hidden]="!addMode">
-        <th scope="row">
-        </th>
-        <td>
-          <select class="form-control" [(ngModel)]="newCityCourse.courseId">
-            <option *ngFor="let course of availableCourses" [value]="course.id">{{course.name}}</option>
-          </select>
-        </td>
-        <td><input type="number" class="form-control" [(ngModel)]="newCityCourse.count" placeholder="Count"></td>
-        <td></td>
-        <td></td>
-        <td>
-          <button (click)="upsert(newCityCourse)" type="button" class="btn btn-success">
-            <i class="fa fa-plus"></i>
-          </button>
-        </td>
-        <td>
-          <button (click)="addMode=false" type="button" class="btn btn-danger">
-            <i class="fa fa-remove"></i>
-          </button>
-        </td>
       </tr>
     </tbody>
   </table>

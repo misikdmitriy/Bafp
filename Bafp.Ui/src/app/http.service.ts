@@ -10,33 +10,42 @@ import { CoursePricingResponse } from './models/coursePricingResponse';
 import { CityCourseDto } from './models/cityCourseDto';
 import { PricingCategoriesResponse } from './models/pricingCategoriesResponse';
 import { CoursePricing } from './models/coursePricing';
+import { Course } from './models/course';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
   citiesUrl = "api/cities";
-  cityCoursesUrl = "api/cities/{cityName}/courses";
+  cityCoursesUrl = "api/cities/{cityId}/courses";
   coursesUrl = "api/courses";
+  deleteCourseUrl = "api/courses/{courseId}";
   addCityCoursesUrl = "api/cities/courses";
-  coursesPriceList = "api/courses/prices/{categoryName}";
+  coursesPriceList = "api/courses/prices/{categoryId}";
   pricingCategories = "api/pricingCategories";
   coursePricing = "api/courses/prices";
 
   constructor(private http: HttpClient) { }
 
   public getCityCourses(cityId: number): Promise<CityCoursesResponse> {
-    return this.Wrap(this.http.get<CityCoursesResponse>(environment.apiUrl + this.cityCoursesUrl.replace("{cityName}", cityId.toString())));
+    return this.Wrap(this.http.get<CityCoursesResponse>(environment.apiUrl + this.formatUrl(this.cityCoursesUrl, { cityId })));
   }
 
   public getCourses(): Promise<CoursesResponse> {
     return this.Wrap(this.http.get<CoursesResponse>(environment.apiUrl + this.coursesUrl));
   }
 
-  public addNewCourse(cityCourse: CityCourseDto): Promise<Object> {
+  public addNewCityCourse(cityCourse: CityCourseDto): Promise<Object> {
     return this.Wrap(this.http.put(environment.apiUrl + this.addCityCoursesUrl, { cityCourse }));
   }
 
+  public addNewCourse(course: Course): Promise<Object> {
+    return this.Wrap(this.http.put(environment.apiUrl + this.coursesUrl, { course }));
+  }
+
+  public deleteCourse(courseId: number): Promise<Object> {
+    return this.Wrap(this.http.delete(environment.apiUrl + this.formatUrl(this.deleteCourseUrl, { courseId })));
+  }
 
   public getCities(): Promise<CitiesResponse> {
     return this.Wrap(this.http.get<CitiesResponse>(environment.apiUrl + this.citiesUrl));
@@ -50,17 +59,28 @@ export class HttpService {
     return this.Wrap(this.http.put(environment.apiUrl + this.coursePricing, { coursePricing }));
   }
 
-  public getCoursePricing(pricingCategory: number): Promise<CoursePricingResponse> {
-    return this.Wrap(this.http.get<CoursePricingResponse>(environment.apiUrl + this.coursesPriceList.replace("{categoryName}", pricingCategory.toString())));
+  public getCoursePricing(categoryId: number): Promise<CoursePricingResponse> {
+    return this.Wrap(this.http.get<CoursePricingResponse>(environment.apiUrl + this.formatUrl(this.coursesPriceList, { categoryId })));
   }
 
   public getPricingCategories(): Promise<PricingCategoriesResponse> {
     return this.Wrap(this.http.get<PricingCategoriesResponse>(environment.apiUrl + this.pricingCategories));
   }
 
+  private formatUrl(url: string, args: Object): string {
+    for (const key in args) {
+      if (args.hasOwnProperty(key)) {
+        const element: string = args[key];
+        url = url.replace(`{${key}}`, element);
+      }
+    }
+
+    return url;
+  }
+
   private Wrap<T>(observable: Observable<T>): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       observable.subscribe((data: T) => resolve(data), (error) => reject(error));
-    })
+    });
   }
 }

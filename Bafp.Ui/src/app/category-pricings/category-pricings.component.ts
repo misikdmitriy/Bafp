@@ -6,6 +6,7 @@ import { CoursesResponse } from '../models/coursesResponse';
 import { CoursePricing } from '../models/coursePricing';
 import { Course } from '../models/course';
 import { CoursePricingViewModel } from '../models/coursePricingViewModel';
+import { CourseViewModel } from '../models/courseViewModel';
 
 @Component({
   selector: 'app-category-pricings',
@@ -14,6 +15,10 @@ import { CoursePricingViewModel } from '../models/coursePricingViewModel';
 })
 export class CategoryPricingsComponent implements OnInit {
   coursePrices: CoursePricingViewModel[];
+  newCourse: Course = {
+    id: 0,
+    name: ""
+  };
 
   constructor(private httpService: HttpService, private route: ActivatedRoute) {
     this.route.params.subscribe((params) => {
@@ -51,5 +56,15 @@ export class CategoryPricingsComponent implements OnInit {
 
     return this.httpService.addCoursePricing(model)
       .then(() => viewModel.editMode = false);
+  }
+
+  upsert(): Promise<void> {
+    return this.httpService.addNewCourse(this.newCourse)
+      .then(() => window.location.reload());
+  }
+
+  deleteCourse(course: CoursePricingViewModel): Promise<Object> {
+    return this.httpService.deleteCourse(course.courseId)
+      .then(() => this.coursePrices.splice(this.coursePrices.indexOf(course), 1));
   }
 }

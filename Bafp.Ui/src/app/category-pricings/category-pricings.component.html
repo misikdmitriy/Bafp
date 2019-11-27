@@ -14,27 +14,47 @@
         <td>
           <span *ngIf="!course.editMode">{{course.price}}</span>
           <span *ngIf="course.editMode">
-              <input type="number" class="form-control" [(ngModel)]="course.price" placeholder="Count">
+            <input type="number" class="form-control" [(ngModel)]="course.price" placeholder="Price">
           </span>
         </td>
         <td>
           <span *ngIf="!course.editMode">
-            <button class="btn btn-warning" (click)="course.editMode=true">
+            <button class="btn btn-warning btn-block" (click)="course.editMode=true">
               <i class="fa fa-edit"></i>
             </button>
           </span>
           <span *ngIf="course.editMode">
-            <button class="btn btn-success" (click)="upsertView(course)">
+            <button class="btn btn-success btn-block" (click)="upsertView(course)">
               <i class="fa fa-check"></i>
             </button>
           </span>
         </td>
         <td>
-          <span *ngIf="course.editMode">
-              <button class="btn btn-danger" (click)="course.editMode=false">
-                <i class="fa fa-remove"></i>
-              </button>
-            </span>
+          <button class="btn btn-danger btn-block" (click)="deleteCourse(course)">
+            <i class="fa fa-remove"></i>
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="!addMode">
+        <td colspan="4">
+          <button (click)="addMode=true" type="button" class="btn btn-primary btn-block">
+            <i class="fa fa-plus"></i>
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="addMode">
+        <td colspan="2">
+          <input class="form-control" type="text" [(ngModel)]="newCourse.name" [value]="newCourse.name"
+            placeholder="Course Name">
+        <td>
+          <button (click)="upsert()" type="button" class="btn btn-success btn-block">
+            <i class="fa fa-plus"></i>
+          </button>
+        </td>
+        <td>
+          <button (click)="addMode=false" type="button" class="btn btn-danger btn-block">
+            <i class="fa fa-remove"></i>
+          </button>
         </td>
       </tr>
     </tbody>
