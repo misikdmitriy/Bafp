@@ -2,8 +2,8 @@
 {
     public class CoursePricingDto
     {
-        public string CourseName { get; set; }
-        public string CategoryName { get; set; }
+        public int CourseId { get; set; }
+        public int CategoryId { get; set; }
         public decimal Price { get; set; }
     }
 }

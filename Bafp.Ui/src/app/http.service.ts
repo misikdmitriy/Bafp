@@ -4,10 +4,10 @@ import { environment } from '../environments/environment';
 import { Observable } from 'rxjs';
 import { CityCoursesResponse } from './models/cityCourseResponse';
 import { CoursesResponse } from './models/coursesResponse';
-import { CityCourse } from './models/cityCourse';
-import { CityResponse } from './models/cityResponse';
+import { CitiesResponse } from './models/cityResponse';
 import { CityDto } from './models/city';
 import { CoursePricingResponse } from './models/coursePricingResponse';
+import { CityCourseDto } from './models/cityCourseDto';
 
 @Injectable({
   providedIn: 'root'
@@ -21,29 +21,29 @@ export class HttpService {
 
   constructor(private http: HttpClient) { }
 
-  public getCityCourses(cityName: string): Promise<CityCoursesResponse> {
-    return this.Wrap(this.http.get<CityCoursesResponse>(environment.apiUrl + this.cityCoursesUrl.replace("{cityName}", cityName)));
+  public getCityCourses(cityId: number): Promise<CityCoursesResponse> {
+    return this.Wrap(this.http.get<CityCoursesResponse>(environment.apiUrl + this.cityCoursesUrl.replace("{cityName}", cityId.toString())));
   }
 
   public getCourses(): Promise<CoursesResponse> {
     return this.Wrap(this.http.get<CoursesResponse>(environment.apiUrl + this.coursesUrl));
   }
 
-  public addNewCourse(cityCourse: CityCourse): Promise<Object> {
+  public addNewCourse(cityCourse: CityCourseDto): Promise<Object> {
     return this.Wrap(this.http.put(environment.apiUrl + this.addCityCoursesUrl, cityCourse));
   }
 
 
-  public getCities(): Promise<CityResponse> {
-    return this.Wrap(this.http.get<CityResponse>(environment.apiUrl + this.citiesUrl));
+  public getCities(): Promise<CitiesResponse> {
+    return this.Wrap(this.http.get<CitiesResponse>(environment.apiUrl + this.citiesUrl));
   }
 
   public addNewCity(newCity: CityDto): Promise<Object> {
     return this.Wrap(this.http.put(environment.apiUrl + this.citiesUrl, { city: newCity }));
   }
 
-  public getCoursePricing(pricingCategory: string) : Promise<CoursePricingResponse> {
-    return this.Wrap(this.http.get<CoursePricingResponse>(environment.apiUrl + this.coursesPriceList.replace("{categoryName}", pricingCategory)));
+  public getCoursePricing(pricingCategory: number) : Promise<CoursePricingResponse> {
+    return this.Wrap(this.http.get<CoursePricingResponse>(environment.apiUrl + this.coursesPriceList.replace("{categoryName}", pricingCategory.toString())));
   }
 
   private Wrap<T>(observable: Observable<T>): Promise<T> {

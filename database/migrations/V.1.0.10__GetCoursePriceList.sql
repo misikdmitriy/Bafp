@@ -6,16 +6,16 @@ IF EXISTS ( SELECT  *
 GO
 
 CREATE PROCEDURE dbo.GetCoursePriceList
-	@CategoryName VARCHAR(255)
+	@CategoryId VARCHAR(255)
 AS
   BEGIN
 
-SELECT [CourseName] = pcc.[CourseName], [CategoryName] = pcc.[CategoryName], [Price] = ISNULL(cp.[Price], 0)
+SELECT [CourseId] = pcc.[CourseId], [CategoryId] = pcc.[CategoryId], [Price] = ISNULL(cp.[Price], 0)
 	FROM (SELECT [CourseId] = c.[Id], [CourseName] = c.[Name], [CategoryId] = pc.[Id], [CategoryName] = pc.[Name] 
   FROM [dbo].[Courses] AS c, [dbo].[PricingCategories] AS pc) AS pcc
 	LEFT JOIN [dbo].[CoursePricing] AS cp
 		ON pcc.[CategoryId] = cp.[CategoryId] AND pcc.[CourseId] = cp.[CourseId]
-  WHERE pcc.[CategoryName] = @CategoryName
+  WHERE pcc.[CategoryId] = @CategoryId
 
   END
 

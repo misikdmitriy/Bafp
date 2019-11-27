@@ -4,7 +4,7 @@ namespace Bafp.Web.Models
 {
     public class GetAllCityCoursesRequest : HttpRequest
     {
-        public string CityName { get; set; }
+        public int CityId { get; set; }
     }
 
     public class GetAllCityCoursesResponse : HttpResponse

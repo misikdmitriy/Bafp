@@ -18,7 +18,7 @@ import { FormsModule } from '@angular/forms';
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: CitiesListComponent },
-      { path: 'city/:cityName', component: CityCoursesListComponent },
+      { path: 'city/:cityId', component: CityCoursesListComponent },
     ])
   ],
   declarations: [

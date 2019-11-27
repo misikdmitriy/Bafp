@@ -6,14 +6,14 @@ IF EXISTS ( SELECT  *
 GO
 
 CREATE PROCEDURE dbo.GetAllCityCourses
-	@CityName VARCHAR(255)
+	@CityId INT
 AS
 	BEGIN
 
-	SELECT CityName = ct.[Name], CourseName = cr.[Name], Count = cc.[Count]
+	SELECT [CityId] = ct.Id, [CityName] = ct.[Name], [CourseId] = cr.[Id], CourseName = cr.[Name], Count = cc.[Count]
 		FROM [dbo].[Cities] AS ct, [dbo].[Courses] AS cr, [dbo].[CityCourses] AS cc
 		WHERE ct.[Id] = cc.[CityId] AND cr.[Id] = cc.[CourseId] 
-			AND ct.[Name] = @CityName
+			AND ct.[Id] = @CityId
 
 	END
 

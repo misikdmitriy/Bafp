@@ -6,12 +6,12 @@ IF EXISTS ( SELECT  *
 GO
 
 CREATE PROCEDURE dbo.InsertCourse
-	@CourseName VARCHAR(255)
+	@Name VARCHAR(255)
 AS
 	BEGIN
 
 	INSERT INTO [dbo].[Courses]([Name])
-		VALUES (@CourseName)
+		VALUES (@Name)
 
 	END
 

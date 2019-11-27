@@ -2,8 +2,8 @@
 {
     public class CityCourseDto
     {
-        public string CityName { get; set; }
-        public string CourseName { get; set; }
+        public int CityId { get; set; }
+        public int CourseId { get; set; }
         public int Count { get; set; }
     }
 }

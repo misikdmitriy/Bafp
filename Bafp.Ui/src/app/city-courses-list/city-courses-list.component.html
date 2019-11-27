@@ -1,5 +1,5 @@
 <div class="city-courses-list">
-  <h1>City name - {{cityName}}</h1>
+  <h1>City Id - {{cityId}}</h1>
   <table class="table">
     <thead>
       <th scope="col"></th>
@@ -13,14 +13,7 @@
     <tbody>
       <tr *ngFor="let cc of cityCourses">
         <td></td>
-        <td>
-          <span *ngIf="!cc.editMode">{{cc.courseName}}</span>
-          <span *ngIf="cc.editMode">
-            <select class="form-control" [(ngModel)]="cc.courseName">
-              <option *ngFor="let course of getAvailableCourses(cc)" [value]="course.name">{{course.name}}</option>
-            </select>
-          </span>
-        </td>
+        <td>{{cc.courseName}}</td>
         <td>
           <span *ngIf="!cc.editMode">
             {{cc.count}}
@@ -46,7 +39,7 @@
             </button>
           </span>
           <span *ngIf="cc.editMode">
-            <button class="btn btn-success" (click)="cc.editMode=false">
+            <button class="btn btn-success" (click)="upsertView(cc)">
               <i class="fa fa-check"></i>
             </button>
           </span>
@@ -79,15 +72,15 @@
         <th scope="row">
         </th>
         <td>
-          <select class="form-control" [(ngModel)]="newCityCourse.courseName">
-            <option *ngFor="let course of availableCourses" [value]="course.name">{{course.name}}</option>
+          <select class="form-control" [(ngModel)]="newCityCourse.courseId">
+            <option *ngFor="let course of availableCourses" [value]="course.id">{{course.name}}</option>
           </select>
         </td>
         <td><input type="number" class="form-control" [(ngModel)]="newCityCourse.count" placeholder="Count"></td>
         <td></td>
         <td></td>
         <td>
-          <button (click)="addNew()" type="button" class="btn btn-success">
+          <button (click)="upsert(newCityCourse)" type="button" class="btn btn-success">
             <i class="fa fa-plus"></i>
           </button>
         </td>

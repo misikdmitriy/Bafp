@@ -1,5 +1,5 @@
 import { Component, OnInit, Injectable } from '@angular/core';
-import { CityResponse } from '../models/cityResponse';
+import { CitiesResponse } from '../models/cityResponse';
 import { City, CityDto } from '../models/city';
 import { HttpService } from '../http.service';
 
@@ -12,7 +12,7 @@ export class CitiesListComponent implements OnInit {
   cities: City[];
   newCity: CityDto = {
     name: "",
-    categoryName: ""
+    categoryId: 0
   };
   addMode = false;
 
@@ -20,7 +20,7 @@ export class CitiesListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.httpService.getCities().then((data: CityResponse) => {
+    this.httpService.getCities().then((data: CitiesResponse) => {
       this.cities = data.cities;
     });
   }

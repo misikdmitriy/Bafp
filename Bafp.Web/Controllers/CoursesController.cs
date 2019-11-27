@@ -24,8 +24,8 @@ namespace Bafp.Web.Controllers
         public Task<IActionResult> GetAll() => ExecuteSp<CourseDto, GetAllCoursesResponse>(new GetAllCoursesRequest());
 
         [HttpGet]
-        [Route("prices/{categoryName}")]
-        public Task<IActionResult> GetCoursesPricing(string categoryName) => ExecuteSp<CoursePricingDto, GetCoursesPricingResponse>(new GetCoursesPricingRequest { CategoryName = categoryName });
+        [Route("prices/{categoryId}")]
+        public Task<IActionResult> GetCoursesPricing(int categoryId) => ExecuteSp<CoursePricingDto, GetCoursesPricingResponse>(new GetCoursesPricingRequest { CategoryId = categoryId });
 
         [HttpPut]
         [Route("")]

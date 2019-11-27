@@ -1,6 +1,6 @@
 import { HttpResponse } from "./httpResponse";
 import { City } from "./city";
 
-export class CityResponse extends HttpResponse {
+export class CitiesResponse extends HttpResponse {
   public cities: City[];
 }

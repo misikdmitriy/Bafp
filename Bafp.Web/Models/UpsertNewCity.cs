@@ -2,12 +2,12 @@
 
 namespace Bafp.Web.Models
 {
-    public class InsertNewCityRequest : HttpRequest
+    public class UpsertNewCityRequest : HttpRequest
     {
         public CityDto City { get; set; }
     }
 
-    public class InsertNewCityResponse : HttpResponse
+    public class UpsertNewCityResponse : HttpResponse
     {
     }
 }

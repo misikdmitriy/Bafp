@@ -1,5 +1,5 @@
 export class CoursePricing {
-  public courseName: string;
-  public categoryName: string;
+  public courseId: number;
+  public categoryId: number;
   public price: number;
 }

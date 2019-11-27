@@ -1,15 +1,15 @@
 <div class="cities-list">
   <table class="table">
     <thead>
-      <th scope="col">Id</th>
       <th scope="col">Name</th>
       <th scope="col">Category Name</th>
+      <th></th>
     </thead>
     <tbody>
       <tr *ngFor="let city of cities">
-        <th scope="row">{{city.id}}</th>
-        <td><a [title]="city.name" [routerLink]="['/city', city.name]">{{city.name}}</a></td>
+        <td><a [title]="city.name" [routerLink]="['/city', city.id]">{{city.name}}</a></td>
         <td>{{city.categoryName}}</td>
+        <td></td>
       </tr>
       <tr>
         <td colspan="3" [hidden]="addMode">
@@ -22,8 +22,8 @@
         <th scope="row">
           <button (click)="addNew()" type="button" class="btn btn-success">+</button>
         </th>
-        <td><input type="text" class="form-control" [(ngModel)]="newCity.name" placeholder="City name"></td>
-        <td><input type="text" class="form-control" [(ngModel)]="newCity.categoryName" placeholder="Category name"></td>
+        <td><input type="text" class="form-control" [(ngModel)]="newCity.name" placeholder="City Name"></td>
+        <td><input type="number" class="form-control" [(ngModel)]="newCity.categoryId" placeholder="Category Id"></td>
       </tr>
     </tbody>
   </table>

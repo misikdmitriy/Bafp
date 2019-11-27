@@ -26,15 +26,15 @@ namespace Bafp.Web.Controllers
 
 
         [HttpGet]
-        [Route("{cityName}/courses")]
-        public Task<IActionResult> GetAllCityCourses(string cityName) => ExecuteSp<CityCourseDto, GetAllCityCoursesResponse>(new GetAllCityCoursesRequest { CityName = cityName });
+        [Route("{cityId}/courses")]
+        public Task<IActionResult> GetAllCityCourses(int cityId) => ExecuteSp<CityCourseDto, GetAllCityCoursesResponse>(new GetAllCityCoursesRequest { CityId = cityId });
 
         [HttpPut]
         [Route("courses")]
-        public Task<IActionResult> AddCityCourse(AddCityCourseRequest request) => ExecuteSp<Null, AddCityCourseResponse>(request);
+        public Task<IActionResult> AddCityCourse(UpsertCityCourseRequest request) => ExecuteSp<Null, UpsertCityCourseResponse>(request);
 
         [HttpPut]
         [Route("")]
-        public Task<IActionResult> Insert(InsertNewCityRequest request) => ExecuteSp<Null, InsertNewCityResponse>(request);
+        public Task<IActionResult> Insert(UpsertNewCityRequest request) => ExecuteSp<Null, UpsertNewCityResponse>(request);
     }
 }
