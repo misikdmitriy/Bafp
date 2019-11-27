@@ -22,6 +22,7 @@ export class CityCoursesListComponent implements OnInit {
     count: 1,
     courseName: ""
   };
+  allCourses: Course[];
   availableCourses: Course[];
   cityCourses: CourseViewModel[]
 
@@ -32,6 +33,7 @@ export class CityCoursesListComponent implements OnInit {
       Promise.all([this.httpService.getCityCourses(this.cityName), this.httpService.getCourses(), this.httpService.getCoursePricing("X")])
         .then((response: [CityCoursesResponse, CoursesResponse, CoursePricingResponse]) => {
           let cityCourse = response[0].cityCourses;
+          this.allCourses = response[1].courses;
           let prices = response[2].coursePriceList;
 
           this.availableCourses = response[1].courses.filter((value: Course) => {
@@ -46,6 +48,7 @@ export class CityCoursesListComponent implements OnInit {
             viewModel.count = value.count;
             viewModel.courseName = value.courseName;
             viewModel.price = price.price;
+            viewModel.editMode = false;
             return viewModel;
           })
         })
@@ -56,9 +59,20 @@ export class CityCoursesListComponent implements OnInit {
   }
 
   total() {
-    return this.cityCourses.reduce((accum: number, value: CourseViewModel) => {
+    return this.cityCourses && this.cityCourses.reduce((accum: number, value: CourseViewModel) => {
       return accum + value.total;
     }, 0.00);
+  }
+
+  getAvailableCourses(course: CourseViewModel) {
+    if (this.availableCourses && this.allCourses) {
+      var copy = this.availableCourses.slice();
+      var courseToAdd = this.allCourses.find((value: Course) => value.name === course.courseName);
+      copy.push(courseToAdd);
+      return copy;
+    }
+
+    return [];
   }
 
   addNew() {

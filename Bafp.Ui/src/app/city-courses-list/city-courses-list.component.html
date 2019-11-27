@@ -7,32 +7,76 @@
       <th scope="col">Count</th>
       <th scope="col">Price</th>
       <th scope="col">Total</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
     </thead>
     <tbody>
       <tr *ngFor="let cc of cityCourses">
         <td></td>
-        <td>{{cc.courseName}}</td>
-        <td>{{cc.count}}</td>
-        <td>{{cc.price}}</td>
-        <td>{{cc.total}}</td>
+        <td>
+          <span *ngIf="!cc.editMode">{{cc.courseName}}</span>
+          <span *ngIf="cc.editMode">
+            <select class="form-control" [(ngModel)]="cc.courseName">
+              <option *ngFor="let course of getAvailableCourses(cc)" [value]="course.name">{{course.name}}</option>
+            </select>
+          </span>
+        </td>
+        <td>
+          <span *ngIf="!cc.editMode">
+            {{cc.count}}
+          </span>
+          <span *ngIf="cc.editMode">
+            <input type="number" class="form-control" [(ngModel)]="cc.count" placeholder="Count">
+          </span>
+        </td>
+        <td>
+          <span *ngIf="!cc.editMode">
+            {{cc.price}}
+          </span>
+        </td>
+        <td>
+          <span *ngIf="!cc.editMode">
+            {{cc.total}}
+          </span>
+        </td>
+        <td>
+          <span *ngIf="!cc.editMode">
+            <button class="btn btn-success" (click)="cc.editMode=true">
+              <i class="fa fa-edit"></i>
+            </button>
+          </span>
+          <span *ngIf="cc.editMode">
+            <button class="btn btn-success" (click)="cc.editMode=false">
+              <i class="fa fa-check"></i>
+            </button>
+          </span>
+        </td>
+        <td>
+          <span *ngIf="cc.editMode">
+            <button class="btn btn-danger" (click)="cc.editMode=false">
+              <i class="fa fa-remove"></i>
+            </button>
+          </span>
+        </td>
       </tr>
       <tr>
-          <td></td>
-          <td><b>Total</b></td>
-          <td></td>
-          <td></td>
-          <td><b>{{total()}}</b></td>
+        <td></td>
+        <td><b>Total</b></td>
+        <td></td>
+        <td></td>
+        <td><b>{{total()}}</b></td>
+        <td></td>
+        <td></td>
       </tr>
       <tr>
-        <td colspan="5" [hidden]="addMode">
+        <td colspan="7" [hidden]="addMode">
           <button (click)="addMode=true" type="button" class="btn btn-primary btn-block">
-              <i class="fa fa-plus"></i>
+            <i class="fa fa-plus"></i>
           </button>
         </td>
       </tr>
       <tr class="form-group" [hidden]="!addMode">
         <th scope="row">
-          <button (click)="addNew()" type="button" class="btn btn-success">+</button>
         </th>
         <td>
           <select class="form-control" [(ngModel)]="newCityCourse.courseName">
@@ -40,6 +84,18 @@
           </select>
         </td>
         <td><input type="number" class="form-control" [(ngModel)]="newCityCourse.count" placeholder="Count"></td>
+        <td></td>
+        <td></td>
+        <td>
+          <button (click)="addNew()" type="button" class="btn btn-success">
+            <i class="fa fa-plus"></i>
+          </button>
+        </td>
+        <td>
+          <button (click)="addMode=false" type="button" class="btn btn-danger">
+            <i class="fa fa-remove"></i>
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>
