@@ -1,20 +1,20 @@
 <div class="cities-list">
   <table class="table">
     <thead>
-      <th scope="col">Name</th>
-      <th scope="col">Category Name</th>
+      <th scope="col">City</th>
+      <th scope="col">Category</th>
       <th></th>
     </thead>
     <tbody>
       <tr *ngFor="let city of cities">
-        <td><a [title]="city.name" [routerLink]="['/city', city.id]">{{city.name}}</a></td>
+        <td><a [title]="city.name" [routerLink]="['/city', city.cityId]">{{city.cityName}}</a></td>
         <td>{{city.categoryName}}</td>
         <td></td>
       </tr>
       <tr>
         <td colspan="3" [hidden]="addMode">
           <button (click)="addMode=true" type="button" class="btn btn-primary btn-block">
-              <i class="fa fa-plus"></i>
+            <i class="fa fa-plus"></i>
           </button>
         </td>
       </tr>
@@ -23,7 +23,11 @@
           <button (click)="addNew()" type="button" class="btn btn-success">+</button>
         </th>
         <td><input type="text" class="form-control" [(ngModel)]="newCity.name" placeholder="City Name"></td>
-        <td><input type="number" class="form-control" [(ngModel)]="newCity.categoryId" placeholder="Category Id"></td>
+        <td>
+          <select class="form-control" [(ngModel)]="newCity.categoryId">
+            <option *ngFor="let category of pricingCategories" [value]="category.id">{{category.name}}</option>
+          </select>
+        </td>
       </tr>
     </tbody>
   </table>

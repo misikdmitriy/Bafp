@@ -20,6 +20,7 @@ namespace Bafp.Contracts
             public const string GetAllCourses = "dbo.GetAllCourses";
             public const string GetAllCityCourses = "dbo.GetAllCityCourses";
             public const string GetCoursePriceList = "dbo.GetCoursePriceList";
+            public const string GetAllPricingCategories = "dbo.GetAllPricingCategories";
             public const string UpsertCity = "dbo.UpsertCity";
             public const string UpsertCityCourse = "dbo.UpsertCityCourse";
             public const string InsertCourse = "dbo.InsertCourse";

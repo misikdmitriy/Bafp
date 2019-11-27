@@ -21,7 +21,7 @@ namespace Bafp.Web.Controllers
 
         [HttpGet]
         [Route("")]
-        public Task<IActionResult> GetAll() => ExecuteSp<CourseDto, GetAllCoursesResponse>(new GetAllCoursesRequest());
+        public Task<IActionResult> GetAllCourses() => ExecuteSp<CourseDto, GetAllCoursesResponse>(new GetAllCoursesRequest());
 
         [HttpGet]
         [Route("prices/{categoryId}")]
@@ -29,6 +29,6 @@ namespace Bafp.Web.Controllers
 
         [HttpPut]
         [Route("")]
-        public Task<IActionResult> Insert(InsertNewCourseRequest request) => ExecuteSp<Null, InsertNewCourseResponse>(request);
+        public Task<IActionResult> UpsertCourse(InsertNewCourseRequest request) => ExecuteSp<Null, InsertNewCourseResponse>(request);
     }
 }

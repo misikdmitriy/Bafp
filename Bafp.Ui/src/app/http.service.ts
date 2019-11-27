@@ -8,6 +8,7 @@ import { CitiesResponse } from './models/cityResponse';
 import { CityDto } from './models/city';
 import { CoursePricingResponse } from './models/coursePricingResponse';
 import { CityCourseDto } from './models/cityCourseDto';
+import { PricingCategoriesResponse } from './models/pricingCategoriesResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class HttpService {
   coursesUrl = "api/courses";
   addCityCoursesUrl = "api/cities/courses";
   coursesPriceList = "api/courses/prices/{categoryName}";
+  pricingCategories = "api/pricingCategories";
 
   constructor(private http: HttpClient) { }
 
@@ -44,6 +46,10 @@ export class HttpService {
 
   public getCoursePricing(pricingCategory: number) : Promise<CoursePricingResponse> {
     return this.Wrap(this.http.get<CoursePricingResponse>(environment.apiUrl + this.coursesPriceList.replace("{categoryName}", pricingCategory.toString())));
+  }
+
+  public getPricingCategories() : Promise<PricingCategoriesResponse> {
+    return this.Wrap(this.http.get<PricingCategoriesResponse>(environment.apiUrl + this.pricingCategories));
   }
 
   private Wrap<T>(observable: Observable<T>): Promise<T> {

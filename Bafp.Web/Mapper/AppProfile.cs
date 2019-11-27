@@ -72,6 +72,13 @@ namespace Bafp.Web.Mapper
 
             CreateMap<DbResponse<IEnumerable<CoursePricingDto>>, GetCoursesPricingResponse>()
                 .ForMember(dest => dest.CoursePriceList, src => src.MapFrom(x => x.Result));
+
+            CreateMap<GetAllPricingCategoriesRequest, DbRequest>()
+                .BeforeMap((s, d) => d.ProcedureName = Constants.StoredProcedureNames.GetAllPricingCategories)
+                .ForMember(dest => dest.ParameterResolver, src => src.MapFrom(x => Defaults.DefaultParameterResolver));
+
+            CreateMap<DbResponse<IEnumerable<PricingCategoryDto>>, GetAllPricingCategoriesResponse>()
+                .ForMember(dest => dest.Categories, src => src.MapFrom(x => x.Result));
         }
     }
 }

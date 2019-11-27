@@ -22,7 +22,7 @@ namespace Bafp.Web.Controllers
 
         [HttpGet]
         [Route("")]
-        public Task<IActionResult> GetAll() => ExecuteSp<CityDto, GetAllCitiesResponse>(new GetAllCitiesRequest());
+        public Task<IActionResult> GetAllCities() => ExecuteSp<CityDto, GetAllCitiesResponse>(new GetAllCitiesRequest());
 
 
         [HttpGet]
@@ -31,10 +31,10 @@ namespace Bafp.Web.Controllers
 
         [HttpPut]
         [Route("courses")]
-        public Task<IActionResult> AddCityCourse(UpsertCityCourseRequest request) => ExecuteSp<Null, UpsertCityCourseResponse>(request);
+        public Task<IActionResult> UpsertCityCourse(UpsertCityCourseRequest request) => ExecuteSp<Null, UpsertCityCourseResponse>(request);
 
         [HttpPut]
         [Route("")]
-        public Task<IActionResult> Insert(UpsertNewCityRequest request) => ExecuteSp<Null, UpsertNewCityResponse>(request);
+        public Task<IActionResult> UpsertCity(UpsertNewCityRequest request) => ExecuteSp<Null, UpsertNewCityResponse>(request);
     }
 }
