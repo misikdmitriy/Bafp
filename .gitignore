@@ -330,9 +330,9 @@ ASALocalRun/
 .mfractor/
 
 # Angular
-/dist
-/tmp
-/out-tsc
+dist/
+tmp/
+out-tsc/
 
 # VSCode
 .vscode/*
