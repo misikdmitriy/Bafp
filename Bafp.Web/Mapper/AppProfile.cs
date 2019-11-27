@@ -23,7 +23,8 @@ namespace Bafp.Web.Mapper
                 .BeforeMap((s, d) => d.ProcedureName = Constants.StoredProcedureNames.UpsertCity)
                 .ForMember(dest => dest.ParameterResolver, src => src.MapFrom(x => new Func<object>(() => new
                 {
-                    x.City.Name, x.City.CategoryId
+                    x.City.Name,
+                    x.City.CategoryId
                 })));
 
             CreateMap<DbResponse<IEnumerable<Null>>, UpsertNewCityResponse>();
@@ -32,7 +33,9 @@ namespace Bafp.Web.Mapper
                 .BeforeMap((s, d) => d.ProcedureName = Constants.StoredProcedureNames.UpsertCityCourse)
                 .ForMember(dest => dest.ParameterResolver, src => src.MapFrom(x => new Func<object>(() => new
                 {
-                    x.CityId, x.Count, x.CourseId
+                    x.CityCourse.CityId,
+                    x.CityCourse.Count,
+                    x.CityCourse.CourseId
                 })));
 
             CreateMap<DbResponse<IEnumerable<Null>>, UpsertCityCourseResponse>();
@@ -79,6 +82,15 @@ namespace Bafp.Web.Mapper
 
             CreateMap<DbResponse<IEnumerable<PricingCategoryDto>>, GetAllPricingCategoriesResponse>()
                 .ForMember(dest => dest.Categories, src => src.MapFrom(x => x.Result));
+
+            CreateMap<UpsertCoursePricingRequest, DbRequest>()
+                .BeforeMap((s, d) => d.ProcedureName = Constants.StoredProcedureNames.UpsertCoursePricing)
+                .ForMember(dest => dest.ParameterResolver, src => src.MapFrom(x => new Func<object>(() => new
+                {
+                    x.CoursePricing.CategoryId, x.CoursePricing.CourseId, x.CoursePricing.Price
+                })));
+
+            CreateMap<DbResponse<IEnumerable<Null>>, UpsertCoursePricingResponse>();
         }
     }
 }

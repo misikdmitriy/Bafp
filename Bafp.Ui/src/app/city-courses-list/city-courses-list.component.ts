@@ -31,14 +31,14 @@ export class CityCoursesListComponent implements OnInit {
 
   constructor(private httpService: HttpService, private route: ActivatedRoute) {
     this.route.params.subscribe(params => {
-      let cityId = +params.cityId;
+      let cityId: number = +params.cityId;
       this.newCityCourse.cityId = cityId;
 
       Promise.all([this.httpService.getCityCourses(cityId), this.httpService.getCities(), this.httpService.getCourses()])
         .then((response: [CityCoursesResponse, CitiesResponse, CoursesResponse]) => {
-          let cityCourses = response[0].cityCourses;
-          let cities = response[1].cities;
-          let allCourses = response[2].courses;
+          let cityCourses: CityCourse[] = response[0].cityCourses;
+          let cities: City[] = response[1].cities;
+          let allCourses: Course[] = response[2].courses;
 
           this.availableCourses = allCourses.filter((value: Course) => {
             return cityCourses.findIndex((cityCourse: CityCourse) => {
@@ -49,13 +49,13 @@ export class CityCoursesListComponent implements OnInit {
           this.city = cities.find((city: City) => city.id === cityId);
 
           this.httpService.getCoursePricing(this.city.categoryId).then((pricingResponse: CoursePricingResponse) => {
-            let prices = pricingResponse.coursePriceList;
+            let prices: CoursePricing[] = pricingResponse.coursePriceList;
 
             this.cityCourses = cityCourses.map((value: CityCourse) => {
-              let price = prices.find((price: CoursePricing) => price.courseId === value.courseId);
-              let course = allCourses.find((course: Course) => course.id === value.courseId);
+              let price: CoursePricing = prices.find((price: CoursePricing) => price.courseId === value.courseId);
+              let course: Course = allCourses.find((course: Course) => course.id === value.courseId);
 
-              let viewModel = new CourseViewModel();
+              let viewModel: CourseViewModel = new CourseViewModel();
               viewModel.count = value.count;
               viewModel.courseId = course.id;
               viewModel.courseName = course.name;
@@ -72,25 +72,24 @@ export class CityCoursesListComponent implements OnInit {
   ngOnInit() {
   }
 
-  total() {
+  total(): number {
     return this.cityCourses && this.cityCourses.reduce((accum: number, value: CourseViewModel) => {
       return accum + value.total;
     }, 0.00);
   }
 
-  upsertView(course : CourseViewModel) {
+  upsertView(course: CourseViewModel): Promise<void> {
     var dto: CityCourseDto = {
       cityId: this.city.id,
       count: course.count,
       courseId: course.courseId
     };
 
-    return this.upsert(dto);
+    return this.upsert(dto, (value: Object) => course.editMode = false);
   }
 
-  upsert(course : CityCourseDto) {
-    this.httpService.addNewCourse(course).then(() => {
-      window.location.reload()
-    });
+  upsert(course: CityCourseDto, callback: (value: Object) => void = null): Promise<void> {
+    callback = callback || function (value: Object): void { window.location.reload(); };
+    return this.httpService.addNewCourse(course).then(callback);
   }
 }

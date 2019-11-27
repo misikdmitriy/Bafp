@@ -9,6 +9,7 @@ import { TopBarComponent } from './top-bar/top-bar.component';
 import { CitiesListComponent } from './cities-list/cities-list.component';
 import { CityCoursesListComponent } from './city-courses-list/city-courses-list.component';
 import { FormsModule } from '@angular/forms';
+import { CategoryPricingsComponent } from './category-pricings/category-pricings.component';
 
 @NgModule({
   imports: [
@@ -19,13 +20,15 @@ import { FormsModule } from '@angular/forms';
     RouterModule.forRoot([
       { path: '', component: CitiesListComponent },
       { path: 'city/:cityId', component: CityCoursesListComponent },
+      { path: 'category/:categoryId', component: CategoryPricingsComponent },
     ])
   ],
   declarations: [
     AppComponent,
     TopBarComponent,
     CitiesListComponent,
-    CityCoursesListComponent
+    CityCoursesListComponent,
+    CategoryPricingsComponent
   ],
   bootstrap: [ AppComponent ]
 })

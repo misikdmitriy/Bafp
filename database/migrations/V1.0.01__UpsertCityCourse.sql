@@ -30,7 +30,7 @@ AS
 	BEGIN CATCH
 		IF ERROR_NUMBER() IN (2601, 2627) 
 			UPDATE [dbo].[CityCourses] SET [Count] = @Count
-				WHERE  [CityId] = CityId AND [CourseId] = @CourseId
+				WHERE  [CityId] = @CityId AND [CourseId] = @CourseId
 	END CATCH
 
 GO

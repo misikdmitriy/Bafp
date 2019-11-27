@@ -1,0 +1,42 @@
+<div class="cors-pricings-list">
+  <table class="table">
+    <thead>
+      <th scope="col">Course Name</th>
+      <th scope="col">Price</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let course of coursePrices">
+        <td>
+          {{course.courseName}}
+        </td>
+        <td>
+          <span *ngIf="!course.editMode">{{course.price}}</span>
+          <span *ngIf="course.editMode">
+              <input type="number" class="form-control" [(ngModel)]="course.price" placeholder="Count">
+          </span>
+        </td>
+        <td>
+          <span *ngIf="!course.editMode">
+            <button class="btn btn-warning" (click)="course.editMode=true">
+              <i class="fa fa-edit"></i>
+            </button>
+          </span>
+          <span *ngIf="course.editMode">
+            <button class="btn btn-success" (click)="upsertView(course)">
+              <i class="fa fa-check"></i>
+            </button>
+          </span>
+        </td>
+        <td>
+          <span *ngIf="course.editMode">
+              <button class="btn btn-danger" (click)="course.editMode=false">
+                <i class="fa fa-remove"></i>
+              </button>
+            </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

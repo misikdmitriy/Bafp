@@ -28,6 +28,10 @@ namespace Bafp.Web.Controllers
         public Task<IActionResult> GetCoursesPricing(int categoryId) => ExecuteSp<CoursePricingDto, GetCoursesPricingResponse>(new GetCoursesPricingRequest { CategoryId = categoryId });
 
         [HttpPut]
+        [Route("prices")]
+        public Task<IActionResult> UpsertCoursePricing(UpsertCoursePricingRequest request) => ExecuteSp<Null, UpsertCoursePricingResponse>(request);
+
+        [HttpPut]
         [Route("")]
         public Task<IActionResult> UpsertCourse(InsertNewCourseRequest request) => ExecuteSp<Null, InsertNewCourseResponse>(request);
     }

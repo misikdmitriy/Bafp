@@ -9,17 +9,19 @@ import { CityDto } from './models/city';
 import { CoursePricingResponse } from './models/coursePricingResponse';
 import { CityCourseDto } from './models/cityCourseDto';
 import { PricingCategoriesResponse } from './models/pricingCategoriesResponse';
+import { CoursePricing } from './models/coursePricing';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
-  citiesUrl = 'api/cities';
+  citiesUrl = "api/cities";
   cityCoursesUrl = "api/cities/{cityName}/courses";
   coursesUrl = "api/courses";
   addCityCoursesUrl = "api/cities/courses";
   coursesPriceList = "api/courses/prices/{categoryName}";
   pricingCategories = "api/pricingCategories";
+  coursePricing = "api/courses/prices";
 
   constructor(private http: HttpClient) { }
 
@@ -32,7 +34,7 @@ export class HttpService {
   }
 
   public addNewCourse(cityCourse: CityCourseDto): Promise<Object> {
-    return this.Wrap(this.http.put(environment.apiUrl + this.addCityCoursesUrl, cityCourse));
+    return this.Wrap(this.http.put(environment.apiUrl + this.addCityCoursesUrl, { cityCourse }));
   }
 
 
@@ -40,15 +42,19 @@ export class HttpService {
     return this.Wrap(this.http.get<CitiesResponse>(environment.apiUrl + this.citiesUrl));
   }
 
-  public addNewCity(newCity: CityDto): Promise<Object> {
-    return this.Wrap(this.http.put(environment.apiUrl + this.citiesUrl, { city: newCity }));
+  public addNewCity(city: CityDto): Promise<Object> {
+    return this.Wrap(this.http.put(environment.apiUrl + this.citiesUrl, { city }));
   }
 
-  public getCoursePricing(pricingCategory: number) : Promise<CoursePricingResponse> {
+  public addCoursePricing(coursePricing: CoursePricing): Promise<Object> {
+    return this.Wrap(this.http.put(environment.apiUrl + this.coursePricing, { coursePricing }));
+  }
+
+  public getCoursePricing(pricingCategory: number): Promise<CoursePricingResponse> {
     return this.Wrap(this.http.get<CoursePricingResponse>(environment.apiUrl + this.coursesPriceList.replace("{categoryName}", pricingCategory.toString())));
   }
 
-  public getPricingCategories() : Promise<PricingCategoriesResponse> {
+  public getPricingCategories(): Promise<PricingCategoriesResponse> {
     return this.Wrap(this.http.get<PricingCategoriesResponse>(environment.apiUrl + this.pricingCategories));
   }
 
