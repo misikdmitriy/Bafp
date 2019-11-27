@@ -1,8 +1,10 @@
 INSERT INTO dbo.PricingCategories(Name)
-	VALUES('X', 'Y', 'Z');
+	VALUES('X'),
+		('Y'),
+		('Z');
 
 INSERT INTO dbo.Cities(Name, CategoryId)
-	SELECT CategoryId = pc.Id, Name = 'Kyiv'
+	SELECT Name = 'Kyiv', CategoryId = pc.Id
 	FROM dbo.PricingCategories AS pc
 	WHERE pc.Name = 'X';
 
@@ -22,11 +24,6 @@ INSERT INTO dbo.Courses(Name)
 		('Sketch'),
 		('Magento'),
 		('Introduction To IT')
-
-INSERT INTO dbo.PricingCategories(Name)
-	VALUES ('X'),
-		('Y'),
-		('Z')
 
 EXEC dbo.AddCityCourse @CityName = 'Kyiv', @CourseName = 'Frontend', @Count = 4;
 EXEC dbo.AddCityCourse @CityName = 'Kyiv', @CourseName = 'UI/UX', @Count = 4;
