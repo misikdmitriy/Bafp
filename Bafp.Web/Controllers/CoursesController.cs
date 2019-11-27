@@ -1,15 +1,18 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
+using Bafp.Contracts;
 using Bafp.Contracts.Database;
 using Bafp.Logic.Models;
 using Bafp.Logic.Services;
 using Bafp.Web.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bafp.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors(Constants.PolicyNames.AllowUi)]
     public class CoursesController : SpControllerBase
     {
         public CoursesController(IDatabaseService databaseService, IMapper mapper) : base(databaseService, mapper)
@@ -18,10 +21,14 @@ namespace Bafp.Web.Controllers
 
         [HttpGet]
         [Route("")]
-        public Task<GetAllCoursesResponse> GetAll() => ExecuteSp<CourseDto, GetAllCoursesResponse>(new GetAllCoursesRequest());
+        public Task<IActionResult> GetAll() => ExecuteSp<CourseDto, GetAllCoursesResponse>(new GetAllCoursesRequest());
+
+        [HttpGet]
+        [Route("prices/{categoryName}")]
+        public Task<IActionResult> GetCoursesPricing(string categoryName) => ExecuteSp<CoursePricingDto, GetCoursesPricingResponse>(new GetCoursesPricingRequest { CategoryName = categoryName });
 
         [HttpPut]
         [Route("")]
-        public Task<InsertNewCourseResponse> Insert(InsertNewCourseRequest request) => ExecuteSp<Null, InsertNewCourseResponse>(request);
+        public Task<IActionResult> Insert(InsertNewCourseRequest request) => ExecuteSp<Null, InsertNewCourseResponse>(request);
     }
 }

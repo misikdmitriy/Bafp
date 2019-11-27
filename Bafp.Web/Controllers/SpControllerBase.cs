@@ -1,10 +1,12 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
 using Bafp.Logic.Services;
+using Bafp.Web.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Bafp.Web.Controllers
 {
-    public class SpControllerBase
+    public class SpControllerBase : ControllerBase
     {
         private readonly IDatabaseService _databaseService;
         private readonly IMapper _mapper;
@@ -15,10 +17,18 @@ namespace Bafp.Web.Controllers
             _mapper = mapper;
         }
 
-        protected async Task<TOut> ExecuteSp<TModel, TOut>(object request)
+        protected async Task<IActionResult> ExecuteSp<TModel, TOut>(object request)
+            where TOut : HttpResponse
         {
             var result = await _databaseService.ExecuteStoredProcedure<TModel>(request);
-            return _mapper.Map<TOut>(result);
+            var response = _mapper.Map<TOut>(result);
+
+            if (!response.Success)
+            {
+                return NotFound(response);
+            }
+
+            return Ok(response);
         }
     }
 }

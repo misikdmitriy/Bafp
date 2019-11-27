@@ -3,3 +3,8 @@ export class City {
   public name: string;
   public categoryName: string;
 }
+
+export class CityDto {
+  public name: string;
+  public categoryName: string;
+}

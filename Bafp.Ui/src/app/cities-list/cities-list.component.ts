@@ -1,8 +1,7 @@
 import { Component, OnInit, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
 import { CityResponse } from '../models/cityResponse';
-import { City } from '../models/city';
+import { City, CityDto } from '../models/city';
+import { HttpService } from '../http.service';
 
 @Component({
   selector: 'app-cities-list',
@@ -10,30 +9,24 @@ import { City } from '../models/city';
   styleUrls: ['./cities-list.component.css']
 })
 export class CitiesListComponent implements OnInit {
-  citiesUrl = 'api/cities';
   cities: City[];
-  newCity: City = {
-    id: 0,
+  newCity: CityDto = {
     name: "",
     categoryName: ""
   };
   addMode = false;
 
-  constructor(private http: HttpClient) {
+  constructor(private httpService: HttpService) {
   }
 
   ngOnInit() {
-    this.getCities().subscribe((data: CityResponse) => {
+    this.httpService.getCities().then((data: CityResponse) => {
       this.cities = data.cities;
     });
   }
 
-  getCities() {
-    return this.http.get(environment.apiUrl + this.citiesUrl);
-  }
-
   addNew() {
-    this.http.put(environment.apiUrl + this.citiesUrl, { city: this.newCity })
-      .subscribe(() => window.location.reload());
+    this.httpService.addNewCity(this.newCity)
+      .then(() => window.location.reload());
   }
 }

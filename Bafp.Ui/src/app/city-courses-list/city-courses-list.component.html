@@ -5,17 +5,28 @@
       <th scope="col"></th>
       <th scope="col">Course Name</th>
       <th scope="col">Count</th>
+      <th scope="col">Price</th>
+      <th scope="col">Total</th>
     </thead>
     <tbody>
-      <tr *ngFor="let cc of cityCourse">
+      <tr *ngFor="let cc of cityCourses">
         <td></td>
         <td>{{cc.courseName}}</td>
         <td>{{cc.count}}</td>
+        <td>{{cc.price}}</td>
+        <td>{{cc.total}}</td>
       </tr>
       <tr>
-        <td colspan="3" [hidden]="addMode">
+          <td></td>
+          <td><b>Total</b></td>
+          <td></td>
+          <td></td>
+          <td><b>{{total()}}</b></td>
+      </tr>
+      <tr>
+        <td colspan="5" [hidden]="addMode">
           <button (click)="addMode=true" type="button" class="btn btn-primary btn-block">
-            +
+              <i class="fa fa-plus"></i>
           </button>
         </td>
       </tr>
@@ -23,7 +34,11 @@
         <th scope="row">
           <button (click)="addNew()" type="button" class="btn btn-success">+</button>
         </th>
-        <td><input type="text" class="form-control" [(ngModel)]="newCityCourse.courseName" placeholder="Course name"></td>
+        <td>
+          <select class="form-control" [(ngModel)]="newCityCourse.courseName">
+            <option *ngFor="let course of availableCourses" [value]="course.name">{{course.name}}</option>
+          </select>
+        </td>
         <td><input type="number" class="form-control" [(ngModel)]="newCityCourse.count" placeholder="Count"></td>
       </tr>
     </tbody>

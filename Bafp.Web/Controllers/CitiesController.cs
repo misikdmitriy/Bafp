@@ -22,19 +22,19 @@ namespace Bafp.Web.Controllers
 
         [HttpGet]
         [Route("")]
-        public Task<GetAllCitiesResponse> GetAll() => ExecuteSp<CityDto, GetAllCitiesResponse>(new GetAllCitiesRequest());
+        public Task<IActionResult> GetAll() => ExecuteSp<CityDto, GetAllCitiesResponse>(new GetAllCitiesRequest());
 
 
         [HttpGet]
         [Route("{cityName}/courses")]
-        public Task<GetAllCityCoursesResponse> GetAllCityCourses(string cityName) => ExecuteSp<CityCourseDto, GetAllCityCoursesResponse>(new GetAllCityCoursesRequest { CityName = cityName });
+        public Task<IActionResult> GetAllCityCourses(string cityName) => ExecuteSp<CityCourseDto, GetAllCityCoursesResponse>(new GetAllCityCoursesRequest { CityName = cityName });
 
         [HttpPut]
         [Route("courses")]
-        public Task<AddCityCourseResponse> AddCityCourse(AddCityCourseRequest request) => ExecuteSp<Null, AddCityCourseResponse>(request);
+        public Task<IActionResult> AddCityCourse(AddCityCourseRequest request) => ExecuteSp<Null, AddCityCourseResponse>(request);
 
         [HttpPut]
         [Route("")]
-        public Task<InsertNewCityResponse> Insert(InsertNewCityRequest request) => ExecuteSp<Null, InsertNewCityResponse>(request);
+        public Task<IActionResult> Insert(InsertNewCityRequest request) => ExecuteSp<Null, InsertNewCityResponse>(request);
     }
 }
