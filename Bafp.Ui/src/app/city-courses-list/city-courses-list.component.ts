@@ -20,7 +20,8 @@ import { City } from '../models/city';
 export class CityCoursesListComponent implements OnInit {
   city: City;
   allCourses: Course[];
-  cityCourses: CourseViewModel[]
+  cityCourses: CourseViewModel[];
+  showAll = true
 
   constructor(private httpService: HttpService, private route: ActivatedRoute) {
     this.route.params.subscribe(params => {

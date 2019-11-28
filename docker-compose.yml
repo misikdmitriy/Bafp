@@ -1,0 +1,30 @@
+version: "3"
+services:
+    api:
+        container_name: bafp.api
+        build: 
+            context: ./
+            dockerfile: ./Dockerfiles/api/Dockerfile
+        ports:
+            - "5000:5000"
+        depends_on:
+            - db
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Docker
+    ui:
+        container_name: bafp.ui
+        build: 
+            context: ./
+            dockerfile: ./Dockerfiles/ui/Dockerfile
+        depends_on:
+            - api
+        ports:
+            - "4200:4200"
+    db:
+        container_name: bafp.db
+        image: "mcr.microsoft.com/mssql/server"
+        environment:
+            SA_PASSWORD: "password123"
+            ACCEPT_EULA: "Y"
+        ports:
+            - "1733:1433"

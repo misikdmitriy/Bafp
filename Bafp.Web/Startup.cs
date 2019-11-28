@@ -42,9 +42,12 @@ namespace Bafp.Web
                 options.AddPolicy(Constants.PolicyNames.AllowUi,
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:4200")
-                            .AllowAnyHeader()
-                            .AllowAnyMethod();
+                        foreach (var url in config.AllowedUrls)
+                        {
+                            builder.WithOrigins(url)
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+                        }
                     });
             });
 

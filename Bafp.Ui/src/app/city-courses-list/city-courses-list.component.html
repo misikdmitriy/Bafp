@@ -7,10 +7,10 @@
       <th scope="col">Count</th>
       <th scope="col">Price</th>
       <th scope="col">Total</th>
-      <th scope="col"></th>
+      <th scope="col"><button class="btn btn-primary btn-block" (click)="showAll = !showAll">{{showAll ? 'Show active' : 'Show all'}}</button></th>
     </thead>
     <tbody>
-      <tr *ngFor="let cc of cityCourses">
+      <tr *ngFor="let cc of cityCourses" [hidden]="!showAll && cc.count === 0">
         <td></td>
         <td>{{cc.courseName}}</td>
         <td>

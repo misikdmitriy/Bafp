@@ -19,6 +19,7 @@ export class CategoryPricingsComponent implements OnInit {
     id: 0,
     name: ""
   };
+  addMode: false;
 
   constructor(private httpService: HttpService, private route: ActivatedRoute) {
     this.route.params.subscribe((params) => {
