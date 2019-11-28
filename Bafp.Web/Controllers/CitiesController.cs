@@ -35,10 +35,10 @@ namespace Bafp.Web.Controllers
 
         [HttpPut]
         [Route("courses")]
-        public Task<IActionResult> UpsertCityCourse(UpsertCityCourseRequest request) => ExecuteSp<Null, UpsertCityCourseResponse>(request);
+        public Task<IActionResult> UpsertCityCourse(UpsertCityCourseRequest request) => ExecuteSp<CityCourseDto, UpsertCityCourseResponse>(request);
 
         [HttpPut]
         [Route("")]
-        public Task<IActionResult> UpsertCity(UpsertNewCityRequest request) => ExecuteSp<Null, UpsertNewCityResponse>(request);
+        public Task<IActionResult> UpsertCity(UpsertNewCityRequest request) => ExecuteSp<CityDto, UpsertNewCityResponse>(request);
     }
 }

@@ -9,5 +9,6 @@ namespace Bafp.Web.Models
 
     public class UpsertCityCourseResponse : HttpResponse
     {
+        public CityCourseDto CityCourse { get; set; }
     }
 }

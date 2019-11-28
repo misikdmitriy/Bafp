@@ -1,5 +1,5 @@
 import { HttpResponse } from "./httpResponse";
-import { CoursePricing } from "./coursePricing";
+import { CoursePricing } from "../contracts/coursePricing";
 
 export class CoursePricingResponse extends HttpResponse {
   public coursePriceList: CoursePricing[];

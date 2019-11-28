@@ -11,6 +11,7 @@ AS
   BEGIN
 
     DELETE FROM [dbo].[Courses]
+    OUTPUT DELETED.*
         WHERE [Id] = @CourseId
 
   END

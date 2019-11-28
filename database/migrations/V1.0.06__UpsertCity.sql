@@ -15,6 +15,7 @@ AS
 		RAISERROR ('Category %d absent in DB', 16, 1, @CategoryId)
 
 	INSERT INTO [dbo].[Cities]([Name], [CategoryId])
+	OUTPUT INSERTED.*
 		SELECT [Name] = @Name, [CategoryId] = @CategoryId
 
 	END TRY
@@ -22,6 +23,7 @@ AS
 	BEGIN CATCH
 		IF ERROR_NUMBER() IN (2601, 2627) 
 			UPDATE [dbo].[Cities] SET [CategoryId] = @CategoryId
+			OUTPUT INSERTED.*
 				WHERE [Name] = @Name
 	END CATCH
 

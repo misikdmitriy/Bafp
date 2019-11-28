@@ -2,15 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { Observable } from 'rxjs';
-import { CityCoursesResponse } from './models/cityCourseResponse';
-import { CoursesResponse } from './models/coursesResponse';
-import { CitiesResponse } from './models/cityResponse';
-import { CityDto } from './models/city';
-import { CoursePricingResponse } from './models/coursePricingResponse';
-import { CityCourseDto } from './models/cityCourseDto';
-import { PricingCategoriesResponse } from './models/pricingCategoriesResponse';
-import { CoursePricing } from './models/coursePricing';
-import { Course } from './models/course';
+import { CityCoursesResponse } from './models/responses/cityCourseResponse';
+import { CoursesResponse } from './models/responses/coursesResponse';
+import { CitiesResponse } from './models/responses/cityResponse';
+import { CityDto } from './models/contracts/city';
+import { CoursePricingResponse } from './models/responses/coursePricingResponse';
+import { CityCourseDto } from './models/contracts/cityCourseDto';
+import { PricingCategoriesResponse } from './models/responses/pricingCategoriesResponse';
+import { CoursePricing } from './models/contracts/coursePricing';
+import { Course } from './models/contracts/course';
+import { NewCityResponse } from './models/responses/newCityResponse';
+import { NewCourseResponse } from './models/responses/newCourseResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -45,8 +47,8 @@ export class HttpService {
     return this.Wrap(this.http.put(environment.apiUrl + this.addCityCoursesUrl, { cityCourse }));
   }
 
-  public addNewCourse(course: Course): Promise<Object> {
-    return this.Wrap(this.http.put(environment.apiUrl + this.coursesUrl, { course }));
+  public addNewCourse(course: Course): Promise<NewCourseResponse> {
+    return this.Wrap(this.http.put<NewCourseResponse>(environment.apiUrl + this.coursesUrl, { course }));
   }
 
   public deleteCourse(courseId: number): Promise<Object> {
@@ -57,8 +59,8 @@ export class HttpService {
     return this.Wrap(this.http.get<CitiesResponse>(environment.apiUrl + this.citiesUrl));
   }
 
-  public addNewCity(city: CityDto): Promise<Object> {
-    return this.Wrap(this.http.put(environment.apiUrl + this.citiesUrl, { city }));
+  public addNewCity(city: CityDto): Promise<NewCityResponse> {
+    return this.Wrap(this.http.put<NewCityResponse>(environment.apiUrl + this.citiesUrl, { city }));
   }
 
   public addCoursePricing(coursePricing: CoursePricing): Promise<Object> {

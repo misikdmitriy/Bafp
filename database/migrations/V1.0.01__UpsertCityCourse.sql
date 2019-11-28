@@ -23,6 +23,7 @@ AS
 			WHERE  [CityId] = CityId AND [CourseId] = @CourseId
 	ELSE
 		INSERT INTO [dbo].[CityCourses](CityId, CourseId, [Count])
+		OUTPUT INSERTED.*
 			VALUES(@CityId, @CourseId, @Count)
 
 	END TRY
@@ -30,6 +31,7 @@ AS
 	BEGIN CATCH
 		IF ERROR_NUMBER() IN (2601, 2627) 
 			UPDATE [dbo].[CityCourses] SET [Count] = @Count
+			OUTPUT INSERTED.*
 				WHERE  [CityId] = @CityId AND [CourseId] = @CourseId
 	END CATCH
 

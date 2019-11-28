@@ -1,4 +1,6 @@
-﻿namespace Bafp.Web.Models
+﻿using Bafp.Logic.Models;
+
+namespace Bafp.Web.Models
 {
     public class DeleteCourseRequest : HttpRequest
     {
@@ -7,5 +9,6 @@
 
     public class DeleteCourseResponse : HttpResponse
     {
+        public CourseDto Course { get; set; }
     }
 }

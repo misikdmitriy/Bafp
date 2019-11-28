@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { CityCoursesResponse } from '../models/cityCourseResponse';
+import { CityCoursesResponse } from '../models/responses/cityCourseResponse';
 import { ActivatedRoute } from "@angular/router";
-import { CityCourse } from '../models/cityCourse';
-import { CoursesResponse } from '../models/coursesResponse';
-import { Course } from '../models/course';
+import { CityCourse } from '../models/contracts/cityCourse';
+import { CoursesResponse } from '../models/responses/coursesResponse';
+import { Course } from '../models/contracts/course';
 import { HttpService } from '../http.service';
-import { CoursePricingResponse } from '../models/coursePricingResponse';
-import { CoursePricing } from '../models/coursePricing';
+import { CoursePricingResponse } from '../models/responses/coursePricingResponse';
+import { CoursePricing } from '../models/contracts/coursePricing';
 import { CityCourseViewModel } from '../models/view-models/CityCourseViewModel';
-import { CityCourseDto } from '../models/cityCourseDto';
-import { CitiesResponse } from '../models/cityResponse';
-import { City } from '../models/city';
+import { CityCourseDto } from '../models/contracts/cityCourseDto';
+import { CitiesResponse } from '../models/responses/cityResponse';
+import { City } from '../models/contracts/city';
 
 @Component({
   selector: 'app-city-courses-list',

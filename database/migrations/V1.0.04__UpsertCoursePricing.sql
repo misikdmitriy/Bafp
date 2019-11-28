@@ -22,6 +22,7 @@ AS
 		RAISERROR ('Price cannot be negative', 16, 1)
 
     INSERT INTO [dbo].[CoursePricing](CategoryId, CourseId, [Price])
+		OUTPUT INSERTED.*
         VALUES(@CategoryId, @CourseId, @Price)
 
 	END TRY
@@ -29,6 +30,7 @@ AS
 	BEGIN CATCH
 		IF ERROR_NUMBER() IN (2601, 2627) 
 			UPDATE [dbo].[CoursePricing] SET [Price] = @Price
+			OUTPUT INSERTED.*
 				WHERE  [CategoryId] = @CategoryId AND [CourseId] = @CourseId
 	END CATCH
 

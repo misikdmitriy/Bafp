@@ -25,7 +25,7 @@ namespace Bafp.Web.Controllers
 
             if (!response.Success)
             {
-                return NotFound(response);
+                return BadRequest(response);
             }
 
             return Ok(response);

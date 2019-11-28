@@ -1,10 +1,11 @@
 import { Component, OnInit, Injectable } from '@angular/core';
-import { CitiesResponse } from '../models/cityResponse';
-import { City, CityDto } from '../models/city';
+import { CitiesResponse } from '../models/responses/cityResponse';
+import { City, CityDto } from '../models/contracts/city';
 import { HttpService } from '../http.service';
-import { PricingCategory } from '../models/pricingCategory';
-import { PricingCategoriesResponse } from '../models/pricingCategoriesResponse';
+import { PricingCategory } from '../models/contracts/pricingCategory';
+import { PricingCategoriesResponse } from '../models/responses/pricingCategoriesResponse';
 import { CityViewModel } from '../models/view-models/cityViewModel';
+import { NewCityResponse } from '../models/responses/newCityResponse';
 
 @Component({
   selector: 'app-cities-list',
@@ -48,6 +49,17 @@ export class CitiesListComponent implements OnInit {
 
   addNew() {
     this.httpService.addNewCity(this.newCity)
-      .then(() => window.location.reload());
+      .then((cityResponse: NewCityResponse) => {
+        let city: City = cityResponse.city;
+        let category: PricingCategory = this.pricingCategories.find((category: PricingCategory) => category.id === city.categoryId);
+
+        let viewModel: CityViewModel = new CityViewModel();
+        viewModel.cityId = city.id;
+        viewModel.cityName = city.name;
+        viewModel.categoryName = category.name;
+        viewModel.categoryId = category.id;
+
+        this.cities.push(viewModel);
+      });
   }
 }

@@ -33,14 +33,14 @@ namespace Bafp.Web.Controllers
 
         [HttpPut]
         [Route("prices")]
-        public Task<IActionResult> UpsertCoursePricing(UpsertCoursePricingRequest request) => ExecuteSp<Null, UpsertCoursePricingResponse>(request);
+        public Task<IActionResult> UpsertCoursePricing(UpsertCoursePricingRequest request) => ExecuteSp<CoursePricingDto, UpsertCoursePricingResponse>(request);
 
         [HttpPut]
         [Route("")]
-        public Task<IActionResult> UpsertCourse(InsertNewCourseRequest request) => ExecuteSp<Null, InsertNewCourseResponse>(request);
+        public Task<IActionResult> UpsertCourse(InsertNewCourseRequest request) => ExecuteSp<CourseDto, InsertNewCourseResponse>(request);
 
         [HttpDelete]
         [Route("{courseId}")]
-        public Task<IActionResult> DeleteCourse(int courseId) => ExecuteSp<Null, DeleteCourseResponse>(new DeleteCourseRequest { CourseId = courseId });
+        public Task<IActionResult> DeleteCourse(int courseId) => ExecuteSp<CourseDto, DeleteCourseResponse>(new DeleteCourseRequest { CourseId = courseId });
     }
 }

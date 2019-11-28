@@ -1,5 +1,5 @@
 import { HttpResponse } from "./httpResponse";
-import { CityCourse } from "./cityCourse";
+import { CityCourse } from "../contracts/cityCourse";
 
 export class CityCoursesResponse extends HttpResponse {
   public cityCourses: CityCourse[];

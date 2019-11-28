@@ -47,8 +47,4 @@ namespace Bafp.Contracts.Database
         public string Message { get; set; }
         public Exception Exception { get; set; }
     }
-
-    public class Null
-    {
-    }
 }

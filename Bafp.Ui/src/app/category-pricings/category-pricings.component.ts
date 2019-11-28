@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpService } from '../http.service';
-import { CoursePricingResponse } from '../models/coursePricingResponse';
-import { CoursesResponse } from '../models/coursesResponse';
-import { CoursePricing } from '../models/coursePricing';
-import { Course } from '../models/course';
+import { CoursePricingResponse } from '../models/responses/coursePricingResponse';
+import { CoursesResponse } from '../models/responses/coursesResponse';
+import { CoursePricing } from '../models/contracts/coursePricing';
+import { Course } from '../models/contracts/course';
 import { CoursePricingViewModel } from '../models/view-models/coursePricingViewModel';
+import { NewCourseResponse } from '../models/responses/newCourseResponse';
 
 @Component({
   selector: 'app-category-pricings',
@@ -19,10 +20,13 @@ export class CategoryPricingsComponent implements OnInit {
     name: ""
   };
   addMode: false;
+  categoryId: number;
 
   constructor(private httpService: HttpService, private route: ActivatedRoute) {
     this.route.params.subscribe((params) => {
-      let categoryId: number = params.categoryId;
+      let categoryId: number = +params.categoryId;
+
+      this.categoryId = categoryId;
 
       Promise.all([this.httpService.getCoursePricing(categoryId), this.httpService.getCourses()])
         .then((response: [CoursePricingResponse, CoursesResponse]) => {
@@ -60,7 +64,18 @@ export class CategoryPricingsComponent implements OnInit {
 
   upsert(): Promise<void> {
     return this.httpService.addNewCourse(this.newCourse)
-      .then(() => window.location.reload());
+      .then((courseResponse: NewCourseResponse) => {
+        let course: Course = courseResponse.course;
+
+        let viewModel: CoursePricingViewModel = new CoursePricingViewModel();
+        viewModel.courseId = course.id;
+        viewModel.courseName = course.name;
+        viewModel.price = 0.00;
+        viewModel.categoryId = this.categoryId;
+        viewModel.editMode = false;
+
+        this.coursePrices.push(viewModel);
+      });
   }
 
   deleteCourse(course: CoursePricingViewModel): Promise<Object> {

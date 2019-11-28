@@ -9,5 +9,6 @@ namespace Bafp.Web.Models
 
     public class InsertNewCourseResponse : HttpResponse
     {
+        public CourseDto Course { get; set; }
     }
 }

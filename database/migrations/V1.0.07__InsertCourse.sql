@@ -11,6 +11,7 @@ AS
 	BEGIN
 
 	INSERT INTO [dbo].[Courses]([Name])
+	OUTPUT INSERTED.*
 		VALUES (@Name)
 
 	END

@@ -19,6 +19,7 @@ AS
 		RAISERROR ('Course %d absent in DB', 16, 1, @CourseId)
 
 	INSERT INTO [dbo].[CoursePricing](CourseId, CategoryId, Price)
+	OUTPUT INSERTED.*
 		VALUES(@CourseId, @CategoryId, @Price)
 
 	END TRY
@@ -26,6 +27,7 @@ AS
 	BEGIN CATCH
 		IF ERROR_NUMBER() IN (2601, 2627) 
 			UPDATE [dbo].[CoursePricing] SET [Price] = @Price
+			OUTPUT INSERTED.*
 				WHERE CourseId = @CourseId AND CategoryId = @CategoryId
 	END CATCH
 

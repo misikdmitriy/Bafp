@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpService } from '../http.service';
-import { CityCoursesResponse } from '../models/cityCourseResponse';
-import { CitiesResponse } from '../models/cityResponse';
-import { CoursesResponse } from '../models/coursesResponse';
-import { CityCourse } from '../models/cityCourse';
-import { City } from '../models/city';
-import { Course } from '../models/course';
+import { CityCoursesResponse } from '../models/responses/cityCourseResponse';
+import { CitiesResponse } from '../models/responses/cityResponse';
+import { CoursesResponse } from '../models/responses/coursesResponse';
+import { CityCourse } from '../models/contracts/cityCourse';
+import { City } from '../models/contracts/city';
+import { Course } from '../models/contracts/course';
 import { CourseViewModel } from '../models/view-models/courseViewModel';
-import { CoursePricingResponse } from '../models/coursePricingResponse';
-import { CoursePricing } from '../models/coursePricing';
+import { CoursePricingResponse } from '../models/responses/coursePricingResponse';
+import { CoursePricing } from '../models/contracts/coursePricing';
 import { CoursePricingViewModel } from '../models/view-models/coursePricingViewModel';
-import { PricingCategoriesResponse } from '../models/pricingCategoriesResponse';
-import { PricingCategory } from '../models/pricingCategory';
+import { PricingCategoriesResponse } from '../models/responses/pricingCategoriesResponse';
+import { PricingCategory } from '../models/contracts/pricingCategory';
 
 @Component({
   selector: 'app-courses-list',
