@@ -7,10 +7,38 @@
     </thead>
     <tbody>
       <tr *ngFor="let city of cities">
-        <td><a [title]="city.name" [routerLink]="['/city', city.cityId]">{{city.cityName}}</a></td>
-        <td><a [title]="city.categoryName" [routerLink]="['/category', city.categoryId]">{{city.categoryName}}</a></td>
-        <td></td>
+        <td>
+          <a [title]="city.name" [routerLink]="['/city', city.cityId]">{{city.cityName}}</a>
+        </td>
+
+        <td>
+          <span *ngIf="!city.editMode">
+            <a [title]="city.categoryName"
+              [routerLink]="['/category', city.categoryId]">{{city.categoryName}}
+            </a>
+          </span>
+
+          <span *ngIf="city.editMode">
+            <select class="form-control" [(ngModel)]="city.categoryId">
+              <option *ngFor="let category of pricingCategories" [value]="category.id">{{category.name}}</option>
+            </select>
+          </span>
+        </td>
+
+        <td>
+          <span *ngIf="!city.editMode">
+            <button class="btn btn-warning btn-block" (click)="city.editMode=true">
+              <i class="fa fa-edit"></i>
+            </button>
+          </span>
+          <span *ngIf="city.editMode">
+            <button class="btn btn-success btn-block" (click)="edit(city)">
+              <i class="fa fa-check"></i>
+            </button>
+          </span>
+        </td>
       </tr>
+
       <tr *ngIf="!addMode">
         <td colspan="3">
           <button (click)="addMode=true" type="button" class="btn btn-primary btn-block">
@@ -18,13 +46,16 @@
           </button>
         </td>
       </tr>
+
       <tr class="form-group" *ngIf="addMode">
         <td><input type="text" class="form-control" [(ngModel)]="newCity.name" placeholder="City Name"></td>
+
         <td>
           <select class="form-control" [(ngModel)]="newCity.categoryId">
             <option *ngFor="let category of pricingCategories" [value]="category.id">{{category.name}}</option>
           </select>
         </td>
+        
         <td>
           <button (click)="addNew()" type="button" class="btn btn-success btn-block">
             <i class="fa fa-plus"></i>

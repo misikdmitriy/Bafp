@@ -3,4 +3,5 @@ export class CityViewModel {
   public cityName: string;
   public categoryId: number;
   public categoryName: string;
+  public editMode: boolean;
 }

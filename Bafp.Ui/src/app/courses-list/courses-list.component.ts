@@ -10,7 +10,6 @@ import { Course } from '../models/contracts/course';
 import { CourseViewModel } from '../models/view-models/courseViewModel';
 import { CoursePricingResponse } from '../models/responses/coursePricingResponse';
 import { CoursePricing } from '../models/contracts/coursePricing';
-import { CoursePricingViewModel } from '../models/view-models/coursePricingViewModel';
 import { PricingCategoriesResponse } from '../models/responses/pricingCategoriesResponse';
 import { PricingCategory } from '../models/contracts/pricingCategory';
 

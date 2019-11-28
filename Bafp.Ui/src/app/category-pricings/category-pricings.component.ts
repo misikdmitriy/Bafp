@@ -63,6 +63,13 @@ export class CategoryPricingsComponent implements OnInit {
   }
 
   upsert(): Promise<void> {
+    this.addMode = false;
+
+    if (this.coursePrices
+      .findIndex((coursePrice: CoursePricingViewModel) => coursePrice.courseName.toLowerCase() === this.newCourse.name.toLowerCase()) !== -1) {
+      return;
+    }
+
     return this.httpService.addNewCourse(this.newCourse)
       .then((courseResponse: NewCourseResponse) => {
         let course: Course = courseResponse.course;

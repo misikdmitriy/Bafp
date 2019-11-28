@@ -8,7 +8,6 @@ import { HttpService } from '../http.service';
 import { CoursePricingResponse } from '../models/responses/coursePricingResponse';
 import { CoursePricing } from '../models/contracts/coursePricing';
 import { CityCourseViewModel } from '../models/view-models/CityCourseViewModel';
-import { CityCourseDto } from '../models/contracts/cityCourseDto';
 import { CitiesResponse } from '../models/responses/cityResponse';
 import { City } from '../models/contracts/city';
 
@@ -65,14 +64,14 @@ export class CityCoursesListComponent implements OnInit {
     }, 0.00);
   }
 
-  upsertView(course: CityCourseViewModel): Promise<Object> {
-    var dto: CityCourseDto = {
+  edit(course: CityCourseViewModel): Promise<Object> {
+    var dto: CityCourse = {
       cityId: this.city.id,
       count: course.count,
       courseId: course.courseId
     };
 
     return this.httpService.addNewCityCourse(dto)
-      .then((value: Object) => course.editMode = false);
+      .then(() => course.editMode = false);
   }
 }

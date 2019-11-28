@@ -5,14 +5,14 @@ import { Observable } from 'rxjs';
 import { CityCoursesResponse } from './models/responses/cityCourseResponse';
 import { CoursesResponse } from './models/responses/coursesResponse';
 import { CitiesResponse } from './models/responses/cityResponse';
-import { CityDto } from './models/contracts/city';
+import { City } from './models/contracts/city';
 import { CoursePricingResponse } from './models/responses/coursePricingResponse';
-import { CityCourseDto } from './models/contracts/cityCourseDto';
 import { PricingCategoriesResponse } from './models/responses/pricingCategoriesResponse';
 import { CoursePricing } from './models/contracts/coursePricing';
 import { Course } from './models/contracts/course';
 import { NewCityResponse } from './models/responses/newCityResponse';
 import { NewCourseResponse } from './models/responses/newCourseResponse';
+import { CityCourse } from './models/contracts/cityCourse';
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +43,7 @@ export class HttpService {
     return this.Wrap(this.http.get<CoursesResponse>(environment.apiUrl + this.coursesUrl));
   }
 
-  public addNewCityCourse(cityCourse: CityCourseDto): Promise<Object> {
+  public addNewCityCourse(cityCourse: CityCourse): Promise<Object> {
     return this.Wrap(this.http.put(environment.apiUrl + this.addCityCoursesUrl, { cityCourse }));
   }
 
@@ -59,7 +59,7 @@ export class HttpService {
     return this.Wrap(this.http.get<CitiesResponse>(environment.apiUrl + this.citiesUrl));
   }
 
-  public addNewCity(city: CityDto): Promise<NewCityResponse> {
+  public addNewCity(city: City): Promise<NewCityResponse> {
     return this.Wrap(this.http.put<NewCityResponse>(environment.apiUrl + this.citiesUrl, { city }));
   }
 
