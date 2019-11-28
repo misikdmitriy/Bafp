@@ -7,7 +7,7 @@ import { Course } from '../models/course';
 import { HttpService } from '../http.service';
 import { CoursePricingResponse } from '../models/coursePricingResponse';
 import { CoursePricing } from '../models/coursePricing';
-import { CourseViewModel } from '../models/courseViewModel';
+import { CityCourseViewModel } from '../models/view-models/CityCourseViewModel';
 import { CityCourseDto } from '../models/cityCourseDto';
 import { CitiesResponse } from '../models/cityResponse';
 import { City } from '../models/city';
@@ -20,7 +20,7 @@ import { City } from '../models/city';
 export class CityCoursesListComponent implements OnInit {
   city: City;
   allCourses: Course[];
-  cityCourses: CourseViewModel[];
+  cityCourses: CityCourseViewModel[];
   showAll = true
 
   constructor(private httpService: HttpService, private route: ActivatedRoute) {
@@ -42,7 +42,7 @@ export class CityCoursesListComponent implements OnInit {
               let price: CoursePricing = prices.find((price: CoursePricing) => price.courseId === value.courseId);
               let course: Course = allCourses.find((course: Course) => course.id === value.courseId);
 
-              let viewModel: CourseViewModel = new CourseViewModel();
+              let viewModel: CityCourseViewModel = new CityCourseViewModel();
               viewModel.count = value.count;
               viewModel.courseId = course.id;
               viewModel.courseName = course.name;
@@ -60,12 +60,12 @@ export class CityCoursesListComponent implements OnInit {
   }
 
   total(): number {
-    return this.cityCourses && this.cityCourses.reduce((accum: number, value: CourseViewModel) => {
+    return this.cityCourses && this.cityCourses.reduce((accum: number, value: CityCourseViewModel) => {
       return accum + value.total;
     }, 0.00);
   }
 
-  upsertView(course: CourseViewModel): Promise<Object> {
+  upsertView(course: CityCourseViewModel): Promise<Object> {
     var dto: CityCourseDto = {
       cityId: this.city.id,
       count: course.count,

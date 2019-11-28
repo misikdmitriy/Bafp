@@ -56,14 +56,24 @@ namespace Bafp.Web.Mapper
 
             CreateMap<DbResponse<IEnumerable<Null>>, InsertNewCourseResponse>();
 
-            CreateMap<GetAllCityCoursesRequest, DbRequest>()
+            CreateMap<GetAllCityCoursesByCityRequest, DbRequest>()
                 .BeforeMap((s, d) => d.ProcedureName = Constants.StoredProcedureNames.GetAllCityCourses)
                 .ForMember(dest => dest.ParameterResolver, src => src.MapFrom(x => new Func<object>(() => new
                 {
                     x.CityId
                 })));
 
-            CreateMap<DbResponse<IEnumerable<CityCourseDto>>, GetAllCityCoursesResponse>()
+            CreateMap<DbResponse<IEnumerable<CityCourseDto>>, GetAllCityCoursesByCityResponse>()
+                .ForMember(dest => dest.CityCourses, src => src.MapFrom(x => x.Result));
+
+            CreateMap<GetAllCityCoursesByCourseRequest, DbRequest>()
+                .BeforeMap((s, d) => d.ProcedureName = Constants.StoredProcedureNames.GetAllCityCoursesByCourse)
+                .ForMember(dest => dest.ParameterResolver, src => src.MapFrom(x => new Func<object>(() => new
+                {
+                    x.CourseId
+                })));
+
+            CreateMap<DbResponse<IEnumerable<CityCourseDto>>, GetAllCityCoursesByCourseResponse>()
                 .ForMember(dest => dest.CityCourses, src => src.MapFrom(x => x.Result));
 
             CreateMap<GetCoursesPricingRequest, DbRequest>()
@@ -74,6 +84,16 @@ namespace Bafp.Web.Mapper
                 })));
 
             CreateMap<DbResponse<IEnumerable<CoursePricingDto>>, GetCoursesPricingResponse>()
+                .ForMember(dest => dest.CoursePriceList, src => src.MapFrom(x => x.Result));
+
+            CreateMap<GetCoursesPricingByCourseRequest, DbRequest>()
+                .BeforeMap((s, d) => d.ProcedureName = Constants.StoredProcedureNames.GetCoursePriceListByCourse)
+                .ForMember(dest => dest.ParameterResolver, src => src.MapFrom(x => new Func<object>(() => new
+                {
+                    x.CourseId
+                })));
+
+            CreateMap<DbResponse<IEnumerable<CoursePricingDto>>, GetCoursesPricingByCourseResponse>()
                 .ForMember(dest => dest.CoursePriceList, src => src.MapFrom(x => x.Result));
 
             CreateMap<GetAllPricingCategoriesRequest, DbRequest>()

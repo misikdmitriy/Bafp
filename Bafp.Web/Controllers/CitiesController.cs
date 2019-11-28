@@ -27,7 +27,11 @@ namespace Bafp.Web.Controllers
 
         [HttpGet]
         [Route("{cityId}/courses")]
-        public Task<IActionResult> GetAllCityCourses(int cityId) => ExecuteSp<CityCourseDto, GetAllCityCoursesResponse>(new GetAllCityCoursesRequest { CityId = cityId });
+        public Task<IActionResult> GetAllCityCoursesByCity(int cityId) => ExecuteSp<CityCourseDto, GetAllCityCoursesByCityResponse>(new GetAllCityCoursesByCityRequest { CityId = cityId });
+
+        [HttpGet]
+        [Route("courses/{courseId}")]
+        public Task<IActionResult> GetAllCityCoursesByCourse(int courseId) => ExecuteSp<CityCourseDto, GetAllCityCoursesByCourseResponse>(new GetAllCityCoursesByCourseRequest { CourseId = courseId });
 
         [HttpPut]
         [Route("courses")]

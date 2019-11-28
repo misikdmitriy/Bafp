@@ -10,6 +10,7 @@ import { CitiesListComponent } from './cities-list/cities-list.component';
 import { CityCoursesListComponent } from './city-courses-list/city-courses-list.component';
 import { FormsModule } from '@angular/forms';
 import { CategoryPricingsComponent } from './category-pricings/category-pricings.component';
+import { CoursesListComponent } from './courses-list/courses-list.component';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { CategoryPricingsComponent } from './category-pricings/category-pricings
       { path: '', component: CitiesListComponent },
       { path: 'city/:cityId', component: CityCoursesListComponent },
       { path: 'category/:categoryId', component: CategoryPricingsComponent },
+      { path: 'courses/:courseId', component: CoursesListComponent },
     ])
   ],
   declarations: [
@@ -28,7 +30,8 @@ import { CategoryPricingsComponent } from './category-pricings/category-pricings
     TopBarComponent,
     CitiesListComponent,
     CityCoursesListComponent,
-    CategoryPricingsComponent
+    CategoryPricingsComponent,
+    CoursesListComponent
   ],
   bootstrap: [ AppComponent ]
 })

@@ -1,5 +1,5 @@
 <div class="city-courses-list">
-  <h1>City is {{city && city.name}}</h1>
+  <h1>City - {{city && city.name}}</h1>
   <table class="table table-striped">
     <thead>
       <th scope="col"></th>
@@ -12,7 +12,9 @@
     <tbody>
       <tr *ngFor="let cc of cityCourses" [hidden]="!showAll && cc.count === 0">
         <td></td>
-        <td>{{cc.courseName}}</td>
+        <td>
+          <a [routerLink]="['/courses', cc.courseId]" [name]="cc.courseName">{{cc.courseName}}</a>
+        </td>
         <td>
           <span *ngIf="!cc.editMode">
             {{cc.count}}

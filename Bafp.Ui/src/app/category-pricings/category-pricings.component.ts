@@ -5,8 +5,7 @@ import { CoursePricingResponse } from '../models/coursePricingResponse';
 import { CoursesResponse } from '../models/coursesResponse';
 import { CoursePricing } from '../models/coursePricing';
 import { Course } from '../models/course';
-import { CoursePricingViewModel } from '../models/coursePricingViewModel';
-import { CourseViewModel } from '../models/courseViewModel';
+import { CoursePricingViewModel } from '../models/view-models/coursePricingViewModel';
 
 @Component({
   selector: 'app-category-pricings',

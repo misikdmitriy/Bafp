@@ -18,10 +18,12 @@ import { Course } from './models/course';
 export class HttpService {
   citiesUrl = "api/cities";
   cityCoursesUrl = "api/cities/{cityId}/courses";
+  cityCoursesByCourseUrl = "api/cities/courses/{courseId}";
   coursesUrl = "api/courses";
   deleteCourseUrl = "api/courses/{courseId}";
   addCityCoursesUrl = "api/cities/courses";
   coursesPriceList = "api/courses/prices/{categoryId}";
+  coursesPriceListByCourse = "api/courses/{courseId}/prices";
   pricingCategories = "api/pricingCategories";
   coursePricing = "api/courses/prices";
 
@@ -29,6 +31,10 @@ export class HttpService {
 
   public getCityCourses(cityId: number): Promise<CityCoursesResponse> {
     return this.Wrap(this.http.get<CityCoursesResponse>(environment.apiUrl + this.formatUrl(this.cityCoursesUrl, { cityId })));
+  }
+
+  public getCityCoursesByCourse(courseId: number): Promise<CityCoursesResponse> {
+    return this.Wrap(this.http.get<CityCoursesResponse>(environment.apiUrl + this.formatUrl(this.cityCoursesByCourseUrl, { courseId })));
   }
 
   public getCourses(): Promise<CoursesResponse> {
@@ -61,6 +67,10 @@ export class HttpService {
 
   public getCoursePricing(categoryId: number): Promise<CoursePricingResponse> {
     return this.Wrap(this.http.get<CoursePricingResponse>(environment.apiUrl + this.formatUrl(this.coursesPriceList, { categoryId })));
+  }
+
+  public getCoursePricingByCourse(courseId: number): Promise<CoursePricingResponse> {
+    return this.Wrap(this.http.get<CoursePricingResponse>(environment.apiUrl + this.formatUrl(this.coursesPriceListByCourse, { courseId })));
   }
 
   public getPricingCategories(): Promise<PricingCategoriesResponse> {

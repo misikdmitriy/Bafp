@@ -1,4 +1,4 @@
-export class CourseViewModel {
+export class CityCourseViewModel {
   public courseId: number;
   public courseName: string;
   public count: number;

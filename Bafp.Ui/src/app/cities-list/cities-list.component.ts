@@ -4,7 +4,7 @@ import { City, CityDto } from '../models/city';
 import { HttpService } from '../http.service';
 import { PricingCategory } from '../models/pricingCategory';
 import { PricingCategoriesResponse } from '../models/pricingCategoriesResponse';
-import { CityViewModel } from '../models/cityViewModel';
+import { CityViewModel } from '../models/view-models/cityViewModel';
 
 @Component({
   selector: 'app-cities-list',

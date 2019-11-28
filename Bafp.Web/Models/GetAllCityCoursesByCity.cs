@@ -2,12 +2,12 @@
 
 namespace Bafp.Web.Models
 {
-    public class GetAllCityCoursesRequest : HttpRequest
+    public class GetAllCityCoursesByCityRequest : HttpRequest
     {
         public int CityId { get; set; }
     }
 
-    public class GetAllCityCoursesResponse : HttpResponse
+    public class GetAllCityCoursesByCityResponse : HttpResponse
     {
         public CityCourseDto[] CityCourses { get; set; }
     }

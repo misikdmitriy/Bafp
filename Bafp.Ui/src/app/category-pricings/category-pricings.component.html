@@ -9,7 +9,7 @@
     <tbody>
       <tr *ngFor="let course of coursePrices">
         <td>
-          {{course.courseName}}
+          <a [routerLink]="['/courses', course.courseId]" [name]="course.courseName">{{course.courseName}}</a>
         </td>
         <td>
           <span *ngIf="!course.editMode">{{course.price}}</span>

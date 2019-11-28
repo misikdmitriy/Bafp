@@ -1,0 +1,38 @@
+<div class="courses-list">
+  <h1>Course - {{course && course.name}}</h1>
+  <table class="table table-striped">
+    <thead>
+      <th scope="col">City Name</th>
+      <th scope="col">Category</th>
+      <th scope="col">Count</th>
+      <th scope="col">Price</th>
+      <th scope="col">Total</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cc of cityCourses">
+        <td>
+          <a [title]="cc.name" [routerLink]="['/city', cc.cityId]">{{cc.cityName}}</a>
+        </td>
+        <td>
+          <a [title]="cc.categoryName" [routerLink]="['/category', cc.categoryId]">{{cc.categoryName}}</a>
+        </td>
+        <td>
+          {{cc.count}}
+        </td>
+        <td>
+          {{cc.price}}
+        </td>
+        <td>
+          {{cc.total}}
+        </td>
+      </tr>
+      <tr>
+        <td><b>Total</b></td>
+        <td></td>
+        <td><b>{{count()}}</b></td>
+        <td></td>
+        <td><b>{{total()}}</b></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
