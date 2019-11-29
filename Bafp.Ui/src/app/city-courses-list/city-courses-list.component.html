@@ -1,79 +1,11 @@
 <div class="city-courses-list">
-  <h1>City - {{city && city.name}}</h1>
-  <table class="table table-striped">
-    <thead>
-      <th scope="col"></th>
-      <th scope="col">Course Name</th>
-      <th scope="col">Count</th>
-      <th scope="col">Price</th>
-      <th scope="col">Total</th>
-      <th scope="col"><button class="btn btn-primary btn-block" (click)="showAll = !showAll">{{showAll ? 'Show active' : 'Show all'}}</button></th>
-    </thead>
-    <tbody>
-      <tr *ngFor="let cc of cityCourses" [hidden]="!showAll && cc.count === 0">
-        <td>
-        </td>
-
-        <td>
-          <a [routerLink]="['/courses', cc.courseId]" [name]="cc.courseName">{{cc.courseName}}</a>
-        </td>
-
-        <td>
-          <span *ngIf="!cc.editMode">
-            {{cc.count}}
-          </span>
-          <span *ngIf="cc.editMode">
-            <input type="number" class="form-control" [(ngModel)]="cc.count" placeholder="Count">
-          </span>
-        </td>
-
-        <td>
-          <span *ngIf="!cc.editMode">
-            {{cc.price}}
-          </span>
-        </td>
-
-        <td>
-          <span *ngIf="!cc.editMode">
-            {{cc.total}}
-          </span>
-        </td>
-
-        <td>
-          <span *ngIf="!cc.editMode">
-            <button class="btn btn-warning btn-block" (click)="cc.editMode=true">
-              <i class="fa fa-edit"></i>
-            </button>
-          </span>
-          <span *ngIf="cc.editMode">
-            <button class="btn btn-success btn-block" (click)="edit(cc)">
-              <i class="fa fa-check"></i>
-            </button>
-          </span>
-        </td>
-      </tr>
-
-      <tr>
-        <td>
-        </td>
-
-        <td>
-          <b>Total</b>
-        </td>
-
-        <td>
-        </td>
-
-        <td>
-        </td>
-
-        <td>
-          <b>{{total()}}</b>
-        </td>
-        
-        <td>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <app-table-view [data]="cityCourses" [modelDescriptor]="modelDescriptor">
+    <tr>
+      <td><b>Total</b></td>
+      <td></td>
+      <td></td>
+      <td><b>{{total()}}</b></td>
+      <td></td>
+    </tr>
+  </app-table-view>
 </div>

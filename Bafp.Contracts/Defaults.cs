@@ -4,7 +4,7 @@ namespace Bafp.Contracts
 {
     public static class Defaults
     {
-        public static Func<object> DefaultParameterResolver = () => new object();
+        public static readonly Func<object> DefaultParameterResolver = () => new object();
     }
 
     public static class Constants

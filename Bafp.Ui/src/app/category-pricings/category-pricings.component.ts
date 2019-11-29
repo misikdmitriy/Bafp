@@ -7,6 +7,8 @@ import { CoursePricing } from '../models/contracts/coursePricing';
 import { Course } from '../models/contracts/course';
 import { CoursePricingViewModel } from '../models/view-models/coursePricingViewModel';
 import { NewCourseResponse } from '../models/responses/newCourseResponse';
+import { ModelDescriptor } from '../models/service/modelDescriptor';
+import { FieldType, EditMode, FieldDescriptor } from '../models/service/FieldDescriptor';
 
 @Component({
   selector: 'app-category-pricings',
@@ -15,11 +17,65 @@ import { NewCourseResponse } from '../models/responses/newCourseResponse';
 })
 export class CategoryPricingsComponent implements OnInit {
   coursePrices: CoursePricingViewModel[];
-  newCourse: Course = new Course();
-  addMode: false;
   categoryId: number;
+  modelDescriptor: ModelDescriptor;
 
   constructor(private httpService: HttpService, private route: ActivatedRoute) {
+    this.modelDescriptor = {
+      canRemove: true,
+      canEdit: true,
+      canAdd: true,
+      fieldsDescriptor: [
+        {
+          idName: "courseId", keyName: "courseName", name: "Course Name",
+          addMode: EditMode.Text, editMode: EditMode.None, possibleValues: null,
+          type: FieldType.Link, args: { routerLink: ["/courses", "$courseId"] }
+        },
+        {
+          idName: "price", keyName: "price", name: "Price",
+          addMode: EditMode.None, editMode: EditMode.Text, possibleValues: null,
+          type: FieldType.Text, args: null
+        }
+      ],
+      editCallback: (viewModel: CoursePricingViewModel) => {
+        var model: CoursePricing = new CoursePricing();
+        model.categoryId = viewModel.categoryId;
+        model.courseId = viewModel.courseId;
+        model.price = viewModel.price;
+
+        this.httpService.addCoursePricing(model);
+      },
+      addCallback: (courseView: CoursePricingViewModel) => {
+        if (this.coursePrices
+          .findIndex((coursePrice: CoursePricingViewModel) => coursePrice.courseName.toLowerCase() === courseView.courseName.toLowerCase()) !== -1) {
+          return;
+        }
+
+        let course: Course = {
+          id: 0,
+          name: courseView.courseName
+        };
+
+        this.httpService.addNewCourse(course)
+          .then((courseResponse: NewCourseResponse) => {
+            let course: Course = courseResponse.course;
+
+            this.coursePrices.push({
+              courseId: course.id,
+              courseName: course.name,
+              price: 0.00,
+              categoryId: this.categoryId,
+              isEditing: false,
+            });
+          });
+      },
+      removeCallback: (course: CoursePricingViewModel) => {
+        this.httpService.deleteCourse(course.courseId);
+      }
+    };
+  }
+
+  ngOnInit() {
     this.route.params.subscribe((params) => {
       let categoryId: number = +params.categoryId;
 
@@ -33,57 +89,15 @@ export class CategoryPricingsComponent implements OnInit {
           this.coursePrices = coursesPricing.map((pricing: CoursePricing) => {
             let course: Course = courses.find((course: Course) => course.id === pricing.courseId);
 
-            let viewModel: CoursePricingViewModel = new CoursePricingViewModel();
-            viewModel.courseId = pricing.courseId;
-            viewModel.courseName = course.name;
-            viewModel.price = pricing.price;
-            viewModel.categoryId = pricing.categoryId;
-            viewModel.editMode = false;
-
-            return viewModel;
+            return {
+              courseId: pricing.courseId,
+              courseName: course.name,
+              price: pricing.price,
+              categoryId: pricing.categoryId,
+              isEditing: false
+            };
           });
         });
     });
-  }
-
-  ngOnInit() {
-  }
-
-  upsertView(viewModel: CoursePricingViewModel): Promise<Object> {
-    var model: CoursePricing = new CoursePricing();
-    model.categoryId = viewModel.categoryId;
-    model.courseId = viewModel.courseId;
-    model.price = viewModel.price;
-
-    return this.httpService.addCoursePricing(model)
-      .then(() => viewModel.editMode = false);
-  }
-
-  upsert(): Promise<void> {
-    this.addMode = false;
-
-    if (this.coursePrices
-      .findIndex((coursePrice: CoursePricingViewModel) => coursePrice.courseName.toLowerCase() === this.newCourse.name.toLowerCase()) !== -1) {
-      return;
-    }
-
-    return this.httpService.addNewCourse(this.newCourse)
-      .then((courseResponse: NewCourseResponse) => {
-        let course: Course = courseResponse.course;
-
-        let viewModel: CoursePricingViewModel = new CoursePricingViewModel();
-        viewModel.courseId = course.id;
-        viewModel.courseName = course.name;
-        viewModel.price = 0.00;
-        viewModel.categoryId = this.categoryId;
-        viewModel.editMode = false;
-
-        this.coursePrices.push(viewModel);
-      });
-  }
-
-  deleteCourse(course: CoursePricingViewModel): Promise<Object> {
-    return this.httpService.deleteCourse(course.courseId)
-      .then(() => this.coursePrices.splice(this.coursePrices.indexOf(course), 1));
   }
 }

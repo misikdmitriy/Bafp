@@ -12,6 +12,8 @@ import { CoursePricingResponse } from '../models/responses/coursePricingResponse
 import { CoursePricing } from '../models/contracts/coursePricing';
 import { PricingCategoriesResponse } from '../models/responses/pricingCategoriesResponse';
 import { PricingCategory } from '../models/contracts/pricingCategory';
+import { ModelDescriptor } from '../models/service/modelDescriptor';
+import { EditMode, FieldType } from '../models/service/FieldDescriptor';
 
 @Component({
   selector: 'app-courses-list',
@@ -21,13 +23,52 @@ import { PricingCategory } from '../models/contracts/pricingCategory';
 export class CoursesListComponent implements OnInit {
   course: Course;
   cityCourses: CourseViewModel[];
+  modelDescriptor: ModelDescriptor;
 
   constructor(private httpService: HttpService, private route: ActivatedRoute) {
+    this.modelDescriptor = {
+      canRemove: false,
+      canEdit: false,
+      canAdd: false,
+      fieldsDescriptor: [
+        {
+          idName: "cityId", keyName: "cityName", name: "City Name",
+          addMode: EditMode.None, editMode: EditMode.None, possibleValues: null,
+          type: FieldType.Link, args: { routerLink: ["/city", "$cityId"] }
+        },
+        {
+          idName: "categodyId", keyName: "category", name: "Category",
+          addMode: EditMode.None, editMode: EditMode.None, possibleValues: null,
+          type: FieldType.Link, args: { routerLink: ["/category", "$categoryId"] }
+        },
+        {
+          idName: "count", keyName: "count", name: "Count",
+          addMode: EditMode.None, editMode: EditMode.None, possibleValues: null,
+          type: FieldType.Text, args: null
+        },
+        {
+          idName: "price", keyName: "price", name: "Price",
+          addMode: EditMode.None, editMode: EditMode.None, possibleValues: null,
+          type: FieldType.Text, args: null
+        },
+        {
+          idName: "total", keyName: "total", name: "Total",
+          addMode: EditMode.None, editMode: EditMode.None, possibleValues: null,
+          type: FieldType.Text, args: null
+        }
+      ],
+      editCallback: null,
+      addCallback: null,
+      removeCallback: null
+    };
+  }
+
+  ngOnInit() {
     this.route.params.subscribe(params => {
       let courseId: number = +params.courseId;
 
-      Promise.all([this.httpService.getCityCoursesByCourse(courseId), this.httpService.getCities(), this.httpService.getCourses(), 
-        this.httpService.getCoursePricingByCourse(courseId), this.httpService.getPricingCategories()])
+      Promise.all([this.httpService.getCityCoursesByCourse(courseId), this.httpService.getCities(), this.httpService.getCourses(),
+      this.httpService.getCoursePricingByCourse(courseId), this.httpService.getPricingCategories()])
         .then((response: [CityCoursesResponse, CitiesResponse, CoursesResponse, CoursePricingResponse, PricingCategoriesResponse]) => {
           let cityCourses: CityCourse[] = response[0].cityCourses;
           let cities: City[] = response[1].cities;
@@ -42,22 +83,17 @@ export class CoursesListComponent implements OnInit {
             let price: CoursePricing = priceList.find((price: CoursePricing) => price.categoryId === city.categoryId);
             let category: PricingCategory = categories.find((category: PricingCategory) => category.id === city.categoryId);
 
-            let viewModel: CourseViewModel = new CourseViewModel();
-
-            viewModel.cityId = cityCourse.cityId;
-            viewModel.cityName = city.name;
-            viewModel.categoryId = category.id;
-            viewModel.categoryName = category.name;
-            viewModel.count = cityCourse.count;
-            viewModel.price = price.price;
-
-            return viewModel;
+            return new CourseViewModel({
+              cityId: cityCourse.cityId,
+              cityName: city.name,
+              categoryId: category.id,
+              categoryName: category.name,
+              count: cityCourse.count,
+              price: price.price,
+            });
           });
         })
     });
-  }
-
-  ngOnInit() {
   }
 
   count() {

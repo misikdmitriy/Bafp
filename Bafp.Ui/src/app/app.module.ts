@@ -11,6 +11,7 @@ import { CityCoursesListComponent } from './city-courses-list/city-courses-list.
 import { FormsModule } from '@angular/forms';
 import { CategoryPricingsComponent } from './category-pricings/category-pricings.component';
 import { CoursesListComponent } from './courses-list/courses-list.component';
+import { TableViewComponent } from './table-view/table-view.component';
 
 @NgModule({
   imports: [
@@ -31,7 +32,8 @@ import { CoursesListComponent } from './courses-list/courses-list.component';
     CitiesListComponent,
     CityCoursesListComponent,
     CategoryPricingsComponent,
-    CoursesListComponent
+    CoursesListComponent,
+    TableViewComponent
   ],
   bootstrap: [ AppComponent ]
 })

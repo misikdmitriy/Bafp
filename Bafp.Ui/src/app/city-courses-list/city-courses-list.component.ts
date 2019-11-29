@@ -10,6 +10,8 @@ import { CoursePricing } from '../models/contracts/coursePricing';
 import { CityCourseViewModel } from '../models/view-models/CityCourseViewModel';
 import { CitiesResponse } from '../models/responses/cityResponse';
 import { City } from '../models/contracts/city';
+import { FieldType, EditMode } from '../models/service/FieldDescriptor';
+import { ModelDescriptor } from '../models/service/modelDescriptor';
 
 @Component({
   selector: 'app-city-courses-list',
@@ -20,9 +22,50 @@ export class CityCoursesListComponent implements OnInit {
   city: City;
   allCourses: Course[];
   cityCourses: CityCourseViewModel[];
-  showAll = true
+  modelDescriptor: ModelDescriptor;
 
   constructor(private httpService: HttpService, private route: ActivatedRoute) {
+    this.modelDescriptor = {
+      canRemove: false,
+      canEdit: true,
+      canAdd: false,
+      fieldsDescriptor: [
+        {
+          idName: "courseId", keyName: "courseName", name: "Course Name",
+          addMode: EditMode.None, editMode: EditMode.None, possibleValues: null,
+          type: FieldType.Link, args: { routerLink: ["/courses", "$courseId"] }
+        },
+        {
+          idName: "count", keyName: "count", name: "Count",
+          addMode: EditMode.None, editMode: EditMode.Number, possibleValues: null,
+          type: FieldType.Text, args: null
+        },
+        {
+          idName: "price", keyName: "price", name: "Price",
+          addMode: EditMode.None, editMode: EditMode.None, possibleValues: null,
+          type: FieldType.Text, args: null
+        },
+        {
+          idName: "total", keyName: "total", name: "Total",
+          addMode: EditMode.None, editMode: EditMode.None, possibleValues: null,
+          type: FieldType.Text, args: null
+        }
+      ],
+      editCallback: (course: CityCourseViewModel) => {
+        var dto: CityCourse = {
+          cityId: this.city.id,
+          count: course.count,
+          courseId: course.courseId
+        };
+
+        this.httpService.addNewCityCourse(dto);
+      },
+      addCallback: null,
+      removeCallback: null
+    };
+  }
+
+  ngOnInit() {
     this.route.params.subscribe(params => {
       let cityId: number = +params.cityId;
 
@@ -41,37 +84,22 @@ export class CityCoursesListComponent implements OnInit {
               let price: CoursePricing = prices.find((price: CoursePricing) => price.courseId === value.courseId);
               let course: Course = allCourses.find((course: Course) => course.id === value.courseId);
 
-              let viewModel: CityCourseViewModel = new CityCourseViewModel();
-              viewModel.count = value.count;
-              viewModel.courseId = course.id;
-              viewModel.courseName = course.name;
-              viewModel.price = price.price;
-              viewModel.editMode = false;
-
-              return viewModel;
+              return new CityCourseViewModel({
+                count: value.count,
+                courseId: course.id,
+                courseName: course.name,
+                price: price.price,
+                isEditing: false
+              });
             });
           });
         })
     });
   }
 
-  ngOnInit() {
-  }
-
   total(): number {
     return this.cityCourses && this.cityCourses.reduce((accum: number, value: CityCourseViewModel) => {
       return accum + value.total;
     }, 0.00);
-  }
-
-  edit(course: CityCourseViewModel): Promise<Object> {
-    var dto: CityCourse = {
-      cityId: this.city.id,
-      count: course.count,
-      courseId: course.courseId
-    };
-
-    return this.httpService.addNewCityCourse(dto)
-      .then(() => course.editMode = false);
   }
 }

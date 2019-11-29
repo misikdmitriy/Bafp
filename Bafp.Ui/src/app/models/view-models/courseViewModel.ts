@@ -6,5 +6,14 @@ export class CourseViewModel {
   public price: number;
   public count: number;
 
+  constructor(public config: { cityId: number, cityName: string, categoryId: number, categoryName: string, price: number, count: number }) {
+    this.cityId = config.cityId;
+    this.cityName = config.cityName;
+    this.categoryId = config.categoryId;
+    this.categoryName = config.categoryName;
+    this.price = config.price;
+    this.count = config.count;
+  }
+
   public get total(): number { return this.price * this.count; }
 }
