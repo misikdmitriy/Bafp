@@ -13,25 +13,42 @@
         <td>
           <a [title]="cc.name" [routerLink]="['/city', cc.cityId]">{{cc.cityName}}</a>
         </td>
+
         <td>
           <a [title]="cc.categoryName" [routerLink]="['/category', cc.categoryId]">{{cc.categoryName}}</a>
         </td>
+
         <td>
           {{cc.count}}
         </td>
+
         <td>
           {{cc.price}}
         </td>
+
         <td>
           {{cc.total}}
         </td>
       </tr>
+
       <tr>
-        <td><b>Total</b></td>
-        <td></td>
-        <td><b>{{count()}}</b></td>
-        <td></td>
-        <td><b>{{total()}}</b></td>
+        <td>
+          <b>Total</b>
+        </td>
+        
+        <td>
+        </td>
+
+        <td>
+          <b>{{count()}}</b>
+        </td>
+
+        <td>
+        </td>
+
+        <td>
+          <b>{{total()}}</b>
+        </td>
       </tr>
     </tbody>
   </table>

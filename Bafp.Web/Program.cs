@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Serilog;
 
 namespace Bafp.Web
 {
@@ -23,6 +24,8 @@ namespace Bafp.Web
                     config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                         .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
                 })
+                .UseSerilog((context, configuration) => configuration
+                    .ReadFrom.Configuration(context.Configuration))
                 .UseStartup<Startup>();
     }
 }

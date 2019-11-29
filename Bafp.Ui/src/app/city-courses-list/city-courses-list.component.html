@@ -11,10 +11,13 @@
     </thead>
     <tbody>
       <tr *ngFor="let cc of cityCourses" [hidden]="!showAll && cc.count === 0">
-        <td></td>
+        <td>
+        </td>
+
         <td>
           <a [routerLink]="['/courses', cc.courseId]" [name]="cc.courseName">{{cc.courseName}}</a>
         </td>
+
         <td>
           <span *ngIf="!cc.editMode">
             {{cc.count}}
@@ -23,16 +26,19 @@
             <input type="number" class="form-control" [(ngModel)]="cc.count" placeholder="Count">
           </span>
         </td>
+
         <td>
           <span *ngIf="!cc.editMode">
             {{cc.price}}
           </span>
         </td>
+
         <td>
           <span *ngIf="!cc.editMode">
             {{cc.total}}
           </span>
         </td>
+
         <td>
           <span *ngIf="!cc.editMode">
             <button class="btn btn-warning btn-block" (click)="cc.editMode=true">
@@ -46,13 +52,27 @@
           </span>
         </td>
       </tr>
+
       <tr>
-        <td></td>
-        <td><b>Total</b></td>
-        <td></td>
-        <td></td>
-        <td><b>{{total()}}</b></td>
-        <td></td>
+        <td>
+        </td>
+
+        <td>
+          <b>Total</b>
+        </td>
+
+        <td>
+        </td>
+
+        <td>
+        </td>
+
+        <td>
+          <b>{{total()}}</b>
+        </td>
+        
+        <td>
+        </td>
       </tr>
     </tbody>
   </table>

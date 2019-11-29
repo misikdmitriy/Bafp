@@ -8,6 +8,7 @@ using Bafp.Logic.Services;
 using Bafp.Web.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace Bafp.Web.Controllers
 {
@@ -16,7 +17,7 @@ namespace Bafp.Web.Controllers
     [EnableCors(Constants.PolicyNames.AllowUi)]
     public class CitiesController : SpControllerBase
     {
-        public CitiesController(IDatabaseService databaseService, IMapper mapper) : base(databaseService, mapper)
+        public CitiesController(IDatabaseService databaseService, IMapper mapper) : base(databaseService, mapper, Log.ForContext<CitiesController>())
         {
         }
 

@@ -15,10 +15,7 @@ import { NewCourseResponse } from '../models/responses/newCourseResponse';
 })
 export class CategoryPricingsComponent implements OnInit {
   coursePrices: CoursePricingViewModel[];
-  newCourse: Course = {
-    id: 0,
-    name: ""
-  };
+  newCourse: Course = new Course();
   addMode: false;
   categoryId: number;
 

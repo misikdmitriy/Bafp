@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Bafp.Web
@@ -15,6 +16,7 @@ namespace Bafp.Web
     public class Startup
     {
         private static readonly Info Version = new Info { Version = "v1", Title = "Bafp API" };
+        private readonly ILogger _logger = Log.ForContext<Startup>();
 
         public Startup(IConfiguration configuration)
         {
@@ -26,17 +28,46 @@ namespace Bafp.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            _logger.Information("Start configuring services");
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             var config = new AppConfig();
             Configuration.Bind(config);
 
-            var factory = new ConnectionFactory(config.ConnectionStrings);
+            _logger.Information("Start registering services");
+            RegisterServices(services, config);
 
-            services.AddSingleton<IConnectionFactory>(factory);
-            services.AddTransient<ISpExecutor, SpExecutor>();
-            services.AddTransient<IDatabaseService, DatabaseService>();
+            _logger.Information("Start configuring cors");
+            RegisterCors(services, config);
 
+            _logger.Information("Start registering swagger");
+            RegisterSwagger(services);
+            
+            _logger.Information("Start registering health checks");
+            RegisterHealthChecks(services, config);
+            
+            _logger.Information("Finish configuring services");
+        }
+
+        private static void RegisterHealthChecks(IServiceCollection services, AppConfig config)
+        {
+            services.AddHealthChecks()
+                .AddSqlServer(config.ConnectionStrings[Constants.DatabaseNames.MsSql]);
+        }
+
+        private static void RegisterSwagger(IServiceCollection services)
+        {
+            services.AddSwaggerGen(
+                options =>
+                {
+                    options.DescribeAllEnumsAsStrings();
+                    options.SwaggerDoc("v1", Version);
+                });
+        }
+
+        private static void RegisterCors(IServiceCollection services, AppConfig config)
+        {
             services.AddCors(options =>
             {
                 options.AddPolicy(Constants.PolicyNames.AllowUi,
@@ -50,17 +81,17 @@ namespace Bafp.Web
                         }
                     });
             });
+        }
 
-            services.AddSwaggerGen(
+        private static void RegisterServices(IServiceCollection services, AppConfig config)
+        {
+            var factory = new ConnectionFactory(config.ConnectionStrings);
 
-                options =>
-                {
-                    options.DescribeAllEnumsAsStrings();
-                    options.SwaggerDoc("v1", Version);
-                });
-
+            services.AddSingleton<IConnectionFactory>(factory);
+            services.AddTransient<ISpExecutor, SpExecutor>();
+            services.AddTransient<IDatabaseService, DatabaseService>();
+            
             var mapperConfiguration = new MapperConfiguration(m => { m.AddProfile<AppProfile>(); });
-
             services.AddSingleton(mapperConfiguration.CreateMapper());
         }
 
@@ -74,6 +105,7 @@ namespace Bafp.Web
 
             app.UseMvc();
 
+            app.UseHealthChecks("/health");
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

@@ -14,6 +14,11 @@ namespace Bafp.Contracts
             public const string AllowUi = "AllowUi";
         }
 
+        public class DatabaseNames
+        {
+            public const string MsSql = "mssql";
+        }
+
         public static class StoredProcedureNames
         {
             public const string GetAllCities = "dbo.GetAllCities";

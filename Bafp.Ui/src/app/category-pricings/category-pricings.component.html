@@ -17,6 +17,7 @@
             <input type="number" class="form-control" [(ngModel)]="course.price" placeholder="Price">
           </span>
         </td>
+
         <td>
           <span *ngIf="!course.editMode">
             <button class="btn btn-warning btn-block" (click)="course.editMode=true">
@@ -29,12 +30,14 @@
             </button>
           </span>
         </td>
+
         <td>
           <button class="btn btn-danger btn-block" (click)="deleteCourse(course)">
             <i class="fa fa-remove"></i>
           </button>
         </td>
       </tr>
+
       <tr *ngIf="!addMode">
         <td colspan="4">
           <button (click)="addMode=true" type="button" class="btn btn-primary btn-block">
@@ -42,15 +45,19 @@
           </button>
         </td>
       </tr>
+      
       <tr *ngIf="addMode">
         <td colspan="2">
           <input class="form-control" type="text" [(ngModel)]="newCourse.name" [value]="newCourse.name"
             placeholder="Course Name">
+        </td>
+
         <td>
           <button (click)="upsert()" type="button" class="btn btn-success btn-block">
             <i class="fa fa-plus"></i>
           </button>
         </td>
+        
         <td>
           <button (click)="addMode=false" type="button" class="btn btn-danger btn-block">
             <i class="fa fa-remove"></i>

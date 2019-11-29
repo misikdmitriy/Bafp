@@ -6,7 +6,7 @@ namespace Bafp.Logic.Database
 {
     public interface IConnectionFactory
     {
-        DbConnection Create();
+        DbConnection Create(string db);
     }
 
     public class ConnectionFactory : IConnectionFactory
@@ -18,9 +18,9 @@ namespace Bafp.Logic.Database
             _connectionStrings = connectionStrings;
         }
 
-        public DbConnection Create()
+        public DbConnection Create(string db)
         {
-            return new SqlConnection(_connectionStrings["default"]);
+            return new SqlConnection(_connectionStrings[db]);
         }
     }
 }

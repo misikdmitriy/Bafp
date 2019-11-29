@@ -14,11 +14,7 @@ import { NewCityResponse } from '../models/responses/newCityResponse';
 })
 export class CitiesListComponent implements OnInit {
   cities: CityViewModel[];
-  newCity: City = {
-    id: 0,
-    name: "",
-    categoryId: 0
-  };
+  newCity: City = new City();
   addMode = false;
   pricingCategories: PricingCategory[];
 
