@@ -47,7 +47,7 @@ namespace Bafp.Logic.Services
             }
             catch (Exception e)
             {
-                _logger.Error(e, "Error occured during executing DB request");
+                _logger.Error(e, "Error occured during executing DB request {@request}", request);
                 return request.Fail<TOut[]>(e);
             }
         }
