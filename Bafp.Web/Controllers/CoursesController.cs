@@ -16,32 +16,41 @@ namespace Bafp.Web.Controllers
     [EnableCors(Constants.PolicyNames.AllowUi)]
     public class CoursesController : SpControllerBase
     {
-        public CoursesController(IDatabaseService databaseService, IMapper mapper) : base(databaseService, mapper, Log.ForContext<CoursesController>())
+        public CoursesController(IDatabaseService databaseService, IMapper mapper) : base(databaseService, mapper,
+            Log.ForContext<CoursesController>())
         {
         }
 
         [HttpGet]
         [Route("")]
-        public Task<IActionResult> GetAllCourses() => ExecuteSp<CourseDto, GetAllCoursesResponse>(new GetAllCoursesRequest());
+        public Task<IActionResult> GetAllCourses() =>
+            ExecuteSp<CourseDto, GetAllCoursesResponse>(new GetAllCoursesRequest());
 
         [HttpGet]
         [Route("prices/{categoryId}")]
-        public Task<IActionResult> GetCoursesPricing(int categoryId) => ExecuteSp<CoursePricingDto, GetCoursesPricingResponse>(new GetCoursesPricingRequest { CategoryId = categoryId });
+        public Task<IActionResult> GetCoursesPricing(int categoryId) =>
+            ExecuteSp<CoursePricingDto, GetCoursesPricingResponse>(new GetCoursesPricingRequest
+                {CategoryId = categoryId});
 
         [HttpGet]
         [Route("{courseId}/prices")]
-        public Task<IActionResult> GetCoursesPricingByCourse(int courseId) => ExecuteSp<CoursePricingDto, GetCoursesPricingByCourseResponse>(new GetCoursesPricingByCourseRequest { CourseId = courseId });
+        public Task<IActionResult> GetCoursesPricingByCourse(int courseId) =>
+            ExecuteSp<CoursePricingDto, GetCoursesPricingByCourseResponse>(new GetCoursesPricingByCourseRequest
+                {CourseId = courseId});
 
         [HttpPut]
         [Route("prices")]
-        public Task<IActionResult> UpsertCoursePricing(UpsertCoursePricingRequest request) => ExecuteSp<CoursePricingDto, UpsertCoursePricingResponse>(request);
+        public Task<IActionResult> UpsertCoursePricing(UpsertCoursePricingRequest request) =>
+            ExecuteSp<CoursePricingDto, UpsertCoursePricingResponse>(request);
 
         [HttpPut]
         [Route("")]
-        public Task<IActionResult> UpsertCourse(InsertNewCourseRequest request) => ExecuteSp<CourseDto, InsertNewCourseResponse>(request);
+        public Task<IActionResult> UpsertCourse(InsertNewCourseRequest request) =>
+            ExecuteSp<CourseDto, InsertNewCourseResponse>(request);
 
         [HttpDelete]
         [Route("{courseId}")]
-        public Task<IActionResult> DeleteCourse(int courseId) => ExecuteSp<CourseDto, DeleteCourseResponse>(new DeleteCourseRequest { CourseId = courseId });
+        public Task<IActionResult> DeleteCourse(int courseId) =>
+            ExecuteSp<CourseDto, DeleteCourseResponse>(new DeleteCourseRequest {CourseId = courseId});
     }
 }

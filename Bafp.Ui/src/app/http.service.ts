@@ -13,12 +13,14 @@ import { Course } from './models/contracts/course';
 import { NewCityResponse } from './models/responses/newCityResponse';
 import { NewCourseResponse } from './models/responses/newCourseResponse';
 import { CityCourse } from './models/contracts/cityCourse';
+import { CitiesTotalResponse } from './models/responses/citiesTotalResponse';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
   citiesUrl = "api/cities";
+  citiesTotalUrl = "api/cities/total";
   cityCoursesUrl = "api/cities/{cityId}/courses";
   cityCoursesByCourseUrl = "api/cities/courses/{courseId}";
   coursesUrl = "api/courses";
@@ -72,7 +74,15 @@ export class HttpService {
   }
 
   public getCoursePricingByCourse(courseId: number): Promise<CoursePricingResponse> {
-    return this.Wrap(this.http.get<CoursePricingResponse>(environment.apiUrl + this.formatUrl(this.coursesPriceListByCourse, { courseId })));
+    return this.Wrap(this.http.get<CoursePricingResponse>(environment.apiUrl + this.addCityCoursesUrl));
+  }
+
+  public getCitiesTotal(): Promise<CitiesTotalResponse> {
+    return this.Wrap(this.http.get<CitiesTotalResponse>(environment.apiUrl + this.citiesTotalUrl));
+  }
+
+  public getAllCityCourses(): Promise<CityCoursesResponse> {
+    return this.Wrap(this.http.get<CityCoursesResponse>(environment.apiUrl + this.addCityCoursesUrl));
   }
 
   public getPricingCategories(): Promise<PricingCategoriesResponse> {

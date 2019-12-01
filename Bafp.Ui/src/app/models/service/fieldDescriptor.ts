@@ -10,7 +10,8 @@ export enum EditMode {
 
 export enum FieldType {
   Text,
-  Link
+  Link,
+  List
 }
 
 export class FieldDescriptor {

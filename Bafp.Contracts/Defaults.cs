@@ -4,7 +4,7 @@ namespace Bafp.Contracts
 {
     public static class Defaults
     {
-        public static readonly Func<object> DefaultParameterResolver = () => new object();
+        public static readonly Func<object> ParameterResolver = () => new object();
     }
 
     public static class Constants
@@ -22,6 +22,8 @@ namespace Bafp.Contracts
         public static class StoredProcedureNames
         {
             public const string GetAllCities = "dbo.GetAllCities";
+            public const string GetCitiesTotal = "dbo.GetCitiesTotal";
+            public const string GetCityCourses = "dbo.GetCityCourses";
             public const string GetAllCourses = "dbo.GetAllCourses";
             public const string GetAllCityCourses = "dbo.GetAllCityCourses";
             public const string GetAllCityCoursesByCourse = "dbo.GetAllCityCoursesByCourse";

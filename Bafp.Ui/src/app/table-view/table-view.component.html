@@ -23,6 +23,11 @@
             <span *ngIf="d.type === 1">
               <a [routerLink]="buildLink(d, item)" [name]="item[d.keyName]">{{item[d.keyName]}}</a>
             </span>
+            <span *ngIf="d.type === 2">
+              <ul>
+                <li *ngFor="let viewItem of item[d.keyName]">{{viewItem}}</li>
+              </ul>
+            </span>
           </span>
           <span *ngIf="item.isEditing">
             <span *ngIf="d.editMode === 0">
@@ -64,6 +69,8 @@
         </td>
       </tr>
 
+      <ng-content></ng-content>
+
       <tr *ngIf="canAdd()">
         <td *ngIf="!addMode" colspan="100%">
           <button (click)="addMode=true;" type="button" class="btn btn-success btn-block">
@@ -94,7 +101,6 @@
         </td>
       </tr>
 
-      <ng-content></ng-content>
     </tbody>
   </table>
 </div>

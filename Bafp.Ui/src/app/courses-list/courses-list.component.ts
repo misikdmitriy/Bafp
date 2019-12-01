@@ -14,6 +14,7 @@ import { PricingCategoriesResponse } from '../models/responses/pricingCategories
 import { PricingCategory } from '../models/contracts/pricingCategory';
 import { ModelDescriptor } from '../models/service/modelDescriptor';
 import { EditMode, FieldType } from '../models/service/FieldDescriptor';
+import { Constants } from '../constants';
 
 @Component({
   selector: 'app-courses-list',
@@ -52,7 +53,7 @@ export class CoursesListComponent implements OnInit {
           type: FieldType.Text, args: null
         },
         {
-          idName: "total", keyName: "total", name: "Total",
+          idName: "totalStudents", keyName: "totalStudents", name: "Total (12 students)",
           addMode: EditMode.None, editMode: EditMode.None, possibleValues: null,
           type: FieldType.Text, args: null
         }
@@ -102,5 +103,10 @@ export class CoursesListComponent implements OnInit {
 
   total() {
     return this.cityCourses && this.cityCourses.reduce((prev: number, curr: CourseViewModel) => prev + curr.total, 0.00);
+  }
+
+  totalStudents(): number {
+    let total = this.total();
+    return total && total * Constants.averageStudents;
   }
 }

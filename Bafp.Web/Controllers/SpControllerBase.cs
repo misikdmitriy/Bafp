@@ -24,10 +24,10 @@ namespace Bafp.Web.Controllers
             where TOut : HttpResponse
         {
             _logger.Information("Try to execute request {@request}", request);
-            
+
             var result = await _databaseService.ExecuteStoredProcedure<TModel>(request);
             var response = _mapper.Map<TOut>(result);
-            
+
             _logger.Information("Mapped to {@response}", response);
 
             if (!response.Success)

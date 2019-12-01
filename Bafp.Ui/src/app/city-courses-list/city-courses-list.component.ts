@@ -47,11 +47,6 @@ export class CityCoursesListComponent implements OnInit {
           type: FieldType.Text, args: null
         },
         {
-          idName: "total", keyName: "total", name: "Total",
-          addMode: EditMode.None, editMode: EditMode.None, possibleValues: null,
-          type: FieldType.Text, args: null
-        },
-        {
           idName: "totalStudents", keyName: "totalStudents", name: "Total (12 students)",
           addMode: EditMode.None, editMode: EditMode.None, possibleValues: null,
           type: FieldType.Text, args: null

@@ -78,7 +78,7 @@ export class TableViewComponent implements OnInit {
   }
 
   debounceEdit(item: Object) {
-    let debouncer = this.debouncedEdit.filter((d: Object) => d.item === item)[0];
+    let debouncer = this.debouncedEdit.filter((d: Object) => d["item"] === item)[0];
     if (!debouncer) {
       debouncer = { item: item, debounce: debounce(this.edit.bind(this), 500) };
       this.debouncedEdit.push(debouncer);

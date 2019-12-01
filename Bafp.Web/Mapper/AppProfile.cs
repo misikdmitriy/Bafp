@@ -14,7 +14,7 @@ namespace Bafp.Web.Mapper
         {
             CreateMap<GetAllCitiesRequest, DbRequest>()
                 .BeforeMap((s, d) => d.ProcedureName = Constants.StoredProcedureNames.GetAllCities)
-                .ForMember(dest => dest.ParameterResolver, src => src.MapFrom(x => Defaults.DefaultParameterResolver));
+                .ForMember(dest => dest.ParameterResolver, src => src.MapFrom(x => Defaults.ParameterResolver));
 
             CreateMap<DbResponse<CityDto[]>, GetAllCitiesResponse>()
                 .ForMember(dest => dest.Cities, src => src.MapFrom(x => x.Result));
@@ -44,7 +44,7 @@ namespace Bafp.Web.Mapper
 
             CreateMap<GetAllCoursesRequest, DbRequest>()
                 .BeforeMap((s, d) => d.ProcedureName = Constants.StoredProcedureNames.GetAllCourses)
-                .ForMember(dest => dest.ParameterResolver, src => src.MapFrom(x => Defaults.DefaultParameterResolver));
+                .ForMember(dest => dest.ParameterResolver, src => src.MapFrom(x => Defaults.ParameterResolver));
 
             CreateMap<DbResponse<CourseDto[]>, GetAllCoursesResponse>()
                 .ForMember(dest => dest.Courses, src => src.MapFrom(x => x.Result));
@@ -101,7 +101,7 @@ namespace Bafp.Web.Mapper
 
             CreateMap<GetAllPricingCategoriesRequest, DbRequest>()
                 .BeforeMap((s, d) => d.ProcedureName = Constants.StoredProcedureNames.GetAllPricingCategories)
-                .ForMember(dest => dest.ParameterResolver, src => src.MapFrom(x => Defaults.DefaultParameterResolver));
+                .ForMember(dest => dest.ParameterResolver, src => src.MapFrom(x => Defaults.ParameterResolver));
 
             CreateMap<DbResponse<PricingCategoryDto[]>, GetAllPricingCategoriesResponse>()
                 .ForMember(dest => dest.Categories, src => src.MapFrom(x => x.Result));
@@ -125,6 +125,20 @@ namespace Bafp.Web.Mapper
 
             CreateMap<DbResponse<CourseDto[]>, DeleteCourseResponse>()
                 .ForMember(dest => dest.Course, src => src.MapFrom(x => x.Result.FirstOrDefault()));
+
+            CreateMap<GetCitiesTotalRequest, DbRequest>()
+                .BeforeMap((s, d) => d.ProcedureName = Constants.StoredProcedureNames.GetCitiesTotal)
+                .ForMember(dest => dest.ParameterResolver, src => src.MapFrom(x => Defaults.ParameterResolver));
+
+            CreateMap<DbResponse<CityTotalDto[]>, GetCitiesTotalResponse>()
+                .ForMember(dest => dest.Total, src => src.MapFrom(x => x.Result));
+            
+            CreateMap<GetCityCoursesRequest, DbRequest>()
+                .BeforeMap((s, d) => d.ProcedureName = Constants.StoredProcedureNames.GetCityCourses)
+                .ForMember(dest => dest.ParameterResolver, src => src.MapFrom(x => Defaults.ParameterResolver));
+
+            CreateMap<DbResponse<CityCourseDto[]>, GetCityCoursesResponse>()
+                .ForMember(dest => dest.CityCourses, src => src.MapFrom(x => x.Result));
         }
     }
 }

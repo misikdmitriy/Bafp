@@ -1,3 +1,5 @@
+import { Constants } from "src/app/constants";
+
 export class CourseViewModel {
   public cityId: number;
   public cityName: string;
@@ -16,4 +18,5 @@ export class CourseViewModel {
   }
 
   public get total(): number { return this.price * this.count; }
+  public get totalStudents(): number { return Constants.averageStudents * this.total; }
 }

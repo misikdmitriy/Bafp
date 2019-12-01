@@ -15,12 +15,14 @@ namespace Bafp.Web.Controllers
     [EnableCors(Constants.PolicyNames.AllowUi)]
     public class PricingCategoriesController : SpControllerBase
     {
-        public PricingCategoriesController(IDatabaseService databaseService, IMapper mapper) : base(databaseService, mapper, Log.ForContext<PricingCategoriesController>())
+        public PricingCategoriesController(IDatabaseService databaseService, IMapper mapper) : base(databaseService,
+            mapper, Log.ForContext<PricingCategoriesController>())
         {
         }
 
         [HttpGet]
         [Route("")]
-        public Task<IActionResult> GetAllPricingCategories() => ExecuteSp<PricingCategoryDto, GetAllPricingCategoriesResponse>(new GetAllPricingCategoriesRequest());
+        public Task<IActionResult> GetAllPricingCategories() =>
+            ExecuteSp<PricingCategoryDto, GetAllPricingCategoriesResponse>(new GetAllPricingCategoriesRequest());
     }
 }
