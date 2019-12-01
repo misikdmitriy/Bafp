@@ -9,7 +9,7 @@
       <tr *ngFor="let item of data">
         <td *ngFor="let d of modelDescriptor.fieldsDescriptor">
           <span *ngIf="!item.isEditing">
-            <span *ngIf="d.type === 0" (click)="isEditable() && item.isEditing = true">
+            <span *ngIf="d.type === 0" (click)="isEditable() && d.editMode !== 0 && item.isEditing = true">
               {{item[d.keyName]}}
               <span *ngIf="d.editMode === 4">
                 <button class="btn btn-success" (click)="plus(item, d.keyName)">
@@ -20,10 +20,10 @@
                 </button>
               </span>
             </span>
-            <span *ngIf="d.type === 1">
+            <span *ngIf="d.type === 1"  (click)="isEditable() && d.editMode !== 0 && item.isEditing = true">
               <a [routerLink]="buildLink(d, item)" [name]="item[d.keyName]">{{item[d.keyName]}}</a>
             </span>
-            <span *ngIf="d.type === 2">
+            <span *ngIf="d.type === 2"  (click)="isEditable() && d.editMode !== 0 && item.isEditing = true">
               <ul>
                 <li *ngFor="let viewItem of item[d.keyName]">{{viewItem}}</li>
               </ul>
