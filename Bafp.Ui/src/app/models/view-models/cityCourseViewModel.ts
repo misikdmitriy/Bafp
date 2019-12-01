@@ -1,4 +1,5 @@
 import { IEditable } from './editable'
+import { Constants } from 'src/app/constants';
 
 export class CityCourseViewModel implements IEditable {
   public courseId: number;
@@ -16,4 +17,5 @@ export class CityCourseViewModel implements IEditable {
   }
 
   get total() { return this.price * this.count; }
+  get totalStudents() { return Constants.averageStudents * this.total; }
 }

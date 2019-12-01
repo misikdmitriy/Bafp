@@ -4,7 +4,8 @@ export enum EditMode {
   None,
   Text,
   Number,
-  Dropdown
+  Dropdown,
+  PlusMinus
 }
 
 export enum FieldType {

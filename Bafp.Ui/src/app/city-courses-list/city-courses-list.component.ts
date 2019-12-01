@@ -12,6 +12,7 @@ import { CitiesResponse } from '../models/responses/cityResponse';
 import { City } from '../models/contracts/city';
 import { FieldType, EditMode } from '../models/service/FieldDescriptor';
 import { ModelDescriptor } from '../models/service/modelDescriptor';
+import { Constants } from '../constants';
 
 @Component({
   selector: 'app-city-courses-list',
@@ -37,7 +38,7 @@ export class CityCoursesListComponent implements OnInit {
         },
         {
           idName: "count", keyName: "count", name: "Count",
-          addMode: EditMode.None, editMode: EditMode.Number, possibleValues: null,
+          addMode: EditMode.None, editMode: EditMode.PlusMinus, possibleValues: null,
           type: FieldType.Text, args: null
         },
         {
@@ -47,6 +48,11 @@ export class CityCoursesListComponent implements OnInit {
         },
         {
           idName: "total", keyName: "total", name: "Total",
+          addMode: EditMode.None, editMode: EditMode.None, possibleValues: null,
+          type: FieldType.Text, args: null
+        },
+        {
+          idName: "totalStudents", keyName: "totalStudents", name: "Total (12 students)",
           addMode: EditMode.None, editMode: EditMode.None, possibleValues: null,
           type: FieldType.Text, args: null
         }
@@ -101,5 +107,10 @@ export class CityCoursesListComponent implements OnInit {
     return this.cityCourses && this.cityCourses.reduce((accum: number, value: CityCourseViewModel) => {
       return accum + value.total;
     }, 0.00);
+  }
+
+  totalStudents(): number {
+    let total = this.total();
+    return total && total * Constants.averageStudents;
   }
 }
