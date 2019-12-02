@@ -6,7 +6,7 @@
 
     <div class="form-inline my-2 my-lg-0">
       <label for="averageStudents" class="my-1 mr-2">Students: </label>
-      <input id="averageStudents" class="form-control" type="number" [(ngModel)]="averageStudents" [value]="averageStudents">
+      <input id="averageStudents" class="form-control" type="number" [(ngModel)]="averageStudents" [value]="averageStudents" (keypress)="onkeypress($event)">
       <button class="btn btn-outline-success my-2 my-sm-0" (click)="save()">Update</button>
     </div>
   </div>
