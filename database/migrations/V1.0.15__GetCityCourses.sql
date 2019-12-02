@@ -11,6 +11,7 @@ AS
 
     SELECT [CityId], [CourseId], [Count]
 	    FROM [dbo].[CityCourses]
+      WHERE [Count] > 0
 
   END
 

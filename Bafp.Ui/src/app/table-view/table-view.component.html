@@ -12,10 +12,10 @@
             <span *ngIf="d.type === 0" (click)="isEditable() && d.editMode !== 0 && item.isEditing = true">
               {{item[d.keyName]}}
               <span *ngIf="d.editMode === 4">
-                <button class="btn btn-success" (click)="plus(item, d.keyName)">
+                <button class="btn btn-success" (click)="plus(item, d.keyName, true)">
                   <i class="fa fa-plus"></i>
                 </button>
-                <button class="btn btn-danger" (click)="minus(item, d.keyName)">
+                <button class="btn btn-danger" (click)="minus(item, d.keyName, true)">
                   <i class="fa fa-minus"></i>
                 </button>
               </span>
@@ -24,8 +24,8 @@
               <a [routerLink]="buildLink(d, item)" [name]="item[d.keyName]">{{item[d.keyName]}}</a>
             </span>
             <span *ngIf="d.type === 2"  (click)="isEditable() && d.editMode !== 0 && item.isEditing = true">
-              <ul>
-                <li *ngFor="let viewItem of item[d.keyName]">{{viewItem}}</li>
+              <ul class="list-group">
+                <li class="list-group-item" *ngFor="let viewItem of item[d.keyName]">{{viewItem}}</li>
               </ul>
             </span>
           </span>
@@ -90,6 +90,15 @@
               <select class="form-control" [(ngModel)]="newItem[d.idName]">
                 <option *ngFor="let value of d.possibleValues" [value]="value.id">{{value.name}}</option>
               </select>
+            </span>
+            <span *ngIf="d.addMode === 4">
+              {{newItem[d.keyName] = newItem[d.keyName] || 0}}
+              <button class="btn btn-success" (click)="plus(newItem, d.keyName, false)">
+                <i class="fa fa-plus"></i>
+              </button>
+              <button class="btn btn-danger" (click)="minus(newItem, d.keyName, false)">
+                <i class="fa fa-minus"></i>
+              </button>
             </span>
           </span>
         </td>

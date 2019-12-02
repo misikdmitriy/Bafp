@@ -10,7 +10,7 @@ import { CoursePricing } from '../models/contracts/coursePricing';
 import { CityCourseViewModel } from '../models/view-models/CityCourseViewModel';
 import { CitiesResponse } from '../models/responses/cityResponse';
 import { City } from '../models/contracts/city';
-import { FieldType, EditMode } from '../models/service/FieldDescriptor';
+import { FieldType, EditMode, FieldDescriptor } from '../models/service/FieldDescriptor';
 import { ModelDescriptor } from '../models/service/modelDescriptor';
 import { Constants } from '../constants';
 
@@ -24,21 +24,22 @@ export class CityCoursesListComponent implements OnInit {
   allCourses: Course[];
   cityCourses: CityCourseViewModel[];
   modelDescriptor: ModelDescriptor;
+  prices: CoursePricing[];
 
   constructor(private httpService: HttpService, private route: ActivatedRoute) {
     this.modelDescriptor = {
       canRemove: false,
       canEdit: true,
-      canAdd: false,
+      canAdd: true,
       fieldsDescriptor: [
         {
           idName: "courseId", keyName: "courseName", name: "Course Name",
-          addMode: EditMode.None, editMode: EditMode.None, possibleValues: null,
+          addMode: EditMode.Dropdown, editMode: EditMode.None, possibleValues: [],
           type: FieldType.Link, args: { routerLink: ["/courses", "$courseId"] }
         },
         {
           idName: "count", keyName: "count", name: "Count",
-          addMode: EditMode.None, editMode: EditMode.PlusMinus, possibleValues: null,
+          addMode: EditMode.PlusMinus, editMode: EditMode.PlusMinus, possibleValues: null,
           type: FieldType.Text, args: null
         },
         {
@@ -54,14 +55,39 @@ export class CityCoursesListComponent implements OnInit {
       ],
       editCallback: (course: CityCourseViewModel) => {
         var dto: CityCourse = {
-          cityId: this.city.id,
+          cityId: +this.city.id,
           count: course.count,
-          courseId: course.courseId
+          courseId: +course.courseId
         };
 
-        this.httpService.addNewCityCourse(dto);
+        this.httpService.addNewCityCourse(dto).then(() => {
+          if (dto.count <= 0) {
+            this.cityCourses.splice(this.cityCourses.findIndex((cityCourse: CityCourseViewModel) => cityCourse.courseId === dto.courseId), 1);
+            this.updateAvailableCourses();
+          }
+        });
       },
-      addCallback: null,
+      addCallback: (course: CityCourseViewModel) => {
+        var dto: CityCourse = {
+          cityId: +this.city.id,
+          count: course.count,
+          courseId: +course.courseId
+        };
+
+        this.httpService.addNewCityCourse(dto).then(() => {
+          if (dto.count > 0) {
+            this.cityCourses.push(new CityCourseViewModel({
+              count: dto.count,
+              courseId: dto.courseId,
+              courseName: this.allCourses.find((course: Course) => course.id === dto.courseId).name,
+              isEditing: false,
+              price: this.prices.find((price: CoursePricing) => price.courseId === dto.courseId).price
+            }));
+
+            this.updateAvailableCourses();
+          }
+        });
+      },
       removeCallback: null
     };
   }
@@ -76,10 +102,12 @@ export class CityCoursesListComponent implements OnInit {
           let cities: City[] = response[1].cities;
           let allCourses: Course[] = response[2].courses;
 
+          this.allCourses = allCourses;
           this.city = cities.find((city: City) => city.id === cityId);
 
           this.httpService.getCoursePricing(this.city.categoryId).then((pricingResponse: CoursePricingResponse) => {
             let prices: CoursePricing[] = pricingResponse.coursePriceList;
+            this.prices = prices;
 
             this.cityCourses = cityCourses.map((value: CityCourse) => {
               let price: CoursePricing = prices.find((price: CoursePricing) => price.courseId === value.courseId);
@@ -93,6 +121,8 @@ export class CityCoursesListComponent implements OnInit {
                 isEditing: false
               });
             });
+
+            this.updateAvailableCourses();
           });
         })
     });
@@ -107,5 +137,10 @@ export class CityCoursesListComponent implements OnInit {
   totalStudents(): number {
     let total = this.total();
     return total && total * Constants.averageStudents;
+  }
+
+  updateAvailableCourses(): void {
+    let coursesDescriptor = this.modelDescriptor.fieldsDescriptor.find((fd: FieldDescriptor) => fd.idName === "courseId");
+    coursesDescriptor.possibleValues = this.allCourses.filter((course: Course) => !this.cityCourses.some((cc: CityCourseViewModel) => cc.courseId === course.id));
   }
 }
