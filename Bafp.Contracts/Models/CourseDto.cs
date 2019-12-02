@@ -1,6 +1,6 @@
-﻿namespace Bafp.Logic.Models
+﻿namespace Bafp.Contracts.Models
 {
-    public class PricingCategoryDto
+    public class CourseDto
     {
         public int? Id { get; set; }
         public string Name { get; set; }

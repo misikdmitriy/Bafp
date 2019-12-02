@@ -1,4 +1,4 @@
-﻿namespace Bafp.Logic.Models
+﻿namespace Bafp.Contracts.Models
 {
     public class CoursePricingDto
     {

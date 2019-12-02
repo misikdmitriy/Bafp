@@ -1,4 +1,4 @@
-﻿using Bafp.Logic.Models;
+﻿using Bafp.Contracts.Models;
 
 namespace Bafp.Web.Models
 {

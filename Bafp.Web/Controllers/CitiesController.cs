@@ -1,9 +1,7 @@
-﻿using System.Reflection.Metadata;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
 using Bafp.Contracts;
-using Bafp.Contracts.Database;
-using Bafp.Logic.Models;
+using Bafp.Contracts.Models;
 using Bafp.Logic.Services;
 using Bafp.Web.Models;
 using Microsoft.AspNetCore.Cors;

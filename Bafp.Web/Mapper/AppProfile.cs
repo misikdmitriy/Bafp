@@ -3,8 +3,8 @@ using System.Linq;
 using AutoMapper;
 using Bafp.Contracts;
 using Bafp.Contracts.Database;
+using Bafp.Contracts.Models;
 using Bafp.Logic.Extensions;
-using Bafp.Logic.Models;
 using Bafp.Web.Models;
 
 namespace Bafp.Web.Mapper
