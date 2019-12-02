@@ -36,7 +36,7 @@ export class CategoryPricingsComponent implements OnInit {
         },
         {
           idName: "price", keyName: "price", name: "Price",
-          addMode: EditMode.None, editMode: EditMode.Text, possibleValues: null,
+          addMode: EditMode.None, editMode: EditMode.Number, possibleValues: null,
           type: FieldType.Text, args: null
         }
       ],
@@ -86,12 +86,12 @@ export class CategoryPricingsComponent implements OnInit {
 
       this.httpService.getPricingCategories()
         .then((response: PricingCategoriesResponse) => {
-          let categories = response.categories;
-          let category = categories.find((category: PricingCategory) => category.id === categoryId);
+          let categories: PricingCategory[] = response.categories;
+          let category: PricingCategory = categories.find((category: PricingCategory) => category.id === categoryId);
           this.header = `Category ${category.name}`;
         });
 
-      Promise.all([this.httpService.getCoursePricing(categoryId), this.httpService.getCourses()])
+      Promise.all([this.httpService.getCoursePricing([categoryId]), this.httpService.getCourses()])
         .then((response: [CoursePricingResponse, CoursesResponse]) => {
           let coursesPricing: CoursePricing[] = response[0].coursePriceList;
           let courses: Course[] = response[1].courses;

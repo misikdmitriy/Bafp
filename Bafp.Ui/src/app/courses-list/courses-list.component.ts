@@ -10,8 +10,6 @@ import { Course } from '../models/contracts/course';
 import { CourseViewModel } from '../models/view-models/courseViewModel';
 import { CoursePricingResponse } from '../models/responses/coursePricingResponse';
 import { CoursePricing } from '../models/contracts/coursePricing';
-import { PricingCategoriesResponse } from '../models/responses/pricingCategoriesResponse';
-import { PricingCategory } from '../models/contracts/pricingCategory';
 import { ModelDescriptor } from '../models/service/modelDescriptor';
 import { EditMode, FieldType } from '../models/service/FieldDescriptor';
 import { Constants } from '../constants';
@@ -48,7 +46,7 @@ export class CoursesListComponent implements OnInit {
           type: FieldType.Text, args: null
         },
         {
-          idName: "totalStudents", keyName: "totalStudents", name: `Total (${Constants.averageStudents} students)`,
+          idName: "totalStudents", keyName: "totalStudents", name: `Total (X students)`,
           addMode: EditMode.None, editMode: EditMode.None, possibleValues: null,
           type: FieldType.Text, args: null
         }

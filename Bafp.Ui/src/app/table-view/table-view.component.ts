@@ -86,4 +86,10 @@ export class TableViewComponent implements OnInit {
     }
     debouncer.debounce(item);
   }
+
+  onkeypress(event: any, item: Object) {
+    if (event.key === "Enter") {
+      this.edit(item);
+    }
+  }
 }

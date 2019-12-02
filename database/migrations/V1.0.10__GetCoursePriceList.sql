@@ -5,8 +5,16 @@ IF EXISTS ( SELECT  *
 
 GO
 
+IF type_id('[dbo].[IdsList]') IS NULL
+	CREATE TYPE [dbo].[IdsList] AS TABLE
+		(
+			Id INT
+		)
+
+GO
+
 CREATE PROCEDURE dbo.GetCoursePriceList
-	@CategoryId VARCHAR(255)
+	@CategoryIds AS [dbo].[IdsList] READONLY
 AS
   BEGIN
 
@@ -15,7 +23,7 @@ SELECT [CourseId] = pcc.[CourseId], [CategoryId] = pcc.[CategoryId], [Price] = I
   FROM [dbo].[Courses] AS c, [dbo].[PricingCategories] AS pc) AS pcc
 	LEFT JOIN [dbo].[CoursePricing] AS cp
 		ON pcc.[CategoryId] = cp.[CategoryId] AND pcc.[CourseId] = cp.[CourseId]
-  WHERE pcc.[CategoryId] = @CategoryId
+  WHERE NOT EXISTS(SELECT 1 FROM @CategoryIds) OR pcc.[CategoryId] IN (SELECT Id FROM @CategoryIds)
 
   END
 

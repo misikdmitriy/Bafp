@@ -90,7 +90,7 @@ namespace Bafp.Web.Mapper
                 .BeforeMap((s, d) => d.ProcedureName = Constants.StoredProcedureNames.GetCoursePriceList)
                 .ForMember(dest => dest.ParameterResolver, src => src.MapFrom(x => new Func<object>(() => new
                 {
-                    x.CategoryId
+                    CategoryIds = x.Ids.Select(id => new IdItem{Id = id}).AsTableValued()
                 })));
 
             CreateMap<DbResponse<CoursePricingDto[]>, GetCoursesPricingResponse>()

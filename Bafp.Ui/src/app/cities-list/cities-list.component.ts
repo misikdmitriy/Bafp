@@ -50,7 +50,7 @@ export class CitiesListComponent implements OnInit {
           type: FieldType.Link, args: { routerLink: ["/category", "$categoryId"] }
         },
         {
-          idName: "totalStudents", keyName: "totalStudents", name: `Total (${Constants.averageStudents} students)`,
+          idName: "totalStudents", keyName: "totalStudents", name: `Total (X students)`,
           addMode: EditMode.None, editMode: EditMode.None, possibleValues: null,
           type: FieldType.Text, args: null
         }

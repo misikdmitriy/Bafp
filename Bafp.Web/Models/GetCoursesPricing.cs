@@ -4,7 +4,7 @@ namespace Bafp.Web.Models
 {
     public class GetCoursesPricingRequest : HttpRequest
     {
-        public int CategoryId { get; set; }
+        public int[] Ids { get; set; } = new int[0];
     }
 
     public class GetCoursesPricingResponse : HttpResponse

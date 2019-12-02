@@ -14,7 +14,7 @@
       <tbody>
         <tr *ngFor="let item of data">
           <td *ngFor="let d of modelDescriptor.fieldsDescriptor">
-            <span *ngIf="!item.isEditing">
+            <span *ngIf="!item.isEditing || d.editMode === 0 || d.editMode === 4">
               <span *ngIf="d.type === 0" (click)="isEditable() && d.editMode !== 0 && item.isEditing = true">
                 {{item[d.keyName]}}
                 <span *ngIf="d.editMode === 4">
@@ -36,14 +36,11 @@
               </span>
             </span>
             <span *ngIf="item.isEditing">
-              <span *ngIf="d.editMode === 0">
-                {{item[d.keyName]}}
-              </span>
               <span *ngIf="d.editMode === 1">
-                <input class="form-control" type="text" [(ngModel)]="item[d.keyName]" [value]="item[d.keyName]">
+                <input class="form-control" type="text" (keypress)="onkeypress($event, item)" [(ngModel)]="item[d.keyName]" [value]="item[d.keyName]">
               </span>
               <span *ngIf="d.editMode === 2">
-                <input class="form-control" type="number" [(ngModel)]="item[d.keyName]" [value]="item[d.keyName]">
+                <input class="form-control" type="number" (keypress)="onkeypress($event, item)" [(ngModel)]="item[d.keyName]" [value]="item[d.keyName]">
               </span>
               <span *ngIf="d.editMode === 3">
                 <select class="form-control" [(ngModel)]="item[d.idName]">
@@ -74,7 +71,7 @@
             </span>
           </td>
 
-          <td *ngIf="item.isEditing"></td>
+          <td *ngIf="item.isEditing && canRemove()"></td>
           <td *ngIf="canAdd() && !(canRemove() || isEditable())"></td>
         </tr>
 
@@ -112,13 +109,13 @@
             </span>
           </td>
 
-          <td [hidden]="!addMode">
+          <td *ngIf="addMode">
             <button class="btn btn-success btn-block" (click)="save(newItem)">
               <i class="fa fa-check"></i>
             </button>
           </td>
 
-          <td *ngIf="isEditable() && canRemove()"></td>
+          <td *ngIf="addMode && isEditable() && canRemove()"></td>
         </tr>
 
       </tbody>

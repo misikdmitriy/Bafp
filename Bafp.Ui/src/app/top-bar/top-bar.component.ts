@@ -16,6 +16,5 @@ export class TopBarComponent implements OnInit {
 
   save() {
     Constants.averageStudents = this.averageStudents;
-    window.location.reload();
   }
 }

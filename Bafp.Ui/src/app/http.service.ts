@@ -26,7 +26,7 @@ export class HttpService {
   coursesUrl = "api/courses";
   deleteCourseUrl = "api/courses/{courseId}";
   addCityCoursesUrl = "api/cities/courses";
-  coursesPriceList = "api/courses/prices/{categoryId}";
+  coursesPriceList = "api/courses/prices";
   coursesPriceListByCourse = "api/courses/{courseId}/prices";
   pricingCategories = "api/pricingCategories";
   coursePricing = "api/courses/prices";
@@ -69,12 +69,13 @@ export class HttpService {
     return this.Wrap(this.http.put(environment.apiUrl + this.coursePricing, { coursePricing }));
   }
 
-  public getCoursePricing(categoryId: number): Promise<CoursePricingResponse> {
-    return this.Wrap(this.http.get<CoursePricingResponse>(environment.apiUrl + this.formatUrl(this.coursesPriceList, { categoryId })));
+  public getCoursePricing(ids: number[] = []): Promise<CoursePricingResponse> {
+    return this.Wrap(this.http.post<CoursePricingResponse>(environment.apiUrl + this.coursesPriceList, { ids }));
   }
 
   public getCoursePricingByCourse(courseId: number): Promise<CoursePricingResponse> {
-    return this.Wrap(this.http.get<CoursePricingResponse>(environment.apiUrl + this.formatUrl(this.coursesPriceListByCourse, { courseId })));
+    return this.Wrap(this.http.get<CoursePricingResponse>(environment.apiUrl +
+      this.formatUrl(this.coursesPriceListByCourse, { courseId })));
   }
 
   public getCitiesTotal(): Promise<CitiesTotalResponse> {
