@@ -41,8 +41,8 @@ export class HttpService {
     return this.Wrap(this.http.get<CityCoursesResponse>(environment.apiUrl + this.formatUrl(this.cityCoursesByCourseUrl, { courseId })));
   }
 
-  public getCourses(): Promise<CoursesResponse> {
-    return this.Wrap(this.http.get<CoursesResponse>(environment.apiUrl + this.coursesUrl));
+  public getCourses(ids: number[] = []): Promise<CoursesResponse> {
+    return this.Wrap(this.http.post<CoursesResponse>(environment.apiUrl + this.coursesUrl, { ids }));
   }
 
   public addNewCityCourse(cityCourse: CityCourse): Promise<Object> {

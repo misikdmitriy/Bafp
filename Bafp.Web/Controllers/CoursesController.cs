@@ -21,10 +21,10 @@ namespace Bafp.Web.Controllers
         {
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("")]
-        public Task<IActionResult> GetAllCourses() =>
-            ExecuteSp<CourseDto, GetAllCoursesResponse>(new GetAllCoursesRequest());
+        public Task<IActionResult> GetCourses(GetCoursesRequest request) =>
+            ExecuteSp<CourseDto, GetCoursesResponse>(request ?? new GetCoursesRequest());
 
         [HttpGet]
         [Route("prices/{categoryId}")]

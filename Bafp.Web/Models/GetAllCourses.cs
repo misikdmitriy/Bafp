@@ -2,11 +2,12 @@
 
 namespace Bafp.Web.Models
 {
-    public class GetAllCoursesRequest : HttpRequest
+    public class GetCoursesRequest : HttpRequest
     {
+        public int[] Ids { get; set; } = new int[0];
     }
 
-    public class GetAllCoursesResponse : HttpResponse
+    public class GetCoursesResponse : HttpResponse
     {
         public CourseDto[] Courses { get; set; }
     }

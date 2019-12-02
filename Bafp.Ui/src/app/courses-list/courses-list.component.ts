@@ -69,16 +69,16 @@ export class CoursesListComponent implements OnInit {
     this.route.params.subscribe(params => {
       let courseId: number = +params.courseId;
 
-      Promise.all([this.httpService.getCityCoursesByCourse(courseId), this.httpService.getCities(), this.httpService.getCourses(),
+      Promise.all([this.httpService.getCityCoursesByCourse(courseId), this.httpService.getCities(), this.httpService.getCourses([courseId]),
       this.httpService.getCoursePricingByCourse(courseId), this.httpService.getPricingCategories()])
         .then((response: [CityCoursesResponse, CitiesResponse, CoursesResponse, CoursePricingResponse, PricingCategoriesResponse]) => {
           let cityCourses: CityCourse[] = response[0].cityCourses;
           let cities: City[] = response[1].cities;
-          let allCourses: Course[] = response[2].courses;
+          let courses: Course[] = response[2].courses;
           let priceList: CoursePricing[] = response[3].coursePriceList;
           let categories: PricingCategory[] = response[4].categories;
 
-          this.course = allCourses.find((course: Course) => course.id === courseId);
+          this.course = courses[0];
           this.header = `Course ${this.course.name}`;
 
           this.cityCourses = cityCourses.map((cityCourse: CityCourse) => {

@@ -46,11 +46,14 @@ namespace Bafp.Web.Mapper
             CreateMap<DbResponse<CityCourseDto[]>, UpsertCityCourseResponse>()
                 .ForMember(dest => dest.CityCourse, src => src.MapFrom(x => x.Result.FirstOrDefault()));
 
-            CreateMap<GetAllCoursesRequest, DbRequest>()
+            CreateMap<GetCoursesRequest, DbRequest>()
                 .BeforeMap((s, d) => d.ProcedureName = Constants.StoredProcedureNames.GetAllCourses)
-                .ForMember(dest => dest.ParameterResolver, src => src.MapFrom(x => Defaults.ParameterResolver));
+                .ForMember(dest => dest.ParameterResolver, src => src.MapFrom(x => new Func<object>(() => new
+                {
+                    CourseIds = x.Ids.Select(id => new IdItem {Id = id}).AsTableValued()
+                })));
 
-            CreateMap<DbResponse<CourseDto[]>, GetAllCoursesResponse>()
+            CreateMap<DbResponse<CourseDto[]>, GetCoursesResponse>()
                 .ForMember(dest => dest.Courses, src => src.MapFrom(x => x.Result));
 
             CreateMap<InsertNewCourseRequest, DbRequest>()
