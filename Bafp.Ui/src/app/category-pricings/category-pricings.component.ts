@@ -9,6 +9,8 @@ import { CoursePricingViewModel } from '../models/view-models/coursePricingViewM
 import { NewCourseResponse } from '../models/responses/newCourseResponse';
 import { ModelDescriptor } from '../models/service/modelDescriptor';
 import { FieldType, EditMode, FieldDescriptor } from '../models/service/FieldDescriptor';
+import { PricingCategoriesResponse } from '../models/responses/pricingCategoriesResponse';
+import { PricingCategory } from '../models/contracts/pricingCategory';
 
 @Component({
   selector: 'app-category-pricings',
@@ -19,6 +21,7 @@ export class CategoryPricingsComponent implements OnInit {
   coursePrices: CoursePricingViewModel[];
   categoryId: number;
   modelDescriptor: ModelDescriptor;
+  header: string;
 
   constructor(private httpService: HttpService, private route: ActivatedRoute) {
     this.modelDescriptor = {
@@ -80,6 +83,13 @@ export class CategoryPricingsComponent implements OnInit {
       let categoryId: number = +params.categoryId;
 
       this.categoryId = categoryId;
+
+      this.httpService.getPricingCategories()
+        .then((response: PricingCategoriesResponse) => {
+          let categories = response.categories;
+          let category = categories.find((category: PricingCategory) => category.id === categoryId);
+          this.header = `Category ${category.name}`;
+        });
 
       Promise.all([this.httpService.getCoursePricing(categoryId), this.httpService.getCourses()])
         .then((response: [CoursePricingResponse, CoursesResponse]) => {

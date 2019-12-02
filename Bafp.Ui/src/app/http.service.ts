@@ -74,7 +74,7 @@ export class HttpService {
   }
 
   public getCoursePricingByCourse(courseId: number): Promise<CoursePricingResponse> {
-    return this.Wrap(this.http.get<CoursePricingResponse>(environment.apiUrl + this.addCityCoursesUrl));
+    return this.Wrap(this.http.get<CoursePricingResponse>(environment.apiUrl + this.formatUrl(this.coursesPriceListByCourse, { courseId })));
   }
 
   public getCitiesTotal(): Promise<CitiesTotalResponse> {

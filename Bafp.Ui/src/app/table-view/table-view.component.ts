@@ -11,6 +11,7 @@ import { debounce } from '../methods';
 export class TableViewComponent implements OnInit {
   @Input() modelDescriptor: ModelDescriptor;
   @Input() data: Object[];
+  @Input() header: string;
   addMode = false;
   newItem: Object = {};
   debouncedEdit = [];

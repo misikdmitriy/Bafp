@@ -25,6 +25,7 @@ export class CityCoursesListComponent implements OnInit {
   cityCourses: CityCourseViewModel[];
   modelDescriptor: ModelDescriptor;
   prices: CoursePricing[];
+  header: string;
 
   constructor(private httpService: HttpService, private route: ActivatedRoute) {
     this.modelDescriptor = {
@@ -104,6 +105,7 @@ export class CityCoursesListComponent implements OnInit {
 
           this.allCourses = allCourses;
           this.city = cities.find((city: City) => city.id === cityId);
+          this.header = `City ${this.city.name}`;
 
           this.httpService.getCoursePricing(this.city.categoryId).then((pricingResponse: CoursePricingResponse) => {
             let prices: CoursePricing[] = pricingResponse.coursePriceList;

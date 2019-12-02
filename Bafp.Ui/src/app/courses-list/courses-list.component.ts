@@ -25,6 +25,7 @@ export class CoursesListComponent implements OnInit {
   course: Course;
   cityCourses: CourseViewModel[];
   modelDescriptor: ModelDescriptor;
+  header: string;
 
   constructor(private httpService: HttpService, private route: ActivatedRoute) {
     this.modelDescriptor = {
@@ -78,6 +79,7 @@ export class CoursesListComponent implements OnInit {
           let categories: PricingCategory[] = response[4].categories;
 
           this.course = allCourses.find((course: Course) => course.id === courseId);
+          this.header = `Course ${this.course.name}`;
 
           this.cityCourses = cityCourses.map((cityCourse: CityCourse) => {
             let city: City = cities.find((city: City) => city.id === cityCourse.cityId);

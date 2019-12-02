@@ -26,6 +26,7 @@ export class CitiesListComponent implements OnInit {
   cities: CityViewModel[];
   pricingCategories: PricingCategory[];
   modelDescriptor: ModelDescriptor;
+  header: string = "Cities list";
 
   constructor(private httpService: HttpService) {
     this.modelDescriptor = {
