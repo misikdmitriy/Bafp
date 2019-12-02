@@ -22,7 +22,6 @@ import { Constants } from '../constants';
   styleUrls: ['./courses-list.component.css']
 })
 export class CoursesListComponent implements OnInit {
-  course: Course;
   cityCourses: CourseViewModel[];
   modelDescriptor: ModelDescriptor;
   header: string;
@@ -37,11 +36,6 @@ export class CoursesListComponent implements OnInit {
           idName: "cityId", keyName: "cityName", name: "City Name",
           addMode: EditMode.None, editMode: EditMode.None, possibleValues: null,
           type: FieldType.Link, args: { routerLink: ["/city", "$cityId"] }
-        },
-        {
-          idName: "categodyId", keyName: "category", name: "Category",
-          addMode: EditMode.None, editMode: EditMode.None, possibleValues: null,
-          type: FieldType.Link, args: { routerLink: ["/category", "$categoryId"] }
         },
         {
           idName: "count", keyName: "count", name: "Count",
@@ -70,27 +64,22 @@ export class CoursesListComponent implements OnInit {
       let courseId: number = +params.courseId;
 
       Promise.all([this.httpService.getCityCoursesByCourse(courseId), this.httpService.getCities(), this.httpService.getCourses([courseId]),
-      this.httpService.getCoursePricingByCourse(courseId), this.httpService.getPricingCategories()])
-        .then((response: [CityCoursesResponse, CitiesResponse, CoursesResponse, CoursePricingResponse, PricingCategoriesResponse]) => {
+      this.httpService.getCoursePricingByCourse(courseId)])
+        .then((response: [CityCoursesResponse, CitiesResponse, CoursesResponse, CoursePricingResponse]) => {
           let cityCourses: CityCourse[] = response[0].cityCourses;
           let cities: City[] = response[1].cities;
           let courses: Course[] = response[2].courses;
           let priceList: CoursePricing[] = response[3].coursePriceList;
-          let categories: PricingCategory[] = response[4].categories;
 
-          this.course = courses[0];
-          this.header = `Course ${this.course.name}`;
+          this.header = `Course ${courses[0].name}`;
 
           this.cityCourses = cityCourses.map((cityCourse: CityCourse) => {
             let city: City = cities.find((city: City) => city.id === cityCourse.cityId);
             let price: CoursePricing = priceList.find((price: CoursePricing) => price.categoryId === city.categoryId);
-            let category: PricingCategory = categories.find((category: PricingCategory) => category.id === city.categoryId);
 
             return new CourseViewModel({
               cityId: cityCourse.cityId,
               cityName: city.name,
-              categoryId: category.id,
-              categoryName: category.name,
               count: cityCourse.count,
               price: price.price,
             });

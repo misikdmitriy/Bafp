@@ -67,13 +67,11 @@ export class TableViewComponent implements OnInit {
   }
 
   plus(item: Object, keyName: string, debounce: boolean) {
-    item[keyName] = item[keyName] || 0;
     ++item[keyName];
     debounce && this.debounceEdit(item);
   }
 
   minus(item: Object, keyName: string, debounce: boolean) {
-    item[keyName] = item[keyName] || 0;
     if (item[keyName] > 0) {
       --item[keyName];
       debounce && this.debounceEdit(item);

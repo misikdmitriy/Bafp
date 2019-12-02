@@ -64,8 +64,6 @@ export class CitiesListComponent implements OnInit {
 
         this.httpService.addNewCity(city)
           .then(() => {
-            cityView.isEditing = false;
-
             this.httpService.getCitiesTotal().then((response: CitiesTotalResponse) => {
               let citiesTotal: CityTotal[] = response.total;
               let category: PricingCategory = this.pricingCategories.find((category: PricingCategory) => category.id === city.categoryId);
