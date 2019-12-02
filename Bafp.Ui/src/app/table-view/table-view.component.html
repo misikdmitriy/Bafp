@@ -60,13 +60,15 @@
           </span>
         </td>
 
-        <td *ngIf="canRemove()">
+        <td *ngIf="canRemove() && !item.isEditing">
           <span>
             <button class="btn btn-danger btn-block" (click)="remove(item)">
               <i class="fa fa-remove"></i>
             </button>
           </span>
         </td>
+
+        <td *ngIf="item.isEditing"></td>
       </tr>
 
       <ng-content></ng-content>
