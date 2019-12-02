@@ -48,7 +48,7 @@ export class CoursesListComponent implements OnInit {
           type: FieldType.Text, args: null
         },
         {
-          idName: "totalStudents", keyName: "totalStudents", name: "Total (12 students)",
+          idName: "totalStudents", keyName: "totalStudents", name: `Total (${Constants.averageStudents} students)`,
           addMode: EditMode.None, editMode: EditMode.None, possibleValues: null,
           type: FieldType.Text, args: null
         }
