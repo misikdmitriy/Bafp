@@ -5,12 +5,22 @@ IF EXISTS ( SELECT  *
 
 GO
 
+IF type_id('[dbo].[IdsList]') IS NULL
+	CREATE TYPE [dbo].[IdsList] AS TABLE
+		(
+			Id INT
+		)
+
+GO
+
 CREATE PROCEDURE dbo.GetAllPricingCategories
+	@CategoryIds AS [dbo].[IdsList] READONLY
 AS
 	BEGIN
 
-	SELECT [Id], [Name]
-    FROM [dbo].[PricingCategories]
+	SELECT pc.[Id], pc.[Name]
+    FROM [dbo].[PricingCategories] AS pc
+		WHERE NOT EXISTS(SELECT 1 FROM @CategoryIds) OR pc.[Id] IN (SELECT Id FROM @CategoryIds)
 
 	END
 

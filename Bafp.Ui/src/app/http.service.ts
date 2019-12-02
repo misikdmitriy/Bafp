@@ -57,8 +57,8 @@ export class HttpService {
     return this.Wrap(this.http.delete(environment.apiUrl + this.formatUrl(this.deleteCourseUrl, { courseId })));
   }
 
-  public getCities(): Promise<CitiesResponse> {
-    return this.Wrap(this.http.get<CitiesResponse>(environment.apiUrl + this.citiesUrl));
+  public getCities(ids: number[] = []): Promise<CitiesResponse> {
+    return this.Wrap(this.http.post<CitiesResponse>(environment.apiUrl + this.citiesUrl, { ids }));
   }
 
   public addNewCity(city: City): Promise<NewCityResponse> {
@@ -85,8 +85,8 @@ export class HttpService {
     return this.Wrap(this.http.get<CityCoursesResponse>(environment.apiUrl + this.addCityCoursesUrl));
   }
 
-  public getPricingCategories(): Promise<PricingCategoriesResponse> {
-    return this.Wrap(this.http.get<PricingCategoriesResponse>(environment.apiUrl + this.pricingCategories));
+  public getPricingCategories(ids: number[] = []): Promise<PricingCategoriesResponse> {
+    return this.Wrap(this.http.post<PricingCategoriesResponse>(environment.apiUrl + this.pricingCategories, { ids }));
   }
 
   private formatUrl(url: string, args: Object): string {

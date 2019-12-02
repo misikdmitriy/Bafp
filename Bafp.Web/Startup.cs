@@ -30,7 +30,8 @@ namespace Bafp.Web
         {
             _logger.Information("Start configuring services");
             
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc(options => { options.AllowEmptyInputInBodyModelBinding = true; })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             var config = new AppConfig();
             Configuration.Bind(config);

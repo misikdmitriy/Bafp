@@ -3,6 +3,7 @@ using System.Linq;
 using AutoMapper;
 using Bafp.Contracts;
 using Bafp.Contracts.Database;
+using Bafp.Logic.Extensions;
 using Bafp.Logic.Models;
 using Bafp.Web.Models;
 
@@ -12,11 +13,14 @@ namespace Bafp.Web.Mapper
     {
         public AppProfile()
         {
-            CreateMap<GetAllCitiesRequest, DbRequest>()
+            CreateMap<GetCitiesRequest, DbRequest>()
                 .BeforeMap((s, d) => d.ProcedureName = Constants.StoredProcedureNames.GetAllCities)
-                .ForMember(dest => dest.ParameterResolver, src => src.MapFrom(x => Defaults.ParameterResolver));
+                .ForMember(dest => dest.ParameterResolver, src => src.MapFrom(x => new Func<object>(() => new
+                {
+                    CityIds = x.Ids.Select(id => new IdItem {Id = id}).AsTableValued()
+                })));
 
-            CreateMap<DbResponse<CityDto[]>, GetAllCitiesResponse>()
+            CreateMap<DbResponse<CityDto[]>, GetCitiesResponse>()
                 .ForMember(dest => dest.Cities, src => src.MapFrom(x => x.Result));
 
             CreateMap<UpsertNewCityRequest, DbRequest>()
@@ -99,11 +103,14 @@ namespace Bafp.Web.Mapper
             CreateMap<DbResponse<CoursePricingDto[]>, GetCoursesPricingByCourseResponse>()
                 .ForMember(dest => dest.CoursePriceList, src => src.MapFrom(x => x.Result));
 
-            CreateMap<GetAllPricingCategoriesRequest, DbRequest>()
+            CreateMap<GetPricingCategoriesRequest, DbRequest>()
                 .BeforeMap((s, d) => d.ProcedureName = Constants.StoredProcedureNames.GetAllPricingCategories)
-                .ForMember(dest => dest.ParameterResolver, src => src.MapFrom(x => Defaults.ParameterResolver));
+                .ForMember(dest => dest.ParameterResolver, src => src.MapFrom(x => new Func<object>(() => new
+                {
+                    CategoryIds = x.Ids.Select(id => new IdItem {Id = id}).AsTableValued()
+                })));
 
-            CreateMap<DbResponse<PricingCategoryDto[]>, GetAllPricingCategoriesResponse>()
+            CreateMap<DbResponse<PricingCategoryDto[]>, GetPricingCategoriesResponse>()
                 .ForMember(dest => dest.Categories, src => src.MapFrom(x => x.Result));
 
             CreateMap<UpsertCoursePricingRequest, DbRequest>()
@@ -132,7 +139,7 @@ namespace Bafp.Web.Mapper
 
             CreateMap<DbResponse<CityTotalDto[]>, GetCitiesTotalResponse>()
                 .ForMember(dest => dest.Total, src => src.MapFrom(x => x.Result));
-            
+
             CreateMap<GetCityCoursesRequest, DbRequest>()
                 .BeforeMap((s, d) => d.ProcedureName = Constants.StoredProcedureNames.GetCityCourses)
                 .ForMember(dest => dest.ParameterResolver, src => src.MapFrom(x => Defaults.ParameterResolver));

@@ -22,10 +22,10 @@ namespace Bafp.Web.Controllers
         {
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("")]
-        public Task<IActionResult> GetAllCities() =>
-            ExecuteSp<CityDto, GetAllCitiesResponse>(new GetAllCitiesRequest());
+        public Task<IActionResult> GetAllCities(GetCitiesRequest request) =>
+            ExecuteSp<CityDto, GetCitiesResponse>(request ?? new GetCitiesRequest());
 
 
         [HttpGet]

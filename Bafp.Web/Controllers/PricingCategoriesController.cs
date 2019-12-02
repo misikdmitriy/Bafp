@@ -20,9 +20,9 @@ namespace Bafp.Web.Controllers
         {
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("")]
-        public Task<IActionResult> GetAllPricingCategories() =>
-            ExecuteSp<PricingCategoryDto, GetAllPricingCategoriesResponse>(new GetAllPricingCategoriesRequest());
+        public Task<IActionResult> GetPricingCategories(GetPricingCategoriesRequest request) =>
+            ExecuteSp<PricingCategoryDto, GetPricingCategoriesResponse>(request ?? new GetPricingCategoriesRequest());
     }
 }
