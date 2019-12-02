@@ -64,10 +64,15 @@ export class CitiesListComponent implements OnInit {
 
         this.httpService.addNewCity(city)
           .then(() => {
-            let category: PricingCategory = this.pricingCategories.find((category: PricingCategory) => category.id === city.categoryId);
-
-            cityView.categoryName = category.name;
             cityView.isEditing = false;
+
+            this.httpService.getCitiesTotal().then((response: CitiesTotalResponse) => {
+              let citiesTotal: CityTotal[] = response.total;
+              let category: PricingCategory = this.pricingCategories.find((category: PricingCategory) => category.id === city.categoryId);
+
+              cityView.categoryName = category.name;
+              cityView.total = citiesTotal.find((total: CityTotal) => total.cityId === cityView.cityId).total;
+            });
           });
       },
       addCallback: (cityView: CityViewModel) => {
