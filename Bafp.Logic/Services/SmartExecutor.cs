@@ -33,7 +33,7 @@ namespace Bafp.Logic.Services
                 using (var connection = _connectionFactory.Create(Constants.DatabaseNames.MsSql))
                 {
                     var executor = new SpExecutor(connection);
-                    var result = (await executor.Execute<TOut>(request.ProcedureName, request.ParameterResolver()))
+                    var result = (await executor.Execute<TOut>(request.ProcedureName, request.Parameter))
                         .ToArray();
                     
                     _logger.Information("DB response {@response}", result);

@@ -16,7 +16,7 @@ export class TopBarComponent implements OnInit {
 
   save() {
     Constants.averageStudents = this.averageStudents;
-  },
+  }
 
   onkeypress(event: any) {
     if (event.key === "Enter") {
