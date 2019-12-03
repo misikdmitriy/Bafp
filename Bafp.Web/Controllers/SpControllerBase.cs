@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
+using Bafp.Contracts.Database;
 using Bafp.Logic.Services;
 using Bafp.Web.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -20,10 +21,11 @@ namespace Bafp.Web.Controllers
             _logger = logger;
         }
 
-        protected async Task<IActionResult> ExecuteSp<TModel, TOut>(object request)
+        protected async Task<IActionResult> ExecuteSp<TModel, TOut>(object input)
             where TOut : HttpResponse
         {
-            _logger.Information("Try to execute request {@request}", request);
+            var request = _mapper.Map<DbRequest>(input);
+            _logger.Information("Input {@input} converted to {@request}", input, request);
 
             var result = await _databaseService.ExecuteStoredProcedure<TModel>(request);
             var response = _mapper.Map<TOut>(result);

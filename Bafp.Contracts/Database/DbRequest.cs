@@ -27,16 +27,6 @@ namespace Bafp.Contracts.Database
                 Message = ex.Message
             };
         }
-
-        public DbResponse<TOut> Fail<TOut>(string message)
-        {
-            return new DbResponse<TOut>
-            {
-                DbRequest = this,
-                Success = false,
-                Message = message
-            };
-        }
     }
 
     public class DbResponse<TOut>

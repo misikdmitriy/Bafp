@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Bafp.Contracts;
 using Bafp.Contracts.Database;
 using Bafp.Logic.Database;
@@ -12,24 +11,21 @@ namespace Bafp.Logic.Services
 {
     public interface IDatabaseService
     {
-        Task<DbResponse<TOut[]>> ExecuteStoredProcedure<TOut>(object input);
+        Task<DbResponse<TOut[]>> ExecuteStoredProcedure<TOut>(DbRequest request);
     }
 
     public class DatabaseService : IDatabaseService
     {
-        private readonly IMapper _mapper;
         private readonly IConnectionFactory _connectionFactory;
         private readonly ILogger _logger = Log.ForContext<DatabaseService>();
 
-        public DatabaseService(IMapper mapper, IConnectionFactory connectionFactory)
+        public DatabaseService(IConnectionFactory connectionFactory)
         {
-            _mapper = mapper;
             _connectionFactory = connectionFactory;
         }
 
-        public async Task<DbResponse<TOut[]>> ExecuteStoredProcedure<TOut>(object input)
+        public async Task<DbResponse<TOut[]>> ExecuteStoredProcedure<TOut>(DbRequest request)
         {
-            var request = _mapper.Map<DbRequest>(input);
             _logger.Information("Executing DB request {@request}", request);
             
             try
