@@ -1,4 +1,4 @@
-﻿namespace Bafp.Contracts.Models
+﻿namespace Bafp.Web.Dto
 {
     public class CityDto
     {

@@ -23,39 +23,39 @@ namespace Bafp.Web.Controllers
         [HttpPost]
         [Route("")]
         public Task<IActionResult> GetAllCities(GetCitiesRequest request) =>
-            ExecuteSp<CityDto, GetCitiesResponse>(request ?? new GetCitiesRequest());
+            ExecuteSp<City, GetCitiesResponse>(request ?? new GetCitiesRequest());
 
 
         [HttpGet]
         [Route("{cityId}/courses")]
         public Task<IActionResult> GetAllCityCoursesByCity(int cityId) =>
-            ExecuteSp<CityCourseDto, GetAllCityCoursesByCityResponse>(new GetAllCityCoursesByCityRequest
+            ExecuteSp<CityCourse, GetAllCityCoursesByCityResponse>(new GetAllCityCoursesByCityRequest
                 {CityId = cityId});
 
         [HttpGet]
         [Route("courses/{courseId}")]
         public Task<IActionResult> GetAllCityCoursesByCourse(int courseId) =>
-            ExecuteSp<CityCourseDto, GetAllCityCoursesByCourseResponse>(new GetAllCityCoursesByCourseRequest
+            ExecuteSp<CityCourse, GetAllCityCoursesByCourseResponse>(new GetAllCityCoursesByCourseRequest
                 {CourseId = courseId});
         
         [HttpGet]
         [Route("courses")]
         public Task<IActionResult> GetCityCourses() =>
-            ExecuteSp<CityCourseDto, GetCityCoursesResponse>(new GetCityCoursesRequest());
+            ExecuteSp<CityCourse, GetCityCoursesResponse>(new GetCityCoursesRequest());
 
         [HttpPut]
         [Route("courses")]
         public Task<IActionResult> UpsertCityCourse(UpsertCityCourseRequest request) =>
-            ExecuteSp<CityCourseDto, UpsertCityCourseResponse>(request);
+            ExecuteSp<CityCourse, UpsertCityCourseResponse>(request);
 
         [HttpPut]
         [Route("")]
         public Task<IActionResult> UpsertCity(UpsertNewCityRequest request) =>
-            ExecuteSp<CityDto, UpsertNewCityResponse>(request);
+            ExecuteSp<City, UpsertNewCityResponse>(request);
 
         [HttpGet]
         [Route("total")]
         public Task<IActionResult> GetCitiesTotal() =>
-            ExecuteSp<CityTotalDto, GetCitiesTotalResponse>(new GetCitiesTotalRequest());
+            ExecuteSp<CityTotal, GetCitiesTotalResponse>(new GetCitiesTotalRequest());
     }
 }

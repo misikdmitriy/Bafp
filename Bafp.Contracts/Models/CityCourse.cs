@@ -1,6 +1,6 @@
 ﻿namespace Bafp.Contracts.Models
 {
-    public class CityCourseDto
+    public class CityCourse
     {
         public int CityId { get; set; }
         public int CourseId { get; set; }

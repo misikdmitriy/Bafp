@@ -1,6 +1,6 @@
 ﻿namespace Bafp.Contracts.Models
 {
-    public class CoursePricingDto
+    public class CoursePricing
     {
         public int CourseId { get; set; }
         public int CategoryId { get; set; }

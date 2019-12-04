@@ -92,7 +92,11 @@ namespace Bafp.Web
             services.AddTransient<ISpExecutor, SpExecutor>();
             services.AddTransient<IDatabaseService, DatabaseService>();
             
-            var mapperConfiguration = new MapperConfiguration(m => { m.AddProfile<AppProfile>(); });
+            var mapperConfiguration = new MapperConfiguration(m =>
+            {
+                m.AddProfile<ModelsProfile>();
+                m.AddProfile<DbProfile>();
+            });
             services.AddSingleton(mapperConfiguration.CreateMapper());
         }
 

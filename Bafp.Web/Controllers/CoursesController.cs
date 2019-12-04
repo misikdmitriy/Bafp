@@ -23,32 +23,32 @@ namespace Bafp.Web.Controllers
         [HttpPost]
         [Route("")]
         public Task<IActionResult> GetCourses(GetCoursesRequest request) =>
-            ExecuteSp<CourseDto, GetCoursesResponse>(request ?? new GetCoursesRequest());
+            ExecuteSp<Course, GetCoursesResponse>(request ?? new GetCoursesRequest());
 
         [HttpPost]
         [Route("prices")]
         public Task<IActionResult> GetCoursesPricing(GetCoursesPricingRequest request) =>
-            ExecuteSp<CoursePricingDto, GetCoursesPricingResponse>(request ?? new GetCoursesPricingRequest());
+            ExecuteSp<CoursePricing, GetCoursesPricingResponse>(request ?? new GetCoursesPricingRequest());
 
         [HttpGet]
         [Route("{courseId}/prices")]
         public Task<IActionResult> GetCoursesPricingByCourse(int courseId) =>
-            ExecuteSp<CoursePricingDto, GetCoursesPricingByCourseResponse>(new GetCoursesPricingByCourseRequest
+            ExecuteSp<CoursePricing, GetCoursesPricingByCourseResponse>(new GetCoursesPricingByCourseRequest
                 {CourseId = courseId});
 
         [HttpPut]
         [Route("prices")]
         public Task<IActionResult> UpsertCoursePricing(UpsertCoursePricingRequest request) =>
-            ExecuteSp<CoursePricingDto, UpsertCoursePricingResponse>(request);
+            ExecuteSp<CoursePricing, UpsertCoursePricingResponse>(request);
 
         [HttpPut]
         [Route("")]
         public Task<IActionResult> UpsertCourse(InsertNewCourseRequest request) =>
-            ExecuteSp<CourseDto, InsertNewCourseResponse>(request);
+            ExecuteSp<Course, InsertNewCourseResponse>(request);
 
         [HttpDelete]
         [Route("{courseId}")]
         public Task<IActionResult> DeleteCourse(int courseId) =>
-            ExecuteSp<CourseDto, DeleteCourseResponse>(new DeleteCourseRequest {CourseId = courseId});
+            ExecuteSp<Course, DeleteCourseResponse>(new DeleteCourseRequest {CourseId = courseId});
     }
 }
