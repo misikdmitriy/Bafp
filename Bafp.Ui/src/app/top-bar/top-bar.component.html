@@ -1,13 +1,18 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" [routerLink]="['/']">Bafp</a>
+<nav class="blue">
+  <div class="nav-wrapper">
+    <a class="brand-logo" [routerLink]="['/']">Bafp</a>
 
-  <div class="collapse navbar-collapse">
-    <div class="navbar-nav mr-auto"></div>
-
-    <div class="form-inline my-2 my-lg-0">
-      <label for="averageStudents" class="my-1 mr-2">Students: </label>
-      <input id="averageStudents" class="form-control" type="number" [(ngModel)]="averageStudents" [value]="averageStudents" (keypress)="onkeypress($event)">
-      <button class="btn btn-outline-success my-2 my-sm-0" (click)="save()">Update</button>
+    <div class="right row col s6">
+      <div class="input-field col s3">
+        <input id="averageStudents" type="number" [(ngModel)]="averageStudents"
+          [value]="averageStudents" (keypress)="onkeypress($event)">
+        <label for="averageStudents">Students</label>
+      </div>
+      <div class="input-field col s3">
+        <button class="btn waves-effect waves-light" (click)="save()">
+          Update<i class="material-icons done"></i>
+        </button>
+      </div>
     </div>
   </div>
 </nav>

@@ -3,6 +3,9 @@ import { FieldDescriptor, EditMode } from '../models/service/FieldDescriptor';
 import { ModelDescriptor } from '../models/service/modelDescriptor';
 import { debounce } from '../methods';
 
+import * as $ from 'jquery';
+import * as M from "materialize-css/dist/js/materialize";
+
 @Component({
   selector: 'app-table-view',
   templateUrl: './table-view.component.html',
@@ -25,6 +28,18 @@ export class TableViewComponent implements OnInit {
     return this.modelDescriptor && this.modelDescriptor.canEdit &&
       this.modelDescriptor.fieldsDescriptor
         .some((fd: FieldDescriptor) => fd.editMode !== EditMode.None && fd.editMode !== EditMode.PlusMinus);
+  }
+
+  onEditClick(item: any) {
+    if (this.isEditable()) {
+      item.isEditing = true;
+      setTimeout(() => { M.AutoInit(); M.updateTextFields(); }, 0);
+    }
+  }
+
+  onAddClick() {
+    this.addMode = true;
+    setTimeout(() => { M.AutoInit(); M.updateTextFields(); }, 0);
   }
 
   canRemove() {
